@@ -1,0 +1,26 @@
+import { Theme } from '@mui/material/styles';
+
+export const Divider = (theme: Theme) => {
+  return {
+    MuiDivider: {
+      styleOverrides: {
+        root: {
+          '.MuiStack-root &:not(.MuiDivider-vertical)': {
+            marginTop: theme.spacing(2),
+            marginBottom: theme.spacing(2)
+          }
+        },
+        middle: {
+          '&:not(.MuiDivider-vertical)': {
+            marginLeft: theme.spacing(5),
+            marginRight: theme.spacing(5)
+          },
+          '&.MuiDivider-vertical': {
+            marginTop: theme.spacing(2),
+            marginBottom: theme.spacing(2)
+          }
+        }
+      }
+    }
+  };
+};
