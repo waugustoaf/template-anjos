@@ -1,3 +1,4 @@
+import { Checkbox } from '@/components/form/checkbox';
 import { Input } from '@/components/form/input';
 import { InputMask } from '@/components/form/input-mask';
 import { InputPassword } from '@/components/form/input-password';
@@ -45,6 +46,7 @@ interface MountFormProps {
   fields: FormFieldProps[];
   errors: FieldErrors<FieldValues>;
   formSpacing?: number;
+  defaultValues?: Record<string, any>;
 }
 
 export interface ResolveFieldProps {
@@ -52,6 +54,7 @@ export interface ResolveFieldProps {
   register?: UseFormRegister<FieldValues>;
   setValue?: UseFormSetValue<FieldValues>;
   errorMessage?: string;
+  defaultValue?: any;
 }
 
 function resolveField({
@@ -59,6 +62,7 @@ function resolveField({
   register,
   errorMessage,
   setValue,
+  defaultValue,
 }: ResolveFieldProps) {
   switch (field.type) {
     case 'input':
@@ -68,6 +72,7 @@ function resolveField({
           errorMessage={errorMessage}
           register={register}
           setValue={setValue}
+          defaultValue={defaultValue}
         />
       );
     case 'input-password':
@@ -77,6 +82,7 @@ function resolveField({
           errorMessage={errorMessage}
           register={register}
           setValue={setValue}
+          defaultValue={defaultValue}
         />
       );
     case 'input-mask':
@@ -86,6 +92,17 @@ function resolveField({
           errorMessage={errorMessage}
           register={register}
           setValue={setValue}
+          defaultValue={defaultValue}
+        />
+      );
+    case 'checkbox':
+      return (
+        <Checkbox
+          field={field}
+          errorMessage={errorMessage}
+          register={register}
+          setValue={setValue}
+          defaultValue={defaultValue}
         />
       );
     default:
@@ -100,6 +117,7 @@ export function mountForm({
   setValue,
   errors,
   formSpacing = 5,
+  defaultValues,
 }: MountFormProps) {
   if (!fields.length) return null;
 
@@ -112,6 +130,7 @@ export function mountForm({
             register,
             setValue,
             errorMessage: errors[field.name]?.message?.toString(),
+            defaultValue: defaultValues?.[field.name],
           })}
         </React.Fragment>
       ))}

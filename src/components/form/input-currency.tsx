@@ -4,8 +4,8 @@ import { useEffect, useState } from 'react';
 import { formatValue } from 'react-currency-input-field';
 
 export function InputCurrency(props: ResolveFieldProps) {
-  const { field, setValue, errorMessage } = props;
-  const [inputValue, setInputValue] = useState(field.defaultValue || '');
+  const { field, setValue, errorMessage, defaultValue } = props;
+  const [inputValue, setInputValue] = useState(defaultValue || '');
 
   function handleChange(event: any) {
     const formattedValue = Number(event.target.value.replace(/\D/g, '')) / 100;

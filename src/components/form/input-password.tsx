@@ -14,7 +14,7 @@ import { Icon } from '../icon';
 export function InputPassword(props: ResolveFieldProps) {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
-  const { field, register, errorMessage } = props;
+  const { field, register, errorMessage, defaultValue } = props;
 
   return (
     <Grid item sm={field.rowSize} xs={12}>
@@ -35,7 +35,7 @@ export function InputPassword(props: ResolveFieldProps) {
             error={Boolean(errorMessage)}
             label={field.title}
             placeholder={field.placeholder}
-            defaultValue={field.defaultValue || ''}
+            defaultValue={defaultValue || ''}
             type={isPasswordVisible ? 'text' : 'password'}
             InputProps={{
               endAdornment: (

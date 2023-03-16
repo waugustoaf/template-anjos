@@ -10,10 +10,11 @@ interface TableHeaderProps {
   onSearch: (value: string) => void;
   refetch?: (data?: any) => any;
   inputPlaceholder: string;
+  addLink: string;
 }
 
 export const TableHeader = (props: TableHeaderProps) => {
-  const { search, onSearch, inputPlaceholder } = props;
+  const { search, onSearch, inputPlaceholder, addLink } = props;
 
   return (
     <Box
@@ -40,7 +41,7 @@ export const TableHeader = (props: TableHeaderProps) => {
           sx={{ mb: 2 }}
           component={Link}
           variant='contained'
-          href='/dashboard/customers/add'
+          href={addLink}
         >
           <Icon
             icon='tabler:plus'

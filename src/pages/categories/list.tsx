@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 
 import Card from '@mui/material/Card';
 import Grid from '@mui/material/Grid';
@@ -9,50 +9,52 @@ import { Spinner } from '@/components/spinner';
 import { TableHeader } from '@/components/table-header';
 import { apiServices } from '@/services';
 import { DatePickerWrapper } from '@/styles/libs/react-datepicker';
-import { ICustomer } from '@/types/entities/ICustomer';
-import { createCustomerListTable } from '@/utils/tables/customers/list';
 import { Pagination } from '@mui/material';
 import { toast } from 'react-hot-toast';
 import { useDebounce } from 'use-debounce';
+import { ICategory } from '@/types/entities/ICategory';
+import { createCategoryListTable } from '@/utils/tables/categories/list';
 
-const InvoiceList = () => {
+export default function CategoryListPage() {
   const [search, setSearch] = useState<string>('');
   const [page, setPage] = useState(1);
   const [debouncedSearch] = useDebounce(search, 750);
 
   const { data, isLoading, isRefetching, refetch } = useQuery({
-    queryKey: ['customers', debouncedSearch, page],
+    queryKey: ['categories', debouncedSearch, page],
     queryFn: () =>
-      apiServices.customers.list({
+      apiServices.categories.list({
         search: debouncedSearch,
         page,
       }),
   });
 
-  const [customerToDelete, setCustomerToDelete] = useState<ICustomer | null>(
+  const [categoryToDelete, setCategoryToDelete] = useState<ICategory | null>(
     null,
   );
 
-  async function handleDeleteCustomer() {
+  async function handleDeleteCategory() {
     try {
-      if (!customerToDelete) return;
+      if (!categoryToDelete) return;
 
-      await apiServices.customers.delete(customerToDelete.id);
+      await apiServices.categories.delete(categoryToDelete.id);
 
-      toast('Cliente apagado com sucesso.', { icon: '🚀' });
+      toast.success('Categoria apagada com sucesso.');
       refetch();
     } catch {
-      toast('Erro ao apagar o cliente.', { icon: '🚨' });
+      toast.error('Erro ao apagar a categoria.');
     } finally {
-      setCustomerToDelete(null);
+      setCategoryToDelete(null);
     }
   }
 
-  const columns = createCustomerListTable({
-    customerToDelete,
-    setCustomerToDelete,
-    handleDeleteCustomer,
-  });
+  const columns = useMemo(() => {
+    return createCategoryListTable({
+      categoryToDelete,
+      setCategoryToDelete,
+      handleDeleteCategory,
+    });
+  }, [categoryToDelete, setCategoryToDelete, handleDeleteCategory]);
 
   if (isLoading) return <Spinner />;
 
@@ -64,7 +66,8 @@ const InvoiceList = () => {
             <TableHeader
               search={search}
               onSearch={setSearch}
-              inputPlaceholder='Buscar cliente'
+              inputPlaceholder='Buscar categoria'
+              addLink='/categories/add'
             />
             <DataGrid
               autoHeight
@@ -77,7 +80,7 @@ const InvoiceList = () => {
               loading={isRefetching}
               localeText={{
                 ...ptBR.components.MuiDataGrid.defaultProps.localeText,
-                noRowsLabel: 'Nenhum cliente encontrado',
+                noRowsLabel: 'Nenhuma categoria encontrado',
               }}
             />
             <Pagination
@@ -96,6 +99,4 @@ const InvoiceList = () => {
       </Grid>
     </DatePickerWrapper>
   );
-};
-
-export default InvoiceList;
+}

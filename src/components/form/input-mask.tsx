@@ -3,7 +3,7 @@ import { FormControl, FormHelperText, Grid, TextField } from '@mui/material';
 import ReactInputMask from 'react-input-mask';
 
 export function InputMask(props: ResolveFieldProps) {
-  const { field, register, errorMessage } = props;
+  const { field, register, errorMessage, defaultValue } = props;
 
   return (
     <Grid item sm={field.rowSize} xs={12}>
@@ -11,7 +11,7 @@ export function InputMask(props: ResolveFieldProps) {
         <ReactInputMask
           mask={field.mask || ''}
           maskChar=''
-          defaultValue={field.defaultValue}
+          defaultValue={defaultValue}
           style={{ borderColor: errorMessage ? 'error.main' : 'inherit' }}
           {...(register ? register(field.name) : { name: field.name })}
         >

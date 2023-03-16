@@ -11,12 +11,10 @@ import { useEffect, useState } from 'react';
 import { useDebounce } from 'use-debounce';
 
 export function AutocompleteMultiple(props: ResolveFieldProps) {
-  const { field, setValue, errorMessage } = props;
+  const { field, setValue, errorMessage, defaultValue } = props;
 
   const [search, setSearch] = useState('');
-  const [selectedOptions, setSelectedOptions] = useState<any[]>(
-    field.defaultValue ?? [],
-  );
+  const [selectedOptions, setSelectedOptions] = useState<any[]>(defaultValue ?? []);
 
   const [debouncedSearch] = useDebounce(search, 750);
 
@@ -42,7 +40,7 @@ export function AutocompleteMultiple(props: ResolveFieldProps) {
       <FormControl fullWidth>
         <MuiAutocomplete
           multiple
-          defaultValue={field.defaultValue}
+          defaultValue={defaultValue}
           isOptionEqualToValue={(option, value) => option.id === value.id}
           getOptionLabel={(option) => option[field.autocompleteLabel || 'name']}
           value={selectedOptions}

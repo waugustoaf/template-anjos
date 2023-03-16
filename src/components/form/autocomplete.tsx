@@ -11,11 +11,11 @@ import { useEffect, useState } from 'react';
 import { useDebounce } from 'use-debounce';
 
 export function Autocomplete(props: ResolveFieldProps) {
-  const { field, setValue, errorMessage } = props;
+  const { field, setValue, errorMessage, defaultValue } = props;
 
   const [search, setSearch] = useState('');
   const [selectedOptions, setSelectedOptions] = useState<any[]>(
-    field.defaultValue ?? [],
+    defaultValue ?? [],
   );
 
   const [debouncedSearch] = useDebounce(search, 750);
@@ -37,7 +37,7 @@ export function Autocomplete(props: ResolveFieldProps) {
     <Grid item sm={field.rowSize} xs={12}>
       <FormControl fullWidth>
         <MuiAutocomplete
-          defaultValue={field.defaultValue}
+          defaultValue={defaultValue}
           isOptionEqualToValue={(option, value) => option.id === value.id}
           getOptionLabel={(option) => option[field.autocompleteLabel || 'name']}
           onChange={(_, value) => handleChange(value)}

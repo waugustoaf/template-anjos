@@ -1,7 +1,8 @@
 import { authService } from './auth';
-import { customerServices } from './customers';
+import { categoryServices } from './categories';
 
 export const apiServices = {
   auth: authService,
-  customers: customerServices,
+  categories: categoryServices,
+  // customers: customerServices,
 };

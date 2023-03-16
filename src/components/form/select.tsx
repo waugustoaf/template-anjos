@@ -1,15 +1,18 @@
 import { ResolveFieldProps } from '@/utils/form/mount-form';
-import { FormControl, FormHelperText, Grid, Select as MuiSelect } from '@mui/material';
+import {
+  FormControl,
+  FormHelperText,
+  Grid,
+  Select as MuiSelect,
+} from '@mui/material';
 
 export function Select(props: ResolveFieldProps) {
-  const { field, register, errorMessage } = props;
+  const { field, register, errorMessage, defaultValue } = props;
 
   return (
     <Grid item sm={field.rowSize} xs={12}>
       <FormControl fullWidth>
-        <MuiSelect defaultValue={field.defaultValue}>
-
-        </MuiSelect>
+        <MuiSelect defaultValue={defaultValue}></MuiSelect>
 
         {errorMessage && (
           <FormHelperText sx={{ color: 'error.main', marginLeft: '4px' }}>
