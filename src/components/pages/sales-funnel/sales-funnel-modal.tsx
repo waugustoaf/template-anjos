@@ -76,10 +76,15 @@ export function SalesFunnelModal({
     }
   }
 
+  function handleClose() {
+    reset(defaultBooleanValues);
+    onClose();
+  }
+
   return (
     <Dialog
       open={isOpen}
-      onClose={onClose}
+      onClose={handleClose}
       aria-labelledby='alert-dialog-title'
       aria-describedby='alert-dialog-description'
     >
@@ -104,7 +109,7 @@ export function SalesFunnelModal({
               margin: '1.5rem 0 0.5rem',
             }}
           >
-            <Button onClick={onClose}>Cancelar</Button>
+            <Button onClick={handleClose}>Cancelar</Button>
             <Button type='submit' variant='contained'>
               {defaultSalesFunnel ? 'Salvar' : 'Adicionar'}
             </Button>
