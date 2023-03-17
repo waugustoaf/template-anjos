@@ -10,11 +10,14 @@ interface TableHeaderProps {
   onSearch: (value: string) => void;
   refetch?: (data?: any) => any;
   inputPlaceholder: string;
-  addLink: string;
+  addLink?: string;
+  addOnClick?: () => void;
 }
 
 export const TableHeader = (props: TableHeaderProps) => {
-  const { search, onSearch, inputPlaceholder, addLink } = props;
+  const { search, onSearch, inputPlaceholder, addLink, addOnClick } = props;
+
+  const addProps = addLink ? { component: Link, href: addLink } : {};
 
   return (
     <Box
@@ -39,9 +42,9 @@ export const TableHeader = (props: TableHeaderProps) => {
       <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
         <Button
           sx={{ mb: 2 }}
-          component={Link}
           variant='contained'
-          href={addLink}
+          onClick={addOnClick}
+          {...addProps}
         >
           <Icon
             icon='tabler:plus'

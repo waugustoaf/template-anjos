@@ -12,7 +12,7 @@ export const VerticalNavItems = (): VerticalNavItemsType => {
     },
     {
       title: 'Categorias',
-      icon: 'tabler:user',
+      icon: 'tabler:stack-2',
       path: '/categories/list',
       // children: [
       //   {
@@ -24,6 +24,11 @@ export const VerticalNavItems = (): VerticalNavItemsType => {
       //     path: '/dashboard/customers/categories/list',
       //   },
       // ],
+    },
+    {
+      title: 'Funis de venda',
+      icon: 'tabler:filter',
+      path: '/sales-funnel/list',
     },
   ];
 };

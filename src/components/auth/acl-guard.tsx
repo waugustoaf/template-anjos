@@ -2,7 +2,7 @@ import { ReactNode, useState } from 'react';
 
 import { useRouter } from 'next/router';
 import { AbilityContext } from '@/context/ability';
-import { Error401 } from '@/pages/401';
+import Error401 from '@/pages/401';
 import { ACLObj, AppAbility } from '@/types/app/guard';
 import { useAuth } from '@/hooks/useAuth';
 import { BlankLayout } from '../layout/blank';

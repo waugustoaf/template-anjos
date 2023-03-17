@@ -1,7 +1,9 @@
 import { Checkbox } from '@/components/form/checkbox';
+import { CustomChildren } from '@/components/form/custom-children';
 import { Input } from '@/components/form/input';
 import { InputMask } from '@/components/form/input-mask';
 import { InputPassword } from '@/components/form/input-password';
+import { Switch } from '@/components/form/switch';
 import { PaginationProps } from '@/types/app/pagination';
 import { Grid } from '@mui/material';
 import React from 'react';
@@ -24,6 +26,7 @@ export interface FormFieldProps {
     value: string;
     label: string;
   }[];
+  children?: React.ReactNode;
   type:
     | 'input'
     | 'input-mask'
@@ -37,7 +40,9 @@ export interface FormFieldProps {
     | 'time'
     | 'datetime'
     | 'file'
-    | 'autocomplete-multiple';
+    | 'autocomplete-multiple'
+    | 'switch'
+    | 'children';
 }
 
 interface MountFormProps {
@@ -105,6 +110,18 @@ function resolveField({
           defaultValue={defaultValue}
         />
       );
+    case 'switch':
+      return (
+        <Switch
+          field={field}
+          errorMessage={errorMessage}
+          register={register}
+          setValue={setValue}
+          defaultValue={defaultValue}
+        />
+      );
+    case 'children':
+      return <CustomChildren field={field} />;
     default:
       console.log(`Field ${field.name} has a invalid type`);
       return null;

@@ -28,7 +28,7 @@ const Img = styled('img')(({ theme }) => ({
   },
 }));
 
-export const Error401 = () => {
+export default function Error401() {
   return (
     <Box className='content-center'>
       <Box
