@@ -14,7 +14,9 @@ export function AutocompleteMultiple(props: ResolveFieldProps) {
   const { field, setValue, errorMessage, defaultValue } = props;
 
   const [search, setSearch] = useState('');
-  const [selectedOptions, setSelectedOptions] = useState<any[]>(defaultValue ?? []);
+  const [selectedOptions, setSelectedOptions] = useState<any[]>(
+    defaultValue ?? [],
+  );
 
   const [debouncedSearch] = useDebounce(search, 750);
 
@@ -49,12 +51,7 @@ export function AutocompleteMultiple(props: ResolveFieldProps) {
             // @ts-ignore
             setSearch(event.currentTarget.value) || '';
           }}
-          options={
-            data?.data?.map((i: any) => ({
-              id: i.id,
-              label: i[field.autocompleteLabel || 'name'],
-            })) || []
-          }
+          options={data?.data || []}
           renderInput={(params) => (
             // @ts-ignore
             <TextField

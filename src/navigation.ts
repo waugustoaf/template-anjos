@@ -28,7 +28,12 @@ export const VerticalNavItems = (): VerticalNavItemsType => {
     {
       title: 'Funis de venda',
       icon: 'tabler:filter',
-      path: '/sales-funnel/list',
+      path: '/sales-funnels/list',
+    },
+    {
+      title: 'Anjos',
+      icon: 'tabler:user',
+      path: '/angels/list',
     },
   ];
 };

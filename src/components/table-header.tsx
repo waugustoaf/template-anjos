@@ -3,7 +3,7 @@ import Link from 'next/link';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-import { Icon } from '../icon';
+import { Icon } from './icon';
 
 interface TableHeaderProps {
   search: string;

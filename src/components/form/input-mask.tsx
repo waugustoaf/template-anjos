@@ -1,9 +1,41 @@
+import { clearFormEventManager } from '@/utils/event/clear-form';
 import { ResolveFieldProps } from '@/utils/form/mount-form';
 import { FormControl, FormHelperText, Grid, TextField } from '@mui/material';
+import { useEffect, useState } from 'react';
 import ReactInputMask from 'react-input-mask';
 
 export function InputMask(props: ResolveFieldProps) {
   const { field, register, errorMessage, defaultValue } = props;
+
+  const [resetting, setResetting] = useState(false);
+
+  useEffect(() => {
+    const startReset = () => {
+      setResetting(true);
+    };
+
+    const event = clearFormEventManager.on('clear-form', startReset);
+
+    return () => {
+      if (typeof document !== 'undefined') {
+        document.removeEventListener(event, undefined as any);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    let timeout: NodeJS.Timeout;
+
+    if (resetting) {
+      timeout = setTimeout(() => {
+        setResetting(false);
+      }, 50);
+    }
+
+    return () => clearTimeout(timeout);
+  }, [resetting]);
+
+  if (resetting) return null;
 
   return (
     <Grid item sm={field.rowSize} xs={12}>

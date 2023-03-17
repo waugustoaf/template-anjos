@@ -1,3 +1,5 @@
+import { Autocomplete } from '@/components/form/autocomplete';
+import { AutocompleteMultiple } from '@/components/form/autocomplete-multiple';
 import { Checkbox } from '@/components/form/checkbox';
 import { CustomChildren } from '@/components/form/custom-children';
 import { Input } from '@/components/form/input';
@@ -113,6 +115,26 @@ function resolveField({
     case 'switch':
       return (
         <Switch
+          field={field}
+          errorMessage={errorMessage}
+          register={register}
+          setValue={setValue}
+          defaultValue={defaultValue}
+        />
+      );
+    case 'autocomplete':
+      return (
+        <Autocomplete
+          field={field}
+          errorMessage={errorMessage}
+          register={register}
+          setValue={setValue}
+          defaultValue={defaultValue}
+        />
+      );
+    case 'autocomplete-multiple':
+      return (
+        <AutocompleteMultiple
           field={field}
           errorMessage={errorMessage}
           register={register}

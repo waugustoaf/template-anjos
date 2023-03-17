@@ -9,16 +9,20 @@ import { Spinner } from '@/components/spinner';
 import { TableHeader } from '@/components/table-header';
 import { apiServices } from '@/services';
 import { DatePickerWrapper } from '@/styles/libs/react-datepicker';
-import { Pagination } from '@mui/material';
+import { Breadcrumbs, Pagination } from '@mui/material';
 import { toast } from 'react-hot-toast';
 import { useDebounce } from 'use-debounce';
 import { ICategory } from '@/types/entities/ICategory';
 import { createCategoryListTable } from '@/utils/tables/categories/list';
+import { Breadcrumb } from '@/components/breadcrumb';
 
 export default function CategoryListPage() {
   const [search, setSearch] = useState<string>('');
   const [page, setPage] = useState(1);
   const [debouncedSearch] = useDebounce(search, 750);
+  const [categoryToDelete, setCategoryToDelete] = useState<ICategory | null>(
+    null,
+  );
 
   const { data, isLoading, isRefetching, refetch } = useQuery({
     queryKey: ['categories', debouncedSearch, page],
@@ -28,10 +32,6 @@ export default function CategoryListPage() {
         page,
       }),
   });
-
-  const [categoryToDelete, setCategoryToDelete] = useState<ICategory | null>(
-    null,
-  );
 
   async function handleDeleteCategory() {
     try {
@@ -60,8 +60,12 @@ export default function CategoryListPage() {
 
   return (
     <DatePickerWrapper>
+      <Breadcrumb
+        items={[{ label: 'Anjos', link: '/' }, { label: 'Categorias' }]}
+      />
+
       <Grid container spacing={6}>
-        <Grid item xs={12}>
+        <Grid item xs={12} className='page-card-mui'>
           <Card>
             <TableHeader
               search={search}

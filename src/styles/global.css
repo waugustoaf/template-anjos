@@ -26,3 +26,16 @@ code[class*='language-'] {
 .MuiDataGrid-footerContainer {
   display: none !important;
 }
+
+.MuiBreadcrumbs-ol * {
+  color: #fff !important;
+}
+
+.MuiBreadcrumbs-ol .last {
+  color: #D2AE6D !important;
+}
+
+.page-card-mui {
+  padding: 0 !important; 
+  margin: 1.5rem 0 0 1.5rem !important;
+}

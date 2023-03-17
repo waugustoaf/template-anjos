@@ -5,87 +5,86 @@ import Card from '@mui/material/Card';
 import Grid from '@mui/material/Grid';
 import { DataGrid, ptBR } from '@mui/x-data-grid';
 
-import { SalesFunnelModal } from '@/components/pages/sales-funnel/sales-funnel-modal';
 import { Spinner } from '@/components/spinner';
 import { TableHeader } from '@/components/table-header';
 import { apiServices } from '@/services';
 import { DatePickerWrapper } from '@/styles/libs/react-datepicker';
-import { ISalesFunnel } from '@/types/entities/ISalesFunnel';
-import { createSalesFunnelListTable } from '@/utils/tables/sales-funnel/list';
+import { IAngel } from '@/types/entities/IAngel';
 import { Pagination } from '@mui/material';
 import { toast } from 'react-hot-toast';
 import { useDebounce } from 'use-debounce';
+import { Breadcrumb } from '@/components/breadcrumb';
+import { AngelModal } from '@/components/pages/angels/angels-modal';
+import { createAngelListTable } from '@/utils/tables/angels/list';
 
 export default function SalesListPage() {
   const [search, setSearch] = useState<string>('');
   const [page, setPage] = useState(1);
   const [debouncedSearch] = useDebounce(search, 750);
-  const [isAddSalesFunnelModalOpen, setIsAddSalesFunnelModalOpen] =
+  const [isAddAngelModalOpen, setIsAddAngelModalOpen] =
     useState<boolean>(false);
-  const [salesFunnelToEdit, setSalesFunnelToEdit] =
-    useState<ISalesFunnel | null>(null);
-  const [salesFunnelToDelete, setSalesFunnelToDelete] =
-    useState<ISalesFunnel | null>(null);
+  const [angelToEdit, setAngelToEdit] = useState<IAngel | null>(null);
+  const [angelToDelete, setAngelToDelete] = useState<IAngel | null>(null);
 
   const { data, isLoading, isRefetching, refetch } = useQuery({
     queryKey: ['sales-funnel', debouncedSearch, page],
     queryFn: () =>
-      apiServices.salesFunnel.list({
+      apiServices.angel.list({
         search: debouncedSearch,
         page,
       }),
   });
 
-  async function handleDeleteSalesFunnel() {
+  async function handleDeleteAngel() {
     try {
-      if (!salesFunnelToDelete) return;
+      if (!angelToDelete) return;
 
-      await apiServices.salesFunnel.delete(salesFunnelToDelete.id);
+      await apiServices.angel.delete(angelToDelete.id);
 
-      toast.success('Funil de vendas apagado com sucesso.');
+      toast.success('Anjo apagado com sucesso.');
       refetch();
     } catch {
-      toast.error('Erro ao apagar o funil de vendas.');
+      toast.error('Erro ao apagar o anjo.');
     } finally {
-      setSalesFunnelToDelete(null);
+      setAngelToDelete(null);
     }
   }
 
   const columns = useMemo(() => {
-    return createSalesFunnelListTable({
-      handleDeleteSalesFunnel,
-      salesFunnelToDelete,
-      setSalesFunnelToDelete,
-      setSalesFunnelToEdit,
+    return createAngelListTable({
+      handleDeleteAngel,
+      angelToDelete,
+      setAngelToDelete,
+      setAngelToEdit,
     });
-  }, [salesFunnelToDelete, setSalesFunnelToDelete, setSalesFunnelToEdit]);
+  }, [angelToDelete, setAngelToDelete, setAngelToEdit]);
 
-  function handleAddSalesFunnel() {
-    setIsAddSalesFunnelModalOpen(true);
-  }
-
-  function handleEditSalesFunnel(salesFunnel: ISalesFunnel) {
-    setSalesFunnelToEdit(salesFunnel);
+  function handleAddAngel() {
+    setIsAddAngelModalOpen(true);
   }
 
   function handleCloseModal() {
-    setIsAddSalesFunnelModalOpen(false);
-    setSalesFunnelToEdit(null);
+    setIsAddAngelModalOpen(false);
+    setAngelToEdit(null);
   }
 
-  if (isLoading) return <Spinner />;
+  if (isLoading && !data) return <Spinner />;
 
   return (
     <>
       <DatePickerWrapper>
+        <Breadcrumb
+          items={[{ label: 'Anjos', link: '/' }, { label: 'Anjos' }]}
+        />
+
         <Grid container spacing={6}>
-          <Grid item xs={12}>
+          <Grid item xs={12} className='page-card-mui'>
             <Card>
               <TableHeader
                 search={search}
                 onSearch={setSearch}
-                inputPlaceholder='Buscar funil de vendas'
-                addOnClick={handleAddSalesFunnel}
+                inputPlaceholder='Buscar anjo'
+                addOnClick={handleAddAngel}
               />
               <DataGrid
                 autoHeight
@@ -117,10 +116,14 @@ export default function SalesListPage() {
         </Grid>
       </DatePickerWrapper>
 
-      <SalesFunnelModal
-        isOpen={isAddSalesFunnelModalOpen || !!salesFunnelToEdit}
+      <AngelModal
+        isOpen={isAddAngelModalOpen || !!angelToEdit}
         onClose={handleCloseModal}
-        defaultSalesFunnel={salesFunnelToEdit}
+        defaultAngel={
+          angelToEdit
+            ? { ...angelToEdit, isAdmin: angelToEdit.grantType === 190 }
+            : undefined
+        }
         refetch={refetch}
       />
     </>

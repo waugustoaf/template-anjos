@@ -1,7 +1,8 @@
-import { salesFunnelFormFields } from '@/forms/sales-funnel';
-import { salesFunnelFormSchema } from '@/forms/sales-funnel/schema';
+import { angelFormFields } from '@/forms/angels';
+import { angelFormSchema } from '@/forms/angels/schema';
 import { apiServices } from '@/services';
-import { ISalesFunnel } from '@/types/entities/ISalesFunnel';
+import { IAngel } from '@/types/entities/IAngel';
+import { clearFormEventManager, clearForms } from '@/utils/event/clear-form';
 import { mountForm } from '@/utils/form/mount-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Box, Button, Dialog, DialogContent, DialogTitle } from '@mui/material';
@@ -10,19 +11,19 @@ import { useEffect, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
 
-interface SalesFunnelModalProps {
+interface AngelModalProps {
   isOpen: boolean;
   onClose: () => void;
-  defaultSalesFunnel?: ISalesFunnel | null;
+  defaultAngel?: any | null;
   refetch?: () => void;
 }
 
-export function SalesFunnelModal({
-  defaultSalesFunnel,
+export function AngelModal({
+  defaultAngel,
   onClose,
   isOpen,
   refetch,
-}: SalesFunnelModalProps) {
+}: AngelModalProps) {
   const {
     register,
     setValue,
@@ -30,54 +31,48 @@ export function SalesFunnelModal({
     handleSubmit,
     formState: { errors },
   } = useForm({
-    resolver: yupResolver(salesFunnelFormSchema),
+    resolver: yupResolver(angelFormSchema),
   });
 
   const router = useRouter();
 
-  const defaultBooleanValues = useRef({
-    conversation: false,
-    message: false,
-    negotiation: false,
-    sale: false,
-    schedule: false,
-    appointment: false,
-  }).current;
-
   useEffect(() => {
-    if (defaultSalesFunnel) {
+    if (defaultAngel) {
       reset({
-        ...defaultSalesFunnel,
+        ...defaultAngel,
       });
     } else {
-      reset(defaultBooleanValues);
+      reset();
     }
-  }, [defaultSalesFunnel]);
+  }, [defaultAngel]);
 
-  async function onSubmit(data: Partial<ISalesFunnel>) {
+  async function onSubmit(data: any) {
+    const formattedData = {
+      ...data,
+      grantType: data.isAdmin ? 190 : 100,
+    };
+
     try {
-      if (defaultSalesFunnel) {
-        await apiServices.salesFunnel.update(defaultSalesFunnel.id, data);
-        toast.success('Funil de vendas salvo com sucesso.');
+      if (defaultAngel) {
+        await apiServices.angel.update(defaultAngel.id, formattedData);
+        toast.success('Anjo salvo com sucesso.');
       } else {
-        await apiServices.salesFunnel.create(data);
-        toast.success('Funil de vendas adicionado com sucesso.');
+        await apiServices.angel.create(formattedData);
+        toast.success('Anjo adicionado com sucesso.');
       }
 
       refetch && refetch();
-      router.push('/sales-funnels/list');
-      onClose();
+      handleClose();
     } catch {
       toast.error(
-        `Erro ao ${
-          defaultSalesFunnel ? 'salvar' : 'adicionar'
-        } funil de vendas`,
+        `Erro ao ${defaultAngel ? 'salvar' : 'adicionar'} anjo`,
       );
     }
   }
 
   function handleClose() {
-    reset(defaultBooleanValues);
+    clearForms();
+    reset();
     onClose();
   }
 
@@ -89,13 +84,13 @@ export function SalesFunnelModal({
       aria-describedby='alert-dialog-description'
     >
       <DialogTitle id='alert-dialog-title'>
-        {defaultSalesFunnel ? 'Salvar' : 'Adicionar'}&nbsp; funil de vendas
+        {defaultAngel ? 'Salvar' : 'Adicionar'}&nbsp; funil de vendas
       </DialogTitle>
       <DialogContent>
         <form onSubmit={handleSubmit(onSubmit)}>
           {mountForm({
-            fields: salesFunnelFormFields,
-            defaultValues: defaultSalesFunnel || defaultBooleanValues,
+            fields: angelFormFields,
+            defaultValues: defaultAngel || {},
             errors,
             register: register,
             setValue,
@@ -111,7 +106,7 @@ export function SalesFunnelModal({
           >
             <Button onClick={handleClose}>Cancelar</Button>
             <Button type='submit' variant='contained'>
-              {defaultSalesFunnel ? 'Salvar' : 'Adicionar'}
+              {defaultAngel ? 'Salvar' : 'Adicionar'}
             </Button>
           </Box>
         </form>

@@ -1,22 +1,19 @@
 import { ResolveFieldProps } from '@/utils/form/mount-form';
 import {
+  Autocomplete as MuiAutocomplete,
   FormControl,
   FormHelperText,
   Grid,
-  Autocomplete as MuiAutocomplete,
   TextField,
 } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useDebounce } from 'use-debounce';
 
 export function Autocomplete(props: ResolveFieldProps) {
-  const { field, setValue, errorMessage, defaultValue } = props;
-
   const [search, setSearch] = useState('');
-  const [selectedOptions, setSelectedOptions] = useState<any[]>(
-    defaultValue ?? [],
-  );
+
+  const { field, setValue, errorMessage, defaultValue } = props;
 
   const [debouncedSearch] = useDebounce(search, 750);
 
