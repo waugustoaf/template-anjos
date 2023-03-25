@@ -3,6 +3,7 @@ import { authService } from './auth';
 import { categoryServices } from './categories';
 import { clinicServices } from './clinics';
 import { salesFunnelServices } from './sales-funnels';
+import {strategyServices} from "@/services/strategy";
 
 export const apiServices = {
   auth: authService,
@@ -10,4 +11,5 @@ export const apiServices = {
   categories: categoryServices,
   clinics: clinicServices,
   salesFunnel: salesFunnelServices,
+  strategy: strategyServices,
 };

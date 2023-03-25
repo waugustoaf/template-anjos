@@ -8,6 +8,24 @@ export const VerticalNavItems = (): VerticalNavItemsType => {
       path: '/',
     },
     {
+      sectionTitle: 'Configurações',
+    },
+    {
+      title: 'Funis de venda',
+      icon: 'tabler:filter',
+      path: '/sales-funnels/list',
+    },
+    {
+      title: 'Estratégias de venda',
+      icon: 'tabler:building-store',
+      path: '/strategy/list',
+    },
+    {
+      title: 'Estratégias do mês',
+      icon: 'tabler:building-store',
+      path: '/strategy/list',
+    },
+    {
       sectionTitle: 'Cadastros',
     },
     {
@@ -24,11 +42,6 @@ export const VerticalNavItems = (): VerticalNavItemsType => {
       //     path: '/dashboard/customers/categories/list',
       //   },
       // ],
-    },
-    {
-      title: 'Funis de venda',
-      icon: 'tabler:filter',
-      path: '/sales-funnels/list',
     },
     {
       title: 'Anjos',
