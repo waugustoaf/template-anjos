@@ -8,6 +8,37 @@ export const VerticalNavItems = (): VerticalNavItemsType => {
       path: '/',
     },
     {
+      title: 'Dashboard Administrativo',
+      icon: 'tabler:smart-home',
+      path: '/dash-admin',
+    },
+    {
+      sectionTitle: 'Cadastros',
+    },
+    {
+      title: 'Produtos',
+      icon: 'tabler:filter',
+      path: '/product/list',
+    },
+    {
+      title: 'Clientes',
+      icon: 'tabler:filter',
+      path: '/clients/list',
+    },
+    {
+      title: 'Usuários',
+      icon: 'tabler:filter',
+      path: '/users/list',
+    },
+    {
+      sectionTitle: 'Acompanhamento',
+    },
+    {
+      title: 'Pipeline',
+      icon: 'tabler:filter',
+      path: '/pipeline',
+    },
+    {
       sectionTitle: 'Configurações',
     },
     {
@@ -23,7 +54,7 @@ export const VerticalNavItems = (): VerticalNavItemsType => {
     {
       title: 'Estratégias do mês',
       icon: 'tabler:building-store',
-      path: '/strategy/list',
+      path: '/auto-pilot/list',
     },
     {
       sectionTitle: 'Cadastros',
