@@ -70,7 +70,7 @@ export default function SalesListPage() {
     setSalesFunnelToEdit(null);
   }
 
-  if (isLoading) return <Spinner />;
+  if (isLoading && !data) return <Spinner />;
 
   return (
     <>

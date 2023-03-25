@@ -3,8 +3,14 @@ import { AutocompleteMultiple } from '@/components/form/autocomplete-multiple';
 import { Checkbox } from '@/components/form/checkbox';
 import { CustomChildren } from '@/components/form/custom-children';
 import { Input } from '@/components/form/input';
+import { InputCurrency } from '@/components/form/input-currency';
+import { InputDate } from '@/components/form/input-date';
+import { InputDocument } from '@/components/form/input-document';
 import { InputMask } from '@/components/form/input-mask';
+import { InputNumber } from '@/components/form/input-number';
+import { InputNumeric } from '@/components/form/input-numberic';
 import { InputPassword } from '@/components/form/input-password';
+import { Select } from '@/components/form/select';
 import { Switch } from '@/components/form/switch';
 import { PaginationProps } from '@/types/app/pagination';
 import { Grid } from '@mui/material';
@@ -14,6 +20,7 @@ import {
   FieldValues,
   UseFormRegister,
   UseFormSetValue,
+  UseFormTrigger,
 } from 'react-hook-form';
 
 export interface FormFieldProps {
@@ -29,9 +36,14 @@ export interface FormFieldProps {
     label: string;
   }[];
   children?: React.ReactNode;
+  dateFormat?: string;
   type:
     | 'input'
     | 'input-mask'
+    | 'input-date'
+    | 'input-number'
+    | 'input-numeric'
+    | 'input-document'
     | 'input-password'
     | 'input-currency'
     | 'select'
@@ -50,6 +62,7 @@ export interface FormFieldProps {
 interface MountFormProps {
   register?: UseFormRegister<FieldValues>;
   setValue?: UseFormSetValue<FieldValues>;
+  trigger?: UseFormTrigger<any>;
   fields: FormFieldProps[];
   errors: FieldErrors<FieldValues>;
   formSpacing?: number;
@@ -60,6 +73,7 @@ export interface ResolveFieldProps {
   field: FormFieldProps;
   register?: UseFormRegister<FieldValues>;
   setValue?: UseFormSetValue<FieldValues>;
+  trigger?: UseFormTrigger<any>;
   errorMessage?: string;
   defaultValue?: any;
 }
@@ -70,6 +84,7 @@ function resolveField({
   errorMessage,
   setValue,
   defaultValue,
+  trigger,
 }: ResolveFieldProps) {
   switch (field.type) {
     case 'input':
@@ -79,6 +94,18 @@ function resolveField({
           errorMessage={errorMessage}
           register={register}
           setValue={setValue}
+          trigger={trigger}
+          defaultValue={defaultValue}
+        />
+      );
+    case 'input-numeric':
+      return (
+        <InputNumeric
+          field={field}
+          errorMessage={errorMessage}
+          register={register}
+          setValue={setValue}
+          trigger={trigger}
           defaultValue={defaultValue}
         />
       );
@@ -89,6 +116,7 @@ function resolveField({
           errorMessage={errorMessage}
           register={register}
           setValue={setValue}
+          trigger={trigger}
           defaultValue={defaultValue}
         />
       );
@@ -99,6 +127,51 @@ function resolveField({
           errorMessage={errorMessage}
           register={register}
           setValue={setValue}
+          trigger={trigger}
+          defaultValue={defaultValue}
+        />
+      );
+    case 'input-document':
+      return (
+        <InputDocument
+          field={field}
+          errorMessage={errorMessage}
+          register={register}
+          setValue={setValue}
+          trigger={trigger}
+          defaultValue={defaultValue}
+        />
+      );
+    case 'input-date':
+      return (
+        <InputDate
+          field={field}
+          errorMessage={errorMessage}
+          register={register}
+          setValue={setValue}
+          trigger={trigger}
+          defaultValue={defaultValue}
+        />
+      );
+    case 'input-number':
+      return (
+        <InputNumber
+          field={field}
+          errorMessage={errorMessage}
+          register={register}
+          setValue={setValue}
+          trigger={trigger}
+          defaultValue={defaultValue}
+        />
+      );
+    case 'input-currency':
+      return (
+        <InputCurrency
+          field={field}
+          errorMessage={errorMessage}
+          register={register}
+          setValue={setValue}
+          trigger={trigger}
           defaultValue={defaultValue}
         />
       );
@@ -109,6 +182,7 @@ function resolveField({
           errorMessage={errorMessage}
           register={register}
           setValue={setValue}
+          trigger={trigger}
           defaultValue={defaultValue}
         />
       );
@@ -119,6 +193,7 @@ function resolveField({
           errorMessage={errorMessage}
           register={register}
           setValue={setValue}
+          trigger={trigger}
           defaultValue={defaultValue}
         />
       );
@@ -129,6 +204,7 @@ function resolveField({
           errorMessage={errorMessage}
           register={register}
           setValue={setValue}
+          trigger={trigger}
           defaultValue={defaultValue}
         />
       );
@@ -139,6 +215,18 @@ function resolveField({
           errorMessage={errorMessage}
           register={register}
           setValue={setValue}
+          trigger={trigger}
+          defaultValue={defaultValue}
+        />
+      );
+    case 'select':
+      return (
+        <Select
+          field={field}
+          errorMessage={errorMessage}
+          register={register}
+          setValue={setValue}
+          trigger={trigger}
           defaultValue={defaultValue}
         />
       );
@@ -154,6 +242,7 @@ export function mountForm({
   fields,
   register,
   setValue,
+  trigger,
   errors,
   formSpacing = 5,
   defaultValues,
@@ -168,6 +257,7 @@ export function mountForm({
             field,
             register,
             setValue,
+            trigger,
             errorMessage: errors[field.name]?.message?.toString(),
             defaultValue: defaultValues?.[field.name],
           })}

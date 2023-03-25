@@ -4,10 +4,11 @@ import { FormControl, FormHelperText, Grid, TextField } from '@mui/material';
 import { useEffect, useState } from 'react';
 import ReactInputMask from 'react-input-mask';
 
-export function InputMask(props: ResolveFieldProps) {
-  const { field, register, errorMessage, defaultValue, trigger } = props;
+export function InputDocument(props: ResolveFieldProps) {
+  const { field, setValue, errorMessage, defaultValue, trigger } = props;
 
   const [resetting, setResetting] = useState(false);
+  const [input, setInput] = useState(defaultValue);
 
   useEffect(() => {
     const startReset = () => {
@@ -35,16 +36,21 @@ export function InputMask(props: ResolveFieldProps) {
     return () => clearTimeout(timeout);
   }, [resetting]);
 
+  useEffect(() => {
+    setValue && setValue(field.name, input || '');
+  }, [input]);
+
   if (resetting) return null;
 
   return (
     <Grid item sm={field.rowSize} xs={12}>
       <FormControl fullWidth>
         <ReactInputMask
-          mask={field.mask || ''}
+          mask={input?.length > 14 ? '99.999.999/9999-99' : '999.999.999-999'}
           maskChar=''
-          defaultValue={defaultValue}
           style={{ borderColor: errorMessage ? 'error.main' : 'inherit' }}
+          value={input || ''}
+          onChange={(e) => setInput(e.target.value)}
           onBlur={() => {
             trigger && trigger(field.name);
           }}

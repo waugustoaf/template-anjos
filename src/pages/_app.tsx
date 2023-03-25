@@ -29,6 +29,7 @@ import {
 } from '@tanstack/react-query';
 import { Provider } from 'react-redux';
 import '@/styles/global.css';
+import { DatePickerWrapper } from '@/styles/libs/react-datepicker';
 
 interface ExtendedAppProps extends AppProps {
   Component: NextPage;
@@ -114,25 +115,27 @@ export default function App(props: ExtendedAppProps) {
                   {({ settings }) => {
                     return (
                       <ThemeComponent settings={settings}>
-                        <WindowWrapper>
-                          <ResolveGuard
-                            authGuard={authGuard}
-                            guestGuard={guestGuard}
-                          >
-                            <AclGuard
-                              aclAbilities={aclAbilities}
+                        <DatePickerWrapper>
+                          <WindowWrapper>
+                            <ResolveGuard
+                              authGuard={authGuard}
                               guestGuard={guestGuard}
                             >
-                              {getLayout(<Component {...pageProps} />)}
-                            </AclGuard>
-                          </ResolveGuard>
-                        </WindowWrapper>
-                        <ReactHotToast>
-                          <Toaster
-                            position={settings.toastPosition}
-                            toastOptions={{ className: 'react-hot-toast' }}
-                          />
-                        </ReactHotToast>
+                              <AclGuard
+                                aclAbilities={aclAbilities}
+                                guestGuard={guestGuard}
+                              >
+                                {getLayout(<Component {...pageProps} />)}
+                              </AclGuard>
+                            </ResolveGuard>
+                          </WindowWrapper>
+                          <ReactHotToast>
+                            <Toaster
+                              position={settings.toastPosition}
+                              toastOptions={{ className: 'react-hot-toast' }}
+                            />
+                          </ReactHotToast>
+                        </DatePickerWrapper>
                       </ThemeComponent>
                     );
                   }}

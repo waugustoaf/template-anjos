@@ -1,17 +1,30 @@
-import { Box, Button, CircularProgress } from "@mui/material";
-import { Icon } from "../icon";
+import { Box, Button, CircularProgress } from '@mui/material';
+import { Icon } from '../icon';
 
-interface SubmitButtonProps { 
+interface SubmitButtonProps {
   isLoading: boolean;
   title: string;
+  hideCustomSpace?: boolean;
 }
 
-export function SubmitButton({ isLoading, title }: SubmitButtonProps) {
+export function SubmitButton({
+  isLoading,
+  title,
+  hideCustomSpace,
+}: SubmitButtonProps) {
   return (
-    <Box display='flex' justifyContent='flex-end' width='100%'>
+    <Box
+      display='flex'
+      {...(hideCustomSpace
+        ? {}
+        : { justifyContent: 'flex-end', width: '100%' })}
+    >
       <Button
         variant='contained'
-        sx={{ '& svg': isLoading ? undefined : { mr: 2 }, mt: '2rem' }}
+        sx={{
+          '& svg': isLoading ? undefined : { mr: 2 },
+          mt: hideCustomSpace ? 0 : '2rem',
+        }}
         type='submit'
         disabled={isLoading}
       >

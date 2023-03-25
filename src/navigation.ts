@@ -35,5 +35,10 @@ export const VerticalNavItems = (): VerticalNavItemsType => {
       icon: 'tabler:user',
       path: '/angels/list',
     },
+    {
+      title: 'Clínicas',
+      icon: 'tabler:building-store',
+      path: '/clinics/list',
+    },
   ];
 };

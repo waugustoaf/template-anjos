@@ -1,22 +1,23 @@
 import { ResolveFieldProps } from '@/utils/form/mount-form';
 import { FormControl, FormHelperText, Grid, TextField } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { formatValue } from 'react-currency-input-field';
 
-export function InputCurrency(props: ResolveFieldProps) {
+export function InputNumber(props: ResolveFieldProps) {
   const { field, setValue, errorMessage, defaultValue, trigger } = props;
   const [inputValue, setInputValue] = useState(
     defaultValue ? formatCurrencyValue(defaultValue) : '',
   );
 
   function formatCurrencyValue(value: any) {
-    return formatValue({
+    const formattedValue = formatValue({
       value: String(value),
       decimalSeparator: ',',
       groupSeparator: '.',
-      prefix: 'R$ ',
-      decimalScale: 2,
+      prefix: '',
     });
+
+    return formattedValue;
   }
 
   function handleChange(event: any) {
@@ -26,6 +27,7 @@ export function InputCurrency(props: ResolveFieldProps) {
 
     if (setValue) {
       setValue(field.name, formattedValue);
+      trigger && trigger(field.name);
     }
 
     setInputValue(newValue);
@@ -41,9 +43,6 @@ export function InputCurrency(props: ResolveFieldProps) {
           placeholder={field.placeholder}
           value={inputValue}
           onChange={handleChange}
-          onBlur={() => {
-            trigger && trigger(field.name);
-          }}
         />
 
         {errorMessage && (

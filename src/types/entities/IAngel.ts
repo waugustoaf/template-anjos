@@ -3,6 +3,6 @@ export interface IAngel {
   name: string;
   email: string;
   password?: string;
-  grantType?: 100 | 190;
+  grantType?: 10 | 90 | 100 | 190;
   categories: string[];
 }
