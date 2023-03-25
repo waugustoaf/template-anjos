@@ -37,7 +37,6 @@ next-env.d.ts
 /.idea/.gitignore
 /.idea/aws.xml
 /.idea/frontend.iml
-/src/components/form/label.tsx
 /.idea/modules.xml
 /package-lock.json
 /.idea/inspectionProfiles/Project_Default.xml
