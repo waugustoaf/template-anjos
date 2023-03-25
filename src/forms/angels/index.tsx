@@ -18,12 +18,6 @@ export const angelFormFields: FormFieldProps[] = [
     placeholder: 'gabriel@anjo.com.br',
     rowSize: 12,
   },
-  {
-    type: 'label',
-    name: 'passwordSendByEmail',
-    title: 'A senha será enviada por email',
-    rowSize: 12,
-  },
   // {
   //   type: 'input-mask',
   //   name: 'phone',
@@ -45,6 +39,12 @@ export const angelFormFields: FormFieldProps[] = [
     type: 'switch',
     name: 'isAdmin',
     title: 'Usuário Administrador',
+    rowSize: 12,
+  },
+  {
+    type: 'label',
+    name: 'passwordSendByEmail',
+    title: 'Um link para criar a senha será enviado por email !',
     rowSize: 12,
   },
 ];
