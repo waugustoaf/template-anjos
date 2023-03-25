@@ -97,7 +97,7 @@ export default function SalesListPage() {
                 loading={isRefetching}
                 localeText={{
                   ...ptBR.components.MuiDataGrid.defaultProps.localeText,
-                  noRowsLabel: 'Nenhum funil de vendas encontrado',
+                  noRowsLabel: 'Nenhum anjo encontrado',
                 }}
               />
               <Pagination

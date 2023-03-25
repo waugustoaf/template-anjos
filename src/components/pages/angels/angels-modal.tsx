@@ -84,7 +84,7 @@ export function AngelModal({
       aria-describedby='alert-dialog-description'
     >
       <DialogTitle id='alert-dialog-title'>
-        {defaultAngel ? 'Salvar' : 'Adicionar'}&nbsp; funil de vendas
+        {defaultAngel ? 'Salvar' : 'Adicionar'}&nbsp; Anjo
       </DialogTitle>
       <DialogContent>
         <form onSubmit={handleSubmit(onSubmit)}>

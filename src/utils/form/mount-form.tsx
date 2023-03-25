@@ -2,6 +2,7 @@ import { Autocomplete } from '@/components/form/autocomplete';
 import { AutocompleteMultiple } from '@/components/form/autocomplete-multiple';
 import { Checkbox } from '@/components/form/checkbox';
 import { CustomChildren } from '@/components/form/custom-children';
+import { Label } from '@/components/form/label';
 import { Input } from '@/components/form/input';
 import { InputMask } from '@/components/form/input-mask';
 import { InputPassword } from '@/components/form/input-password';
@@ -44,7 +45,8 @@ export interface FormFieldProps {
     | 'file'
     | 'autocomplete-multiple'
     | 'switch'
-    | 'children';
+    | 'children'
+    | 'label';
 }
 
 interface MountFormProps {
@@ -144,6 +146,8 @@ function resolveField({
       );
     case 'children':
       return <CustomChildren field={field} />;
+    case 'label':
+      return <Label field={field} />;
     default:
       console.log(`Field ${field.name} has a invalid type`);
       return null;
