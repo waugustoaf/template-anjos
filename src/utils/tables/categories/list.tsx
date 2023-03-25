@@ -7,6 +7,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Link from 'next/link';
 import { SetStateAction } from 'react';
+import {ISalesFunnel} from "@/types/entities/ISalesFunnel";
 
 interface CellType {
   row: ICategory;
@@ -15,13 +16,13 @@ interface CellType {
 interface CreateCategoryListTableProps {
   categoryToDelete: ICategory | null;
   setCategoryToDelete: (value: SetStateAction<ICategory | null>) => void;
-  handleDeleteCategory: () => void;
+  setCategoryToEdit: (value: SetStateAction<ICategory | null>) => void;
 }
 
 export function createCategoryListTable({
   categoryToDelete,
+  setCategoryToEdit,
   setCategoryToDelete,
-  handleDeleteCategory,
 }: CreateCategoryListTableProps) {
   return [
     {
@@ -30,15 +31,20 @@ export function createCategoryListTable({
       minWidth: 100,
       headerName: 'ID',
       renderCell: ({ row }: CellType) => (
-        <Typography sx={{ color: 'text.secondary' }}>
-          #{TextEllipsis(row.id, 5)}
-        </Typography>
+        <Button
+          sx={{ padding: '0', margin: '0' }}
+          onClick={() => setCategoryToEdit(row)}
+        >
+          <Typography sx={{ color: 'text.secondary' }}>
+            #{TextEllipsis(row.id, 5)}
+          </Typography>
+        </Button>
       ),
     },
     {
       flex: 0.2,
       field: 'name',
-      headerName: 'Cliente',
+      headerName: 'Categoria',
       renderCell: ({ row }: CellType) => (
         <Box sx={{ display: 'flex', flexDirection: 'column' }}>
           <Typography noWrap sx={{ color: 'text.secondary' }}>
@@ -68,9 +74,8 @@ export function createCategoryListTable({
             <Tooltip title='Editar'>
               <IconButton
                 size='small'
-                component={Link}
                 sx={{ color: 'text.secondary' }}
-                href={`/categories/edit/${row.id}`}
+                onClick={() => setCategoryToEdit(row)}
               >
                 <Icon icon='tabler:edit' />
               </IconButton>
@@ -93,7 +98,7 @@ export function createCategoryListTable({
               <Button onClick={() => setCategoryToDelete(null)}>
                 Cancelar
               </Button>
-              <Button onClick={handleDeleteCategory}>Apagar</Button>
+              <Button >Apagar</Button>
             </DialogActions>
           </Dialog>
         </>

@@ -31,9 +31,14 @@ export function createSalesFunnelListTable({
       minWidth: 100,
       headerName: 'ID',
       renderCell: ({ row }: CellType) => (
-        <Typography sx={{ color: 'text.secondary' }}>
-          #{TextEllipsis(row.id, 5)}
-        </Typography>
+        <Button
+          sx={{ padding: '0', margin: '0' }}
+          onClick={() => setSalesFunnelToEdit(row)}
+        >
+          <Typography sx={{ color: 'text.secondary' }}>
+            #{TextEllipsis(row.id, 5)}
+          </Typography>
+        </Button>
       ),
     },
     {
