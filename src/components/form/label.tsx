@@ -7,13 +7,7 @@ export function Label(props: ResolveFieldProps) {
   return (
     <Grid item sm={field.rowSize} xs={12}>
       <FormControl fullWidth>
-        <FormLabel defaultValue={defaultValue || ''}>{field.title}</FormLabel>
-
-        {errorMessage && (
-          <FormHelperText sx={{ color: 'error.main', marginLeft: '4px' }}>
-            {errorMessage}
-          </FormHelperText>
-        )}
+        <FormLabel>{field.title}</FormLabel>
       </FormControl>
     </Grid>
   );
