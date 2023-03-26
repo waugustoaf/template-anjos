@@ -28,7 +28,7 @@ export const VerticalNavItems = (): VerticalNavItemsType => {
     {
       title: 'Usuários',
       icon: 'tabler:filter',
-      path: '/users/list',
+      path: '/user/list',
     },
     {
       sectionTitle: 'Acompanhamento',

@@ -6,6 +6,7 @@ import { salesFunnelServices } from './sales-funnels';
 import {strategyServices} from "@/services/strategy";
 import {productServices} from "@/services/product";
 import {customerServices} from "@/services/customer";
+import {userServices} from "@/services/user";
 
 export const apiServices = {
   auth: authService,
@@ -15,5 +16,6 @@ export const apiServices = {
   salesFunnel: salesFunnelServices,
   strategy: strategyServices,
   product: productServices,
-  customer: customerServices
+  customer: customerServices,
+  user: userServices,
 };
