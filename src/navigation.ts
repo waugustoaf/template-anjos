@@ -23,7 +23,7 @@ export const VerticalNavItems = (): VerticalNavItemsType => {
     {
       title: 'Clientes',
       icon: 'tabler:filter',
-      path: '/clients/list',
+      path: '/customer/list',
     },
     {
       title: 'Usuários',
