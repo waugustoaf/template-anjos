@@ -5,69 +5,70 @@ import Card from '@mui/material/Card';
 import Grid from '@mui/material/Grid';
 import { DataGrid, ptBR } from '@mui/x-data-grid';
 
-import { CategoryModal } from '@/components/pages/category/category-modal';
+import { SalesFunnelModal } from '@/components/pages/sales-funnel/sales-funnel-modal';
 import { Spinner } from '@/components/spinner';
 import { TableHeader } from '@/components/table-header';
 import { apiServices } from '@/services';
 import { DatePickerWrapper } from '@/styles/libs/react-datepicker';
-import { ISalesFunnel } from '@/types/entities/ISalesFunnel';
-import { createSalesFunnelListTable } from '@/utils/tables/sales-funnel/list';
 import { Pagination } from '@mui/material';
 import { toast } from 'react-hot-toast';
 import { useDebounce } from 'use-debounce';
 import { Breadcrumb } from '@/components/breadcrumb';
-import {ICategory} from "@/types/entities/ICategory";
-import {createCategoryListTable} from "@/utils/tables/categories/list";
+import {ProductModal} from "@/components/pages/product/product-modal";
+import {createProductListTable} from "@/utils/tables/product/list";
+import {IProduct} from "@/types/entities/IProduct";
 
-export default function CategoryPage() {
+export default function ProductListPage() {
   const [search, setSearch] = useState<string>('');
   const [page, setPage] = useState(1);
   const [debouncedSearch] = useDebounce(search, 750);
-  const [isAddCategoryModalOpen, setIsAddCagegoryModalOpen] =
+  const [isAddModalOpen, setIsAddModalOpen] =
     useState<boolean>(false);
-  const [categoryToEdit, setCategoryToEdit] =
-    useState<ICategory | null>(null);
-  const [categoryToDelete, setCategoryToDelete] =
-    useState<ICategory | null>(null);
+  const [productToEdit, setProductToEdit] =
+    useState<IProduct | null>(null);
+  const [productToDelete, setProductToDelete] =
+    useState<IProduct | null>(null);
 
   const { data, isLoading, isRefetching, refetch } = useQuery({
-    queryKey: ['category', debouncedSearch, page],
+    queryKey: ['sales-funnel', debouncedSearch, page],
     queryFn: () =>
-      apiServices.categories.list({
+      apiServices.product.list({
         search: debouncedSearch,
         page,
       }),
   });
 
-  async function handleDeleteSalesFunnel() {
+  async function handleDeleteProduct() {
     try {
-      if (!categoryToDelete) return;
+      if (!productToDelete) return;
 
-      await apiServices.categories.delete(categoryToDelete.id);
-      toast.success('Categoria excluida com sucesso !');
+      await apiServices.product.delete(productToDelete.id);
+
+      toast.success('Produto excluído com sucesso.');
       refetch();
     } catch {
-      toast.error('Erro ao apagar a categoria.');
+      toast.error('Erro ao apagar o produto.');
     } finally {
-      setCategoryToDelete(null);
+      setProductToDelete(null);
     }
   }
 
   const columns = useMemo(() => {
-    return createCategoryListTable({
-      categoryToDelete,
-      setCategoryToEdit,
-      setCategoryToDelete,
+    return createProductListTable({
+      productToDelete,
+      setProductToDelete,
+      handleDeleteProduct,
+      setProductToEdit
     });
-  }, [categoryToDelete, setCategoryToDelete, setCategoryToEdit]);
+  }, [productToDelete, setProductToDelete, setProductToEdit]);
 
-  function handleAddCategory() {
-    setIsAddCagegoryModalOpen(true);
+  function handleAdd() {
+    setIsAddModalOpen(true);
   }
 
   function handleCloseModal() {
-    setIsAddCagegoryModalOpen(false);
-    setCategoryToEdit(null);
+    setIsAddModalOpen(false);
+    setProductToEdit(null);
   }
 
   if (isLoading && !data) return <Spinner />;
@@ -76,7 +77,7 @@ export default function CategoryPage() {
     <>
       <DatePickerWrapper>
         <Breadcrumb
-          items={[{ label: 'Anjos', link: '/' }, { label: 'Categorias' }]}
+          items={[{ label: 'Anjos', link: '/' }, { label: 'Produto' }]}
         />
 
         <Grid container spacing={6}>
@@ -85,8 +86,8 @@ export default function CategoryPage() {
               <TableHeader
                 search={search}
                 onSearch={setSearch}
-                inputPlaceholder='Buscar categorias'
-                addOnClick={handleAddCategory}
+                inputPlaceholder='Buscar produto'
+                addOnClick={handleAdd}
               />
               <DataGrid
                 autoHeight
@@ -99,7 +100,7 @@ export default function CategoryPage() {
                 loading={isRefetching}
                 localeText={{
                   ...ptBR.components.MuiDataGrid.defaultProps.localeText,
-                  noRowsLabel: 'Nenhuma categoria encontrada',
+                  noRowsLabel: 'Nenhuma produto encontrada',
                 }}
               />
               <Pagination
@@ -118,10 +119,10 @@ export default function CategoryPage() {
         </Grid>
       </DatePickerWrapper>
 
-      <CategoryModal
-        isOpen={isAddCategoryModalOpen || !!categoryToEdit}
+      <ProductModal
+        isOpen={isAddModalOpen || !!productToEdit}
         onClose={handleCloseModal}
-        defaultCategory={categoryToEdit}
+        defaultProduct={productToEdit}
         refetch={refetch}
       />
     </>

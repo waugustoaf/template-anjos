@@ -1,7 +1,5 @@
-import { angelFormFields } from '@/forms/angels';
-import { angelFormSchema } from '@/forms/angels/schema';
+import { userFormFields } from '@/forms/users';
 import { apiServices } from '@/services';
-import { IAngel } from '@/types/entities/IAngel';
 import { clearFormEventManager, clearForms } from '@/utils/event/clear-form';
 import { mountForm } from '@/utils/form/mount-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -10,20 +8,21 @@ import { useRouter } from 'next/router';
 import { useEffect, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
+import {userFormSchema} from "@/forms/users/schema";
 
-interface AngelModalProps {
+interface UserModalProps {
   isOpen: boolean;
   onClose: () => void;
-  defaultAngel?: any | null;
+  defaultUser?: any | null;
   refetch?: () => void;
 }
 
-export function AngelModal({
-  defaultAngel,
+export function UserModal({
+  defaultUser,
   onClose,
   isOpen,
   refetch,
-}: AngelModalProps) {
+}: UserModalProps) {
   const {
     register,
     setValue,
@@ -31,20 +30,20 @@ export function AngelModal({
     handleSubmit,
     formState: { errors },
   } = useForm({
-    resolver: yupResolver(angelFormSchema),
+    resolver: yupResolver(userFormSchema),
   });
 
   const router = useRouter();
 
   useEffect(() => {
-    if (defaultAngel) {
+    if (defaultUser) {
       reset({
-        ...defaultAngel,
+        ...defaultUser,
       });
     } else {
       reset();
     }
-  }, [defaultAngel]);
+  }, [defaultUser]);
 
   async function onSubmit(data: any) {
     const formattedData = {
@@ -53,19 +52,19 @@ export function AngelModal({
     };
 
     try {
-      if (defaultAngel) {
-        await apiServices.angel.update(defaultAngel.id, formattedData);
-        toast.success('Anjo salvo com sucesso.');
+      if (defaultUser) {
+        await apiServices.user.update(defaultUser.id, formattedData);
+        toast.success('Usuário salvo com sucesso.');
       } else {
-        await apiServices.angel.create(formattedData);
-        toast.success('Anjo adicionado com sucesso.');
+        await apiServices.user.create(formattedData);
+        toast.success('Usuário adicionado com sucesso.');
       }
 
       refetch && refetch();
       handleClose();
     } catch {
       toast.error(
-        `Erro ao ${defaultAngel ? 'salvar' : 'adicionar'} anjo`,
+        `Erro ao ${defaultUser ? 'salvar' : 'adicionar'} anjo`,
       );
     }
   }
@@ -84,13 +83,13 @@ export function AngelModal({
       aria-describedby='alert-dialog-description'
     >
       <DialogTitle id='alert-dialog-title'>
-        {defaultAngel ? 'Salvar' : 'Adicionar'}&nbsp; Anjo
+        {defaultUser ? 'Salvar' : 'Adicionar'}&nbsp; Usuário
       </DialogTitle>
       <DialogContent>
         <form onSubmit={handleSubmit(onSubmit)}>
           {mountForm({
-            fields: angelFormFields,
-            defaultValues: defaultAngel || {},
+            fields: userFormFields,
+            defaultValues: defaultUser || {},
             errors,
             register: register,
             setValue,
@@ -106,7 +105,7 @@ export function AngelModal({
           >
             <Button onClick={handleClose}>Cancelar</Button>
             <Button type='submit' variant='contained'>
-              {defaultAngel ? 'Salvar' : 'Adicionar'}
+              {defaultUser ? 'Salvar' : 'Adicionar'}
             </Button>
           </Box>
         </form>

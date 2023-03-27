@@ -5,69 +5,67 @@ import Card from '@mui/material/Card';
 import Grid from '@mui/material/Grid';
 import { DataGrid, ptBR } from '@mui/x-data-grid';
 
-import { CategoryModal } from '@/components/pages/category/category-modal';
 import { Spinner } from '@/components/spinner';
 import { TableHeader } from '@/components/table-header';
 import { apiServices } from '@/services';
 import { DatePickerWrapper } from '@/styles/libs/react-datepicker';
-import { ISalesFunnel } from '@/types/entities/ISalesFunnel';
-import { createSalesFunnelListTable } from '@/utils/tables/sales-funnel/list';
 import { Pagination } from '@mui/material';
 import { toast } from 'react-hot-toast';
 import { useDebounce } from 'use-debounce';
 import { Breadcrumb } from '@/components/breadcrumb';
-import {ICategory} from "@/types/entities/ICategory";
-import {createCategoryListTable} from "@/utils/tables/categories/list";
+import { UserModal } from '@/components/pages/user/user-modal';
+import {IUser} from "@/types/entities/IUser";
+import {createUserListTable} from "@/utils/tables/users/list";
 
-export default function CategoryPage() {
+export default function SalesListPage() {
   const [search, setSearch] = useState<string>('');
   const [page, setPage] = useState(1);
   const [debouncedSearch] = useDebounce(search, 750);
-  const [isAddCategoryModalOpen, setIsAddCagegoryModalOpen] =
+  const [isAddUserModalOpen, setIsAddUserModalOpen] =
     useState<boolean>(false);
-  const [categoryToEdit, setCategoryToEdit] =
-    useState<ICategory | null>(null);
-  const [categoryToDelete, setCategoryToDelete] =
-    useState<ICategory | null>(null);
+  const [userToEdit, setUserToEdit] = useState<IUser | null>(null);
+  const [userToDelete, setUserToDelete] = useState<IUser | null>(null);
 
   const { data, isLoading, isRefetching, refetch } = useQuery({
-    queryKey: ['category', debouncedSearch, page],
+    queryKey: ['user', debouncedSearch, page],
     queryFn: () =>
-      apiServices.categories.list({
+      apiServices.user.list({
         search: debouncedSearch,
         page,
       }),
   });
 
-  async function handleDeleteSalesFunnel() {
+  async function handleDeleteUser() {
     try {
-      if (!categoryToDelete) return;
+      if (!userToDelete) return;
 
-      await apiServices.categories.delete(categoryToDelete.id);
-      toast.success('Categoria excluida com sucesso !');
+      await apiServices.user.delete(userToDelete.id);
+
+      toast.success('Usuário apagado com sucesso.');
       refetch();
     } catch {
-      toast.error('Erro ao apagar a categoria.');
+      toast.error('Erro ao apagar usuário.');
     } finally {
-      setCategoryToDelete(null);
+      setUserToDelete(null);
     }
   }
 
   const columns = useMemo(() => {
-    return createCategoryListTable({
-      categoryToDelete,
-      setCategoryToEdit,
-      setCategoryToDelete,
+    return createUserListTable({
+      handleDeleteUser,
+      userToDelete,
+      setUserToDelete,
+      setUserToEdit,
     });
-  }, [categoryToDelete, setCategoryToDelete, setCategoryToEdit]);
+  }, [userToDelete, setUserToDelete, setUserToEdit]);
 
-  function handleAddCategory() {
-    setIsAddCagegoryModalOpen(true);
+  function handleAddAngel() {
+    setIsAddUserModalOpen(true);
   }
 
   function handleCloseModal() {
-    setIsAddCagegoryModalOpen(false);
-    setCategoryToEdit(null);
+    setIsAddUserModalOpen(false);
+    setUserToEdit(null);
   }
 
   if (isLoading && !data) return <Spinner />;
@@ -76,7 +74,7 @@ export default function CategoryPage() {
     <>
       <DatePickerWrapper>
         <Breadcrumb
-          items={[{ label: 'Anjos', link: '/' }, { label: 'Categorias' }]}
+          items={[{ label: 'Anjos', link: '/' }, { label: 'Usuários' }]}
         />
 
         <Grid container spacing={6}>
@@ -85,8 +83,8 @@ export default function CategoryPage() {
               <TableHeader
                 search={search}
                 onSearch={setSearch}
-                inputPlaceholder='Buscar categorias'
-                addOnClick={handleAddCategory}
+                inputPlaceholder='Buscar usuário'
+                addOnClick={handleAddAngel}
               />
               <DataGrid
                 autoHeight
@@ -99,7 +97,7 @@ export default function CategoryPage() {
                 loading={isRefetching}
                 localeText={{
                   ...ptBR.components.MuiDataGrid.defaultProps.localeText,
-                  noRowsLabel: 'Nenhuma categoria encontrada',
+                  noRowsLabel: 'Nenhum usuário encontrado',
                 }}
               />
               <Pagination
@@ -118,10 +116,14 @@ export default function CategoryPage() {
         </Grid>
       </DatePickerWrapper>
 
-      <CategoryModal
-        isOpen={isAddCategoryModalOpen || !!categoryToEdit}
+      <UserModal
+        isOpen={isAddUserModalOpen || !!userToEdit}
         onClose={handleCloseModal}
-        defaultCategory={categoryToEdit}
+        defaultUser={
+          userToEdit
+            ? { ...userToEdit, isAdmin: userToEdit.grantType === 90 }
+            : undefined
+        }
         refetch={refetch}
       />
     </>

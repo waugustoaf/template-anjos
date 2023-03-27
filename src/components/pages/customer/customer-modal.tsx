@@ -1,8 +1,7 @@
-import { angelFormFields } from '@/forms/angels';
-import { angelFormSchema } from '@/forms/angels/schema';
+
+import { customerFormSchema } from '@/forms/customer/schema';
 import { apiServices } from '@/services';
-import { IAngel } from '@/types/entities/IAngel';
-import { clearFormEventManager, clearForms } from '@/utils/event/clear-form';
+import { IProduct } from '@/types/entities/IProduct';
 import { mountForm } from '@/utils/form/mount-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Box, Button, Dialog, DialogContent, DialogTitle } from '@mui/material';
@@ -10,20 +9,22 @@ import { useRouter } from 'next/router';
 import { useEffect, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
+import {ICustomer} from "@/types/entities/ICustomer";
+import {customerFormFields} from "@/forms/customer";
 
-interface AngelModalProps {
+interface CustomerModalProps {
   isOpen: boolean;
   onClose: () => void;
-  defaultAngel?: any | null;
+  defaultCustomer?: ICustomer | null;
   refetch?: () => void;
 }
 
-export function AngelModal({
-  defaultAngel,
+export function CustomerModal({
+  defaultCustomer,
   onClose,
   isOpen,
   refetch,
-}: AngelModalProps) {
+}: CustomerModalProps) {
   const {
     register,
     setValue,
@@ -31,48 +32,54 @@ export function AngelModal({
     handleSubmit,
     formState: { errors },
   } = useForm({
-    resolver: yupResolver(angelFormSchema),
+    resolver: yupResolver(customerFormSchema),
   });
 
   const router = useRouter();
 
+  const defaultBooleanValues = useRef({
+    conversation: false,
+    message: false,
+    negotiation: false,
+    sale: false,
+    schedule: false,
+    appointment: false,
+  }).current;
+
   useEffect(() => {
-    if (defaultAngel) {
+    if (defaultCustomer) {
       reset({
-        ...defaultAngel,
+        ...defaultCustomer,
       });
     } else {
-      reset();
+      reset(defaultBooleanValues);
     }
-  }, [defaultAngel]);
+  }, [defaultCustomer]);
 
-  async function onSubmit(data: any) {
-    const formattedData = {
-      ...data,
-      grantType: data.isAdmin ? 190 : 100,
-    };
-
+  async function onSubmit(data: Partial<IProduct>) {
     try {
-      if (defaultAngel) {
-        await apiServices.angel.update(defaultAngel.id, formattedData);
-        toast.success('Anjo salvo com sucesso.');
+      if (defaultCustomer) {
+        await apiServices.customer.update(defaultCustomer.id, data);
+        toast.success('Cliente salvo com sucesso.');
       } else {
-        await apiServices.angel.create(formattedData);
-        toast.success('Anjo adicionado com sucesso.');
+        await apiServices.customer.create(data);
+        toast.success('Cliente adicionado com sucesso.');
       }
 
       refetch && refetch();
-      handleClose();
+      router.push('/customer/list');
+      onClose();
     } catch {
       toast.error(
-        `Erro ao ${defaultAngel ? 'salvar' : 'adicionar'} anjo`,
+        `Erro ao ${
+          defaultCustomer ? 'salvar' : 'adicionar'
+        } cliente`,
       );
     }
   }
 
   function handleClose() {
-    clearForms();
-    reset();
+    reset(defaultBooleanValues);
     onClose();
   }
 
@@ -84,13 +91,13 @@ export function AngelModal({
       aria-describedby='alert-dialog-description'
     >
       <DialogTitle id='alert-dialog-title'>
-        {defaultAngel ? 'Salvar' : 'Adicionar'}&nbsp; Anjo
+        {defaultCustomer ? 'Salvar' : 'Adicionar'}&nbsp; Produto
       </DialogTitle>
       <DialogContent>
         <form onSubmit={handleSubmit(onSubmit)}>
           {mountForm({
-            fields: angelFormFields,
-            defaultValues: defaultAngel || {},
+            fields: customerFormFields,
+            defaultValues: defaultCustomer || defaultBooleanValues,
             errors,
             register: register,
             setValue,
@@ -106,7 +113,7 @@ export function AngelModal({
           >
             <Button onClick={handleClose}>Cancelar</Button>
             <Button type='submit' variant='contained'>
-              {defaultAngel ? 'Salvar' : 'Adicionar'}
+              {defaultCustomer ? 'Salvar' : 'Adicionar'}
             </Button>
           </Box>
         </form>

@@ -1,8 +1,7 @@
-import { angelFormFields } from '@/forms/angels';
-import { angelFormSchema } from '@/forms/angels/schema';
+import { strategyFormFields } from '@/forms/strategy';
+import { strategyFormSchema } from '@/forms/strategy/schema';
 import { apiServices } from '@/services';
-import { IAngel } from '@/types/entities/IAngel';
-import { clearFormEventManager, clearForms } from '@/utils/event/clear-form';
+import { ISalesFunnel } from '@/types/entities/ISalesFunnel';
 import { mountForm } from '@/utils/form/mount-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Box, Button, Dialog, DialogContent, DialogTitle } from '@mui/material';
@@ -10,20 +9,21 @@ import { useRouter } from 'next/router';
 import { useEffect, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
+import {IStrategy} from "@/types/entities/IStrategy";
 
-interface AngelModalProps {
+interface StrategyModalProps {
   isOpen: boolean;
   onClose: () => void;
-  defaultAngel?: any | null;
+  defaultStrategy?: IStrategy | null;
   refetch?: () => void;
 }
 
-export function AngelModal({
-  defaultAngel,
+export function StrategyModal({
+  defaultStrategy,
   onClose,
   isOpen,
   refetch,
-}: AngelModalProps) {
+}: StrategyModalProps) {
   const {
     register,
     setValue,
@@ -31,48 +31,54 @@ export function AngelModal({
     handleSubmit,
     formState: { errors },
   } = useForm({
-    resolver: yupResolver(angelFormSchema),
+    resolver: yupResolver(strategyFormSchema),
   });
 
   const router = useRouter();
 
+  const defaultBooleanValues = useRef({
+    conversation: false,
+    message: false,
+    negotiation: false,
+    sale: false,
+    schedule: false,
+    appointment: false,
+  }).current;
+
   useEffect(() => {
-    if (defaultAngel) {
+    if (defaultStrategy) {
       reset({
-        ...defaultAngel,
+        ...defaultStrategy,
       });
     } else {
-      reset();
+      reset(defaultBooleanValues);
     }
-  }, [defaultAngel]);
+  }, [defaultStrategy]);
 
-  async function onSubmit(data: any) {
-    const formattedData = {
-      ...data,
-      grantType: data.isAdmin ? 190 : 100,
-    };
-
+  async function onSubmit(data: Partial<IStrategy>) {
     try {
-      if (defaultAngel) {
-        await apiServices.angel.update(defaultAngel.id, formattedData);
-        toast.success('Anjo salvo com sucesso.');
+      if (defaultStrategy) {
+        await apiServices.strategy.update(defaultStrategy.id, data);
+        toast.success('Estratégia salva com sucesso.');
       } else {
-        await apiServices.angel.create(formattedData);
-        toast.success('Anjo adicionado com sucesso.');
+        await apiServices.strategy.create(data);
+        toast.success('Estratégia adicionado com sucesso.');
       }
 
       refetch && refetch();
-      handleClose();
+      router.push('/strategy/list');
+      onClose();
     } catch {
       toast.error(
-        `Erro ao ${defaultAngel ? 'salvar' : 'adicionar'} anjo`,
+        `Erro ao ${
+          defaultStrategy ? 'salvar' : 'adicionar'
+        } estratégia`,
       );
     }
   }
 
   function handleClose() {
-    clearForms();
-    reset();
+    reset(defaultBooleanValues);
     onClose();
   }
 
@@ -84,13 +90,13 @@ export function AngelModal({
       aria-describedby='alert-dialog-description'
     >
       <DialogTitle id='alert-dialog-title'>
-        {defaultAngel ? 'Salvar' : 'Adicionar'}&nbsp; Anjo
+        {defaultStrategy ? 'Salvar' : 'Adicionar'}&nbsp; Estratégia
       </DialogTitle>
       <DialogContent>
         <form onSubmit={handleSubmit(onSubmit)}>
           {mountForm({
-            fields: angelFormFields,
-            defaultValues: defaultAngel || {},
+            fields: strategyFormFields,
+            defaultValues: defaultStrategy || defaultBooleanValues,
             errors,
             register: register,
             setValue,
@@ -106,7 +112,7 @@ export function AngelModal({
           >
             <Button onClick={handleClose}>Cancelar</Button>
             <Button type='submit' variant='contained'>
-              {defaultAngel ? 'Salvar' : 'Adicionar'}
+              {defaultStrategy ? 'Salvar' : 'Adicionar'}
             </Button>
           </Box>
         </form>

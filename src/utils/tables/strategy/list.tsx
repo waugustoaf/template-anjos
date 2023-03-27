@@ -6,24 +6,25 @@ import { Button, Dialog, DialogActions, DialogContent, DialogContentText, Dialog
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { SetStateAction } from 'react';
+import {IStrategy} from "@/types/entities/IStrategy";
 
 interface CellType {
-  row: ISalesFunnel;
+  row: IStrategy;
 }
 
-interface CreateSalesFunnelListTableProps {
-  salesFunnelToDelete: ISalesFunnel | null;
-  setSalesFunnelToDelete: (value: SetStateAction<ISalesFunnel | null>) => void;
-  handleDeleteSalesFunnel: () => void;
-  setSalesFunnelToEdit: (value: SetStateAction<ISalesFunnel | null>) => void;
+interface CreateListTableProps {
+  strategyToDelete: IStrategy | null;
+  setStrategyToDelete: (value: SetStateAction<IStrategy | null>) => void;
+  handleDeleteStrategy: () => void;
+  setStrategyToEdit: (value: SetStateAction<IStrategy | null>) => void;
 }
 
-export function createSalesFunnelListTable({
-  salesFunnelToDelete,
-  setSalesFunnelToDelete,
-  handleDeleteSalesFunnel,
-  setSalesFunnelToEdit
-}: CreateSalesFunnelListTableProps) {
+export function createStrategyListTable({
+  strategyToDelete,
+  setStrategyToDelete,
+  handleDeleteStrategy,
+  setStrategyToEdit
+}: CreateListTableProps) {
   return [
     {
       flex: 0.1,
@@ -33,7 +34,7 @@ export function createSalesFunnelListTable({
       renderCell: ({ row }: CellType) => (
         <Button
           sx={{ padding: '0', margin: '0' }}
-          onClick={() => setSalesFunnelToEdit(row)}
+          onClick={() => setStrategyToEdit(row)}
         >
           <Typography sx={{ color: 'text.secondary' }}>
             #{TextEllipsis(row.id, 5)}
@@ -66,7 +67,7 @@ export function createSalesFunnelListTable({
               <IconButton
                 size='small'
                 sx={{ color: 'text.secondary' }}
-                onClick={() => setSalesFunnelToDelete(row)}
+                onClick={() => setStrategyToDelete(row)}
               >
                 <Icon icon='tabler:trash' />
               </IconButton>
@@ -75,30 +76,30 @@ export function createSalesFunnelListTable({
               <IconButton
                 size='small'
                 sx={{ color: 'text.secondary' }}
-                onClick={() => setSalesFunnelToEdit(row)}
+                onClick={() => setStrategyToEdit(row)}
               >
                 <Icon icon='tabler:edit' />
               </IconButton>
             </Tooltip>
           </Box>
           <Dialog
-            open={!!salesFunnelToDelete}
-            onClose={() => setSalesFunnelToDelete(null)}
+            open={!!strategyToDelete}
+            onClose={() => setStrategyToDelete(null)}
             aria-labelledby='alert-dialog-title'
             aria-describedby='alert-dialog-description'
           >
-            <DialogTitle id='alert-dialog-title'>Apagar o funil de vendas</DialogTitle>
+            <DialogTitle id='alert-dialog-title'>Apagar a estratégia</DialogTitle>
             <DialogContent>
               <DialogContentText id='alert-dialog-description'>
-                Tem certeza que deseja apagar permanentemente o funil de vendas{' '}
-                {salesFunnelToDelete?.name}?
+                Tem certeza que deseja apagar permanentemente a estratégia{' '}
+                {strategyToDelete?.name}?
               </DialogContentText>
             </DialogContent>
             <DialogActions className='dialog-actions-dense'>
-              <Button onClick={() => setSalesFunnelToDelete(null)}>
+              <Button onClick={() => setStrategyToDelete(null)}>
                 Cancelar
               </Button>
-              <Button onClick={handleDeleteSalesFunnel}>Apagar</Button>
+              <Button onClick={handleDeleteStrategy}>Apagar</Button>
             </DialogActions>
           </Dialog>
         </>

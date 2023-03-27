@@ -1,31 +1,18 @@
 import { ICustomerCategory } from './ICustomerCategory';
+import {ISalesFunnel} from "@/types/entities/ISalesFunnel";
+import {IStrategy} from "@/types/entities/IStrategy";
 
 export interface ICustomer {
   id: string;
-  companyId: string;
-  status: 'ACTIVE' | 'INACTIVE';
   name: string;
-  cellphone: string;
-  whatsapp: string;
-  birthday: string | null;
-  origin: string | null;
-  descOrigin: string | null;
-  sex: string | null;
   email: string;
-  document: string;
+  funnel: ISalesFunnel;
+  strategy: IStrategy;
+  whatsApp: string;
+  origin: string;
+  descOrigin: string;
   instagram: string;
   observation: string;
-  street: string;
-  number: string;
-  complement: string;
-  neighborhood: string;
   city: string;
   state: string;
-  zipCode: string;
-  categories: {
-    id: string;
-    category: ICustomerCategory[];
-  }[];
-  createdAt: string;
-  updatedAt: string;
 }

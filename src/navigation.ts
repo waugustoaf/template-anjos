@@ -8,6 +8,55 @@ export const VerticalNavItems = (): VerticalNavItemsType => {
       path: '/',
     },
     {
+      title: 'Dashboard Administrativo',
+      icon: 'tabler:smart-home',
+      path: '/dash-admin',
+    },
+    {
+      sectionTitle: 'Cadastros',
+    },
+    {
+      title: 'Produtos',
+      icon: 'tabler:filter',
+      path: '/product/list',
+    },
+    {
+      title: 'Clientes',
+      icon: 'tabler:filter',
+      path: '/customer/list',
+    },
+    {
+      title: 'Usuários',
+      icon: 'tabler:filter',
+      path: '/user/list',
+    },
+    {
+      sectionTitle: 'Acompanhamento',
+    },
+    {
+      title: 'Pipeline',
+      icon: 'tabler:filter',
+      path: '/pipeline',
+    },
+    {
+      sectionTitle: 'Configurações',
+    },
+    {
+      title: 'Funis de venda',
+      icon: 'tabler:filter',
+      path: '/sales-funnels/list',
+    },
+    {
+      title: 'Estratégias de venda',
+      icon: 'tabler:building-store',
+      path: '/strategy/list',
+    },
+    {
+      title: 'Estratégias do mês',
+      icon: 'tabler:building-store',
+      path: '/auto-pilot/list',
+    },
+    {
       sectionTitle: 'Cadastros',
     },
     {
@@ -24,11 +73,6 @@ export const VerticalNavItems = (): VerticalNavItemsType => {
       //     path: '/dashboard/customers/categories/list',
       //   },
       // ],
-    },
-    {
-      title: 'Funis de venda',
-      icon: 'tabler:filter',
-      path: '/sales-funnels/list',
     },
     {
       title: 'Anjos',

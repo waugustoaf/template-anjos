@@ -1,8 +1,7 @@
-import { angelFormFields } from '@/forms/angels';
-import { angelFormSchema } from '@/forms/angels/schema';
+import { productFormFields } from '@/forms/product';
+import { productFormSchema } from '@/forms/product/schema';
 import { apiServices } from '@/services';
-import { IAngel } from '@/types/entities/IAngel';
-import { clearFormEventManager, clearForms } from '@/utils/event/clear-form';
+import { IProduct } from '@/types/entities/IProduct';
 import { mountForm } from '@/utils/form/mount-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Box, Button, Dialog, DialogContent, DialogTitle } from '@mui/material';
@@ -11,19 +10,19 @@ import { useEffect, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
 
-interface AngelModalProps {
+interface ProductModalProps {
   isOpen: boolean;
   onClose: () => void;
-  defaultAngel?: any | null;
+  defaultProduct?: IProduct | null;
   refetch?: () => void;
 }
 
-export function AngelModal({
-  defaultAngel,
+export function ProductModal({
+  defaultProduct,
   onClose,
   isOpen,
   refetch,
-}: AngelModalProps) {
+}: ProductModalProps) {
   const {
     register,
     setValue,
@@ -31,48 +30,54 @@ export function AngelModal({
     handleSubmit,
     formState: { errors },
   } = useForm({
-    resolver: yupResolver(angelFormSchema),
+    resolver: yupResolver(productFormSchema),
   });
 
   const router = useRouter();
 
+  const defaultBooleanValues = useRef({
+    conversation: false,
+    message: false,
+    negotiation: false,
+    sale: false,
+    schedule: false,
+    appointment: false,
+  }).current;
+
   useEffect(() => {
-    if (defaultAngel) {
+    if (defaultProduct) {
       reset({
-        ...defaultAngel,
+        ...defaultProduct,
       });
     } else {
-      reset();
+      reset(defaultBooleanValues);
     }
-  }, [defaultAngel]);
+  }, [defaultProduct]);
 
-  async function onSubmit(data: any) {
-    const formattedData = {
-      ...data,
-      grantType: data.isAdmin ? 190 : 100,
-    };
-
+  async function onSubmit(data: Partial<IProduct>) {
     try {
-      if (defaultAngel) {
-        await apiServices.angel.update(defaultAngel.id, formattedData);
-        toast.success('Anjo salvo com sucesso.');
+      if (defaultProduct) {
+        await apiServices.product.update(defaultProduct.id, data);
+        toast.success('Produto salvo com sucesso.');
       } else {
-        await apiServices.angel.create(formattedData);
-        toast.success('Anjo adicionado com sucesso.');
+        await apiServices.product.create(data);
+        toast.success('Produto adicionado com sucesso.');
       }
 
       refetch && refetch();
-      handleClose();
+      router.push('/product/list');
+      onClose();
     } catch {
       toast.error(
-        `Erro ao ${defaultAngel ? 'salvar' : 'adicionar'} anjo`,
+        `Erro ao ${
+          defaultProduct ? 'salvar' : 'adicionar'
+        } produto`,
       );
     }
   }
 
   function handleClose() {
-    clearForms();
-    reset();
+    reset(defaultBooleanValues);
     onClose();
   }
 
@@ -84,13 +89,13 @@ export function AngelModal({
       aria-describedby='alert-dialog-description'
     >
       <DialogTitle id='alert-dialog-title'>
-        {defaultAngel ? 'Salvar' : 'Adicionar'}&nbsp; Anjo
+        {defaultProduct ? 'Salvar' : 'Adicionar'}&nbsp; Produto
       </DialogTitle>
       <DialogContent>
         <form onSubmit={handleSubmit(onSubmit)}>
           {mountForm({
-            fields: angelFormFields,
-            defaultValues: defaultAngel || {},
+            fields: productFormFields,
+            defaultValues: defaultProduct || defaultBooleanValues,
             errors,
             register: register,
             setValue,
@@ -106,7 +111,7 @@ export function AngelModal({
           >
             <Button onClick={handleClose}>Cancelar</Button>
             <Button type='submit' variant='contained'>
-              {defaultAngel ? 'Salvar' : 'Adicionar'}
+              {defaultProduct ? 'Salvar' : 'Adicionar'}
             </Button>
           </Box>
         </form>

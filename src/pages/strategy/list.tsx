@@ -5,7 +5,7 @@ import Card from '@mui/material/Card';
 import Grid from '@mui/material/Grid';
 import { DataGrid, ptBR } from '@mui/x-data-grid';
 
-import { CategoryModal } from '@/components/pages/category/category-modal';
+import { SalesFunnelModal } from '@/components/pages/sales-funnel/sales-funnel-modal';
 import { Spinner } from '@/components/spinner';
 import { TableHeader } from '@/components/table-header';
 import { apiServices } from '@/services';
@@ -16,58 +16,61 @@ import { Pagination } from '@mui/material';
 import { toast } from 'react-hot-toast';
 import { useDebounce } from 'use-debounce';
 import { Breadcrumb } from '@/components/breadcrumb';
-import {ICategory} from "@/types/entities/ICategory";
-import {createCategoryListTable} from "@/utils/tables/categories/list";
+import {IStrategy} from "@/types/entities/IStrategy";
+import {createStrategyListTable} from "@/utils/tables/strategy/list";
+import {StrategyModal} from "@/components/pages/strategy/strategy-modal";
 
-export default function CategoryPage() {
+export default function StrategyListPage() {
   const [search, setSearch] = useState<string>('');
   const [page, setPage] = useState(1);
   const [debouncedSearch] = useDebounce(search, 750);
-  const [isAddCategoryModalOpen, setIsAddCagegoryModalOpen] =
+  const [isAddModalOpen, setIsAddModalOpen] =
     useState<boolean>(false);
-  const [categoryToEdit, setCategoryToEdit] =
-    useState<ICategory | null>(null);
-  const [categoryToDelete, setCategoryToDelete] =
-    useState<ICategory | null>(null);
+  const [strategyToEdit, setStrategyToEdit] =
+    useState<IStrategy | null>(null);
+  const [strategyToDelete, setStrategyToDelete] =
+    useState<IStrategy | null>(null);
 
   const { data, isLoading, isRefetching, refetch } = useQuery({
-    queryKey: ['category', debouncedSearch, page],
+    queryKey: ['sales-funnel', debouncedSearch, page],
     queryFn: () =>
-      apiServices.categories.list({
+      apiServices.strategy.list({
         search: debouncedSearch,
         page,
       }),
   });
 
-  async function handleDeleteSalesFunnel() {
+  async function handleDeleteStrategy() {
     try {
-      if (!categoryToDelete) return;
+      if (!strategyToDelete) return;
 
-      await apiServices.categories.delete(categoryToDelete.id);
-      toast.success('Categoria excluida com sucesso !');
+      await apiServices.salesFunnel.delete(strategyToDelete.id);
+
+      toast.success('Estratégia excluída com sucesso.');
       refetch();
     } catch {
-      toast.error('Erro ao apagar a categoria.');
+      toast.error('Erro ao apagar a estratégia.');
     } finally {
-      setCategoryToDelete(null);
+      setStrategyToDelete(null);
     }
   }
 
   const columns = useMemo(() => {
-    return createCategoryListTable({
-      categoryToDelete,
-      setCategoryToEdit,
-      setCategoryToDelete,
+    return createStrategyListTable({
+      strategyToDelete,
+      setStrategyToDelete,
+      handleDeleteStrategy,
+      setStrategyToEdit
     });
-  }, [categoryToDelete, setCategoryToDelete, setCategoryToEdit]);
+  }, [strategyToDelete, setStrategyToDelete, setStrategyToEdit]);
 
-  function handleAddCategory() {
-    setIsAddCagegoryModalOpen(true);
+  function handleAdd() {
+    setIsAddModalOpen(true);
   }
 
   function handleCloseModal() {
-    setIsAddCagegoryModalOpen(false);
-    setCategoryToEdit(null);
+    setIsAddModalOpen(false);
+    setStrategyToEdit(null);
   }
 
   if (isLoading && !data) return <Spinner />;
@@ -76,7 +79,7 @@ export default function CategoryPage() {
     <>
       <DatePickerWrapper>
         <Breadcrumb
-          items={[{ label: 'Anjos', link: '/' }, { label: 'Categorias' }]}
+          items={[{ label: 'Anjos', link: '/' }, { label: 'Estratégia' }]}
         />
 
         <Grid container spacing={6}>
@@ -85,8 +88,8 @@ export default function CategoryPage() {
               <TableHeader
                 search={search}
                 onSearch={setSearch}
-                inputPlaceholder='Buscar categorias'
-                addOnClick={handleAddCategory}
+                inputPlaceholder='Buscar Estratégia'
+                addOnClick={handleAdd}
               />
               <DataGrid
                 autoHeight
@@ -99,7 +102,7 @@ export default function CategoryPage() {
                 loading={isRefetching}
                 localeText={{
                   ...ptBR.components.MuiDataGrid.defaultProps.localeText,
-                  noRowsLabel: 'Nenhuma categoria encontrada',
+                  noRowsLabel: 'Nenhuma estratégia encontrada',
                 }}
               />
               <Pagination
@@ -118,10 +121,10 @@ export default function CategoryPage() {
         </Grid>
       </DatePickerWrapper>
 
-      <CategoryModal
-        isOpen={isAddCategoryModalOpen || !!categoryToEdit}
+      <StrategyModal
+        isOpen={isAddModalOpen || !!strategyToEdit}
         onClose={handleCloseModal}
-        defaultCategory={categoryToEdit}
+        defaultStrategy={strategyToEdit}
         refetch={refetch}
       />
     </>
