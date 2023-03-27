@@ -5,11 +5,17 @@ export function formatCurrencyToBRL(value: number) {
   }).format(value);
 }
 
-export function formatNumberToBase100(number: string | number) {
+export function formatNumberToBase100(number?: string | number) {
+  if (!number) return 0;
+
   let formattedNumber = 0;
 
   if (typeof number === 'string') {
-    const cleanNumber = number.replace('.', '').replace(',', '.');
+    let cleanNumber = number;
+    
+    if (number.includes(',')) {
+      cleanNumber = number.replace('.', '').replace(',', '.');
+    }
 
     formattedNumber = parseFloat(cleanNumber) * 100;
   } else {
@@ -17,6 +23,7 @@ export function formatNumberToBase100(number: string | number) {
   }
 
   formattedNumber = Math.round(formattedNumber);
+
 
   return formattedNumber;
 }

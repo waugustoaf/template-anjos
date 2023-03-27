@@ -68,7 +68,7 @@ interface MountFormProps {
   fields: FormFieldProps[];
   errors: FieldErrors<FieldValues>;
   formSpacing?: number;
-  defaultValues?: Record<string, any>;
+  defaultValues?: Record<string, any> | null;
 }
 
 export interface ResolveFieldProps {

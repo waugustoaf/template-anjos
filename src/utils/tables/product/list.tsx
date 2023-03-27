@@ -1,13 +1,21 @@
 import { Icon } from '@/components/icon';
-import { ISalesFunnel } from '@/types/entities/ISalesFunnel';
 
+import { IProduct } from '@/types/entities/IProduct';
+import { formatNumberFromBase100 } from '@/utils/currency';
 import { TextEllipsis } from '@/utils/text';
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, Tooltip } from '@mui/material';
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  IconButton,
+  Tooltip,
+} from '@mui/material';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { SetStateAction } from 'react';
-import {IStrategy} from "@/types/entities/IStrategy";
-import {IProduct} from "@/types/entities/IProduct";
 
 interface CellType {
   row: IProduct;
@@ -24,8 +32,15 @@ export function createProductListTable({
   productToDelete,
   setProductToDelete,
   handleDeleteProduct,
-  setProductToEdit
+  setProductToEdit,
 }: CreateListTableProps) {
+  function handleEditProduct(product: CellType['row']) {
+    setProductToEdit({
+      ...product,
+      sellPrice: formatNumberFromBase100(product.sellPrice),
+    });
+  }
+
   return [
     {
       flex: 0.1,
@@ -35,7 +50,7 @@ export function createProductListTable({
       renderCell: ({ row }: CellType) => (
         <Button
           sx={{ padding: '0', margin: '0' }}
-          onClick={() => setProductToEdit(row)}
+          onClick={() => handleEditProduct(row)}
         >
           <Typography sx={{ color: 'text.secondary' }}>
             #{TextEllipsis(row.id, 5)}
@@ -77,7 +92,7 @@ export function createProductListTable({
               <IconButton
                 size='small'
                 sx={{ color: 'text.secondary' }}
-                onClick={() => setProductToEdit(row)}
+                onClick={() => handleEditProduct(row)}
               >
                 <Icon icon='tabler:edit' />
               </IconButton>
@@ -92,14 +107,12 @@ export function createProductListTable({
             <DialogTitle id='alert-dialog-title'>Apagar a produto</DialogTitle>
             <DialogContent>
               <DialogContentText id='alert-dialog-description'>
-                Tem certeza que deseja apagar permanentemente o produto {' '}
+                Tem certeza que deseja apagar permanentemente o produto{' '}
                 {productToDelete?.name}?
               </DialogContentText>
             </DialogContent>
             <DialogActions className='dialog-actions-dense'>
-              <Button onClick={() => setProductToDelete(null)}>
-                Cancelar
-              </Button>
+              <Button onClick={() => setProductToDelete(null)}>Cancelar</Button>
               <Button onClick={handleDeleteProduct}>Apagar</Button>
             </DialogActions>
           </Dialog>

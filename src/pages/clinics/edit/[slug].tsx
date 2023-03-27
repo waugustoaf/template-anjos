@@ -21,14 +21,20 @@ import {
   formatNumberFromBase100,
   formatNumberToBase100,
 } from '@/utils/currency';
+import { ProgressDiv } from '@/components/progress-div';
 
 interface TabButtonProps {
-  tab: 'personal-data' | 'contract' | 'billings' | 'attachments';
-  activeTab: 'personal-data' | 'contract' | 'billings' | 'attachments';
+  tab: 'campaign' | 'personal-data' | 'contract' | 'billings' | 'attachments';
+  activeTab:
+    | 'campaign'
+    | 'personal-data'
+    | 'contract'
+    | 'billings'
+    | 'attachments';
   icon: string;
   title: string;
   onChange: (
-    tab: 'personal-data' | 'contract' | 'billings' | 'attachments',
+    tab: 'campaign' | 'personal-data' | 'contract' | 'billings' | 'attachments',
   ) => void;
 }
 
@@ -50,10 +56,27 @@ function TabButton({ activeTab, icon, tab, title, onChange }: TabButtonProps) {
   );
 }
 
+function getTitle(title: string) {
+  switch (title) {
+    case 'campaign':
+      return 'Campanha';
+    case 'personal-data':
+      return 'Dados básicos';
+    case 'contract':
+      return 'Contrato';
+    case 'billings':
+      return 'Faturamento';
+    case 'attachments':
+      return 'Anexos';
+    default:
+      return '';
+  }
+}
+
 export default function CategoryAddPage() {
   const [currentTab, setCurrentTab] = useState<
-    'personal-data' | 'contract' | 'billings' | 'attachments'
-  >('personal-data');
+    'campaign' | 'personal-data' | 'contract' | 'billings' | 'attachments'
+  >('campaign');
   const [currentClinicData, setCurrentClinicData] = useState<Partial<IClinic>>(
     {},
   );
@@ -99,7 +122,7 @@ export default function CategoryAddPage() {
         Array.isArray(data.expertiseId) && data.expertiseId?.[0]?.name
           ? data.expertiseId.map((i) => i.id)
           : data.expertiseId,
-      expertises: undefined
+      expertises: undefined,
     });
 
     setCurrentClinicData((prevState) => ({
@@ -153,10 +176,18 @@ export default function CategoryAddPage() {
           { label: 'Anjos', link: '/' },
           { label: 'Clínicas', link: '/clinics/list' },
           { label: 'Editar' },
+          { label: getTitle(currentTab) },
         ]}
       />
 
       <Box display='flex' alignItems='center' gap='0.5rem' mb='1rem'>
+        <TabButton
+          activeTab={currentTab}
+          icon='tabler:user-check'
+          onChange={setCurrentTab}
+          tab='campaign'
+          title='Campanha'
+        />
         <TabButton
           activeTab={currentTab}
           icon='tabler:user-check'
@@ -186,6 +217,8 @@ export default function CategoryAddPage() {
           title='Anexos'
         />
       </Box>
+
+      {currentTab === 'campaign' && <ProgressDiv max={100} value={50} />}
 
       {currentTab === 'personal-data' && (
         <ClinicTabPersonalData

@@ -3,16 +3,16 @@ import { useState } from 'react';
 
 import { Breadcrumb } from '@/components/breadcrumb';
 import { Icon } from '@/components/icon';
+import { ClinicTabBilling } from '@/components/pages/clinics/tabs/billings';
 import { ClinicTabContract } from '@/components/pages/clinics/tabs/contract';
 import { ClinicTabPersonalData } from '@/components/pages/clinics/tabs/personal-data';
 import { clinicServices } from '@/services/clinics';
 import { IClinic } from '@/types/entities/IClinic';
+import { formatNumberToBase100 } from '@/utils/currency';
 import { formatDateToISO, localDateToUTC } from '@/utils/date';
+import { truthyObject } from '@/utils/functions/formatters';
 import { Box, Button } from '@mui/material';
 import { toast } from 'react-hot-toast';
-import { ClinicTabBilling } from '@/components/pages/clinics/tabs/billings';
-import { truthyObject } from '@/utils/functions/formatters';
-import { formatNumberToBase100 } from '@/utils/currency';
 
 interface TabButtonProps {
   tab: 'personal-data' | 'contract' | 'billings' | 'attachments';
@@ -40,6 +40,21 @@ function TabButton({ activeTab, icon, tab, title, onChange }: TabButtonProps) {
       {title}
     </Button>
   );
+}
+
+function getTitle(title: string) {
+  switch (title) {
+    case 'personal-data':
+      return 'Dados básicos';
+    case 'contract':
+      return 'Contrato';
+    case 'billings':
+      return 'Faturamento';
+    case 'attachments':
+      return 'Anexos';
+    default:
+      return '';
+  }
 }
 
 export default function CategoryAddPage() {
@@ -114,6 +129,7 @@ export default function CategoryAddPage() {
           { label: 'Anjos', link: '/' },
           { label: 'Clínicas', link: '/clinics/list' },
           { label: 'Adicionar' },
+          { label: getTitle(currentTab) },
         ]}
       />
 

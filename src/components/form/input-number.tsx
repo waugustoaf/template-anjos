@@ -15,6 +15,7 @@ export function InputNumber(props: ResolveFieldProps) {
       decimalSeparator: ',',
       groupSeparator: '.',
       prefix: '',
+      decimalScale: 2,
     });
 
     return formattedValue;

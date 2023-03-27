@@ -7,7 +7,7 @@ export const productFormFields: FormFieldProps[] = [
     type: 'input',
     name: 'name',
     title: 'Nome',
-    placeholder: 'Limpea de pele',
+    placeholder: 'Limpeza de pele',
     rowSize: 12,
   },
   {

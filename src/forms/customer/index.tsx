@@ -19,7 +19,7 @@ export const customerFormFields: FormFieldProps[] = [
   },
   {
     type: 'autocomplete',
-    name: 'funeelId',
+    name: 'funnelId',
     title: 'Funil de vendas',
     placeholder: 'Selecione o funil de vendas',
     rowSize: 12,

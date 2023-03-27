@@ -9,6 +9,8 @@ import { useRouter } from 'next/router';
 import { useEffect, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
+import { clearForms } from '@/utils/event/clear-form';
+import { formatNumberToBase100 } from '@/utils/currency';
 
 interface ProductModalProps {
   isOpen: boolean;
@@ -28,6 +30,7 @@ export function ProductModal({
     setValue,
     reset,
     handleSubmit,
+    getValues,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(productFormSchema),
@@ -35,50 +38,44 @@ export function ProductModal({
 
   const router = useRouter();
 
-  const defaultBooleanValues = useRef({
-    conversation: false,
-    message: false,
-    negotiation: false,
-    sale: false,
-    schedule: false,
-    appointment: false,
-  }).current;
-
   useEffect(() => {
     if (defaultProduct) {
       reset({
         ...defaultProduct,
       });
     } else {
-      reset(defaultBooleanValues);
+      reset({});
     }
   }, [defaultProduct]);
+
+  function handleClose() {
+    reset();
+    onClose();
+    clearForms();
+  }
 
   async function onSubmit(data: Partial<IProduct>) {
     try {
       if (defaultProduct) {
-        await apiServices.product.update(defaultProduct.id, data);
+        await apiServices.product.update(defaultProduct.id, {
+          ...data,
+          sellPrice: formatNumberToBase100(data.sellPrice),
+        });
         toast.success('Produto salvo com sucesso.');
       } else {
-        await apiServices.product.create(data);
+        await apiServices.product.create({
+          ...data,
+          sellPrice: formatNumberToBase100(data.sellPrice),
+        });
         toast.success('Produto adicionado com sucesso.');
       }
 
       refetch && refetch();
       router.push('/product/list');
-      onClose();
+      handleClose();
     } catch {
-      toast.error(
-        `Erro ao ${
-          defaultProduct ? 'salvar' : 'adicionar'
-        } produto`,
-      );
+      toast.error(`Erro ao ${defaultProduct ? 'salvar' : 'adicionar'} produto`);
     }
-  }
-
-  function handleClose() {
-    reset(defaultBooleanValues);
-    onClose();
   }
 
   return (
@@ -95,7 +92,7 @@ export function ProductModal({
         <form onSubmit={handleSubmit(onSubmit)}>
           {mountForm({
             fields: productFormFields,
-            defaultValues: defaultProduct || defaultBooleanValues,
+            defaultValues: defaultProduct,
             errors,
             register: register,
             setValue,

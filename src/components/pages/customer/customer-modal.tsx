@@ -1,4 +1,3 @@
-
 import { customerFormSchema } from '@/forms/customer/schema';
 import { apiServices } from '@/services';
 import { IProduct } from '@/types/entities/IProduct';
@@ -9,8 +8,8 @@ import { useRouter } from 'next/router';
 import { useEffect, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
-import {ICustomer} from "@/types/entities/ICustomer";
-import {customerFormFields} from "@/forms/customer";
+import { ICustomer } from '@/types/entities/ICustomer';
+import { customerFormFields } from '@/forms/customer';
 
 interface CustomerModalProps {
   isOpen: boolean;
@@ -71,9 +70,7 @@ export function CustomerModal({
       onClose();
     } catch {
       toast.error(
-        `Erro ao ${
-          defaultCustomer ? 'salvar' : 'adicionar'
-        } cliente`,
+        `Erro ao ${defaultCustomer ? 'salvar' : 'adicionar'} cliente`,
       );
     }
   }
@@ -82,6 +79,8 @@ export function CustomerModal({
     reset(defaultBooleanValues);
     onClose();
   }
+
+  console.log({ defaultCustomer });
 
   return (
     <Dialog
