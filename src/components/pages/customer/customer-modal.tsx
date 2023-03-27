@@ -28,22 +28,17 @@ export function CustomerModal({
     register,
     setValue,
     reset,
+    getValues,
     handleSubmit,
+    trigger,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(customerFormSchema),
   });
 
-  const router = useRouter();
+  console.log({ errors, values: getValues() });
 
-  const defaultBooleanValues = useRef({
-    conversation: false,
-    message: false,
-    negotiation: false,
-    sale: false,
-    schedule: false,
-    appointment: false,
-  }).current;
+  const router = useRouter();
 
   useEffect(() => {
     if (defaultCustomer) {
@@ -51,11 +46,16 @@ export function CustomerModal({
         ...defaultCustomer,
       });
     } else {
-      reset(defaultBooleanValues);
+      reset({});
     }
   }, [defaultCustomer]);
 
-  async function onSubmit(data: Partial<IProduct>) {
+  function handleClose() {
+    reset({});
+    onClose();
+  }
+
+  async function onSubmit(data: Partial<ICustomer>) {
     try {
       if (defaultCustomer) {
         await apiServices.customer.update(defaultCustomer.id, data);
@@ -67,20 +67,13 @@ export function CustomerModal({
 
       refetch && refetch();
       router.push('/customer/list');
-      onClose();
+      handleClose();
     } catch {
       toast.error(
         `Erro ao ${defaultCustomer ? 'salvar' : 'adicionar'} cliente`,
       );
     }
   }
-
-  function handleClose() {
-    reset(defaultBooleanValues);
-    onClose();
-  }
-
-  console.log({ defaultCustomer });
 
   return (
     <Dialog
@@ -96,10 +89,11 @@ export function CustomerModal({
         <form onSubmit={handleSubmit(onSubmit)}>
           {mountForm({
             fields: customerFormFields,
-            defaultValues: defaultCustomer || defaultBooleanValues,
+            defaultValues: defaultCustomer,
             errors,
             register: register,
             setValue,
+            trigger,
           })}
 
           <Box

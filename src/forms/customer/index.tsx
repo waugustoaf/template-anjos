@@ -1,6 +1,6 @@
 import { FormFieldProps } from '@/utils/form/mount-form';
-import {apiServices} from "@/services";
-import {states} from "@/utils/mocks/states";
+import { apiServices } from '@/services';
+import { states } from '@/utils/mocks/states';
 
 export const customerFormFields: FormFieldProps[] = [
   {
@@ -28,7 +28,7 @@ export const customerFormFields: FormFieldProps[] = [
   },
   {
     type: 'autocomplete',
-    name: 'strategyId',
+    name: 'strategyIdInbound',
     title: 'Estratégia',
     placeholder: 'Selecione o estratégia',
     rowSize: 12,
@@ -44,10 +44,11 @@ export const customerFormFields: FormFieldProps[] = [
     rowSize: 6,
   },
   {
-    type: 'input',
+    type: 'input-mask',
     name: 'instagram',
     title: 'Instagram',
     placeholder: '@anjosbusiness_',
+    mask: '@***************************',
     rowSize: 6,
   },
   {

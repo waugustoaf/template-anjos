@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import ReactInputMask from 'react-input-mask';
 
 export function InputMask(props: ResolveFieldProps) {
-  const { field, register, errorMessage, defaultValue, trigger } = props;
+  const { field, setValue, errorMessage, defaultValue, trigger } = props;
 
   const [resetting, setResetting] = useState(false);
 
@@ -47,6 +47,9 @@ export function InputMask(props: ResolveFieldProps) {
           style={{ borderColor: errorMessage ? 'error.main' : 'inherit' }}
           onBlur={() => {
             trigger && trigger(field.name);
+          }}
+          onChange={(event) => {
+            setValue && setValue(field.name, event.target.value);
           }}
         >
           {

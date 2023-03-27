@@ -81,6 +81,7 @@ export function Autocomplete(props: ResolveFieldProps) {
               {...params}
             />
           )}
+          noOptionsText='Nenhum resultado encontrado'
         />
 
         {errorMessage && (
