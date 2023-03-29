@@ -22,6 +22,8 @@ import {
   formatNumberToBase100,
 } from '@/utils/currency';
 import { ProgressDiv } from '@/components/progress-div';
+import { ClinicProfile } from '@/components/pages/clinics/profile';
+import { ClinicTabCampaign } from '@/components/pages/clinics/tabs/campaign';
 
 interface TabButtonProps {
   tab: 'campaign' | 'personal-data' | 'contract' | 'billings' | 'attachments';
@@ -85,7 +87,7 @@ export default function CategoryAddPage() {
   const router = useRouter();
   const slug = router.query.slug as string;
 
-  const { data, isLoading } = useQuery(['clinics', slug], () =>
+  const { data, isLoading, refetch } = useQuery(['clinics', slug], () =>
     apiServices.clinics.get(slug),
   );
 
@@ -151,7 +153,7 @@ export default function CategoryAddPage() {
       setCurrentClinicData({
         ...data.data,
         expertiseId: data.data.expertises,
-        categoryId: data.data.category.id,
+        categoryId: data.data.category?.id,
         initialAverageRevenue: formatNumberFromBase100(
           data.data.initialAverageRevenue,
         ),
@@ -180,69 +182,81 @@ export default function CategoryAddPage() {
         ]}
       />
 
-      <Box display='flex' alignItems='center' gap='0.5rem' mb='1rem'>
-        <TabButton
-          activeTab={currentTab}
-          icon='tabler:user-check'
-          onChange={setCurrentTab}
-          tab='campaign'
-          title='Campanha'
-        />
-        <TabButton
-          activeTab={currentTab}
-          icon='tabler:user-check'
-          onChange={setCurrentTab}
-          tab='personal-data'
-          title='Dados básicos'
-        />
-        <TabButton
-          activeTab={currentTab}
-          icon='tabler:writing'
-          onChange={setCurrentTab}
-          tab='contract'
-          title='Contrato'
-        />
-        <TabButton
-          activeTab={currentTab}
-          icon='tabler:currency-euro'
-          onChange={setCurrentTab}
-          tab='billings'
-          title='Faturamento'
-        />
-        <TabButton
-          activeTab={currentTab}
-          icon='tabler:file'
-          onChange={setCurrentTab}
-          tab='attachments'
-          title='Anexos'
-        />
+      <Box
+        display='flex'
+        flexDirection={{ xs: 'column', md: 'row' }}
+        gap='2rem'
+      >
+        <ClinicProfile clinic={currentClinicData} refetch={refetch} />
+
+        <Box>
+          <Box display='flex' alignItems='center' gap='0.5rem' mb='1rem'>
+            <TabButton
+              activeTab={currentTab}
+              icon='tabler:user-check'
+              onChange={setCurrentTab}
+              tab='campaign'
+              title='Campanha'
+            />
+            <TabButton
+              activeTab={currentTab}
+              icon='tabler:user-check'
+              onChange={setCurrentTab}
+              tab='personal-data'
+              title='Dados básicos'
+            />
+            <TabButton
+              activeTab={currentTab}
+              icon='tabler:writing'
+              onChange={setCurrentTab}
+              tab='contract'
+              title='Contrato'
+            />
+            <TabButton
+              activeTab={currentTab}
+              icon='tabler:currency-euro'
+              onChange={setCurrentTab}
+              tab='billings'
+              title='Faturamento'
+            />
+            <TabButton
+              activeTab={currentTab}
+              icon='tabler:file'
+              onChange={setCurrentTab}
+              tab='attachments'
+              title='Anexos'
+            />
+          </Box>
+
+          {currentTab === 'campaign' && (
+            <ClinicTabCampaign clinicId={currentClinicData.id} />
+          )}
+
+          {currentTab === 'personal-data' && (
+            <ClinicTabPersonalData
+              handleSaveClinic={handleSaveClinic}
+              isLoading={isSubmitting}
+              defaultValues={currentClinicData}
+            />
+          )}
+
+          {currentTab === 'contract' && (
+            <ClinicTabContract
+              handleSaveClinic={handleSaveClinic}
+              isLoading={isSubmitting}
+              defaultValues={currentClinicData}
+            />
+          )}
+
+          {currentTab === 'billings' && (
+            <ClinicTabBilling
+              handleSaveClinic={handleSaveClinic}
+              isLoading={isSubmitting}
+              defaultValues={currentClinicData}
+            />
+          )}
+        </Box>
       </Box>
-
-      {currentTab === 'campaign' && <ProgressDiv max={100} value={50} />}
-
-      {currentTab === 'personal-data' && (
-        <ClinicTabPersonalData
-          handleSaveClinic={handleSaveClinic}
-          isLoading={isSubmitting}
-          defaultValues={currentClinicData}
-        />
-      )}
-
-      {currentTab === 'contract' && (
-        <ClinicTabContract
-          handleSaveClinic={handleSaveClinic}
-          isLoading={isSubmitting}
-          defaultValues={currentClinicData}
-        />
-      )}
-
-      {currentTab === 'billings' && (
-        <ClinicTabBilling
-          handleSaveClinic={handleSaveClinic}
-          isLoading={isSubmitting}
-          defaultValues={currentClinicData}
-        />
-      )}
     </>
   );
 }

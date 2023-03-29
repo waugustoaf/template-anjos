@@ -12,6 +12,7 @@ import {
   CardHeader,
   Grid,
 } from '@mui/material';
+import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 
 interface ClinicTabBillingProps {
@@ -25,6 +26,8 @@ export function ClinicTabBilling({
   defaultValues,
   isLoading,
 }: ClinicTabBillingProps) {
+  const router = useRouter();
+
   const {
     register,
     setValue,
@@ -60,7 +63,7 @@ export function ClinicTabBilling({
                 marginTop='2rem'
                 gap='0.5rem'
               >
-                <Button>Cancelar</Button>
+                <Button onClick={router.back}>Cancelar</Button>
                 <SubmitButton
                   hideCustomSpace
                   isLoading={isLoading}

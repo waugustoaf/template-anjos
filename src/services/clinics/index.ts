@@ -4,6 +4,7 @@ import { mergePagination } from '@/utils/api/pagination';
 import { expertiseServices } from './expertises';
 import {
   CreateClinicResponse,
+  GetCampaignsResponse,
   GetClinicResponse,
   ListClinicsResponse,
   UpdateClinicResponse,
@@ -36,6 +37,18 @@ export const clinicServices = {
     const response = await api.delete(`/clinic/${id}`);
 
     return response.data;
+  },
+  uploadProfilePicture: async (id: string, data: FormData) => {
+    const response = await api.post(`/clinic/avatar/upload/${id}`, data, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    });
+
+    return response.data;
+  },
+  getCampaigns: (id: string, props?: PaginationProps) => {
+    return api.get<GetCampaignsResponse>(`/campaign/clinic/${id}`, {
+      params: mergePagination(props),
+    });
   },
   expertise: expertiseServices,
 };

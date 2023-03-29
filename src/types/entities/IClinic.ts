@@ -26,6 +26,8 @@ export interface IClinic {
   impulse: boolean;
   anjosSystem: boolean;
   initialAverageRevenue: number;
+  leads: number;
+  campaigns: number;
   afterAverageRevenue: number;
   increaseRevenue: boolean | string;
   growthRate: number;
@@ -46,4 +48,12 @@ export interface IClinic {
     autoPilot: boolean;
   };
   categoryId?: string;
+  userAttendance: {
+    id: string;
+    name: string;
+    email: string;
+    avatar: string | null;
+    grantType: 10 | 90 | 100 | 190;
+    status: 'ACTIVE' | 'INACTIVE' | 'BLOCKED';
+  };
 }

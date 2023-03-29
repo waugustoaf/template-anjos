@@ -30,6 +30,7 @@ import {
 import { Provider } from 'react-redux';
 import '@/styles/global.css';
 import { DatePickerWrapper } from '@/styles/libs/react-datepicker';
+import { Box } from '@mui/material';
 
 interface ExtendedAppProps extends AppProps {
   Component: NextPage;
@@ -125,7 +126,9 @@ export default function App(props: ExtendedAppProps) {
                                 aclAbilities={aclAbilities}
                                 guestGuard={guestGuard}
                               >
-                                {getLayout(<Component {...pageProps} />)}
+                                <Box maxWidth='100vw' overflow='hidden'>
+                                  {getLayout(<Component {...pageProps} />)}
+                                </Box>
                               </AclGuard>
                             </ResolveGuard>
                           </WindowWrapper>

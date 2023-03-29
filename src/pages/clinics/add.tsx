@@ -155,13 +155,6 @@ export default function CategoryAddPage() {
           tab='billings'
           title='Faturamento'
         />
-        <TabButton
-          activeTab={currentTab}
-          icon='tabler:file'
-          onChange={setCurrentTab}
-          tab='attachments'
-          title='Anexos'
-        />
       </Box>
 
       {currentTab === 'personal-data' && (
