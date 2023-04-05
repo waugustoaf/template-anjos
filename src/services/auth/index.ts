@@ -10,13 +10,11 @@ export const authService = {
     return response.data;
   },
   changePasswordWithToken: async ({
-    email,
     password,
     token,
   }: ChangePasswordWithTokenProps) => {
     const response = await api.post(`/auth/changePasswordToken/${token}`, {
       password,
-      email,
     });
 
     return response.data;
