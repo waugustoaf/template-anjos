@@ -1,6 +1,7 @@
 import { PaginationProps } from '@/types/app/pagination';
 import { api } from '@/utils/api';
 import { mergePagination } from '@/utils/api/pagination';
+import { attachmentServices } from './attachments';
 import { expertiseServices } from './expertises';
 import {
   CreateClinicResponse,
@@ -51,4 +52,5 @@ export const clinicServices = {
     });
   },
   expertise: expertiseServices,
+  attachment: attachmentServices,
 };

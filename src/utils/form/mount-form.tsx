@@ -23,6 +23,7 @@ import {
   UseFormSetValue,
   UseFormTrigger,
 } from 'react-hook-form';
+import { InputFile } from '@/components/form/input-file';
 
 export interface FormFieldProps {
   rowSize: number;
@@ -38,6 +39,8 @@ export interface FormFieldProps {
   }[];
   children?: React.ReactNode;
   dateFormat?: string;
+  multipleFiles?: boolean;
+  fileAccept?: Record<string, any>;
   type:
     | 'input'
     | 'input-mask'
@@ -47,6 +50,7 @@ export interface FormFieldProps {
     | 'input-document'
     | 'input-password'
     | 'input-currency'
+    | 'input-file'
     | 'select'
     | 'textarea'
     | 'checkbox'
@@ -169,6 +173,17 @@ function resolveField({
     case 'input-currency':
       return (
         <InputCurrency
+          field={field}
+          errorMessage={errorMessage}
+          register={register}
+          setValue={setValue}
+          trigger={trigger}
+          defaultValue={defaultValue}
+        />
+      );
+    case 'input-file':
+      return (
+        <InputFile
           field={field}
           errorMessage={errorMessage}
           register={register}

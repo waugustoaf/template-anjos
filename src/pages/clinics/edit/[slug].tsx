@@ -24,6 +24,7 @@ import {
 import { ProgressDiv } from '@/components/progress-div';
 import { ClinicProfile } from '@/components/pages/clinics/profile';
 import { ClinicTabCampaign } from '@/components/pages/clinics/tabs/campaign';
+import { ClinicTabAttachment } from '@/components/pages/clinics/tabs/attachments';
 
 interface TabButtonProps {
   tab: 'campaign' | 'personal-data' | 'contract' | 'billings' | 'attachments';
@@ -189,7 +190,7 @@ export default function CategoryAddPage() {
       >
         <ClinicProfile clinic={currentClinicData} refetch={refetch} />
 
-        <Box>
+        <Box width='100%'>
           <Box display='flex' alignItems='center' gap='0.5rem' mb='1rem'>
             <TabButton
               activeTab={currentTab}
@@ -255,6 +256,8 @@ export default function CategoryAddPage() {
               defaultValues={currentClinicData}
             />
           )}
+
+          {currentTab === 'attachments' && <ClinicTabAttachment />}
         </Box>
       </Box>
     </>

@@ -1,5 +1,12 @@
 import { IExpertise } from './IExpertise';
 
+export interface IClinicAttachment {
+  id: string;
+  name: string;
+  url: string;
+  createdAt: string;
+}
+
 export interface IClinic {
   id: string;
   name: string;
