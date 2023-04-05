@@ -6,6 +6,7 @@ import {
   Button,
   Card,
   CardHeader,
+  CircularProgress,
   Dialog,
   DialogContent,
   DialogTitle,
@@ -75,9 +76,13 @@ export function ClinicTabAttachment() {
       <Grid container spacing={6}>
         <Grid item xs={12} className='page-card-mui'>
           <Card>
-            <CardHeader title='Anexos' />
-
-            <Box display='flex' flexDirection='column' alignItems='flex-end'>
+            <Box
+              display='flex'
+              alignItems='center'
+              width='100%'
+              justifyContent='space-between'
+            >
+              <CardHeader title='Anexos' />
               <Button
                 variant='contained'
                 sx={{ marginRight: '1.5rem' }}
@@ -85,44 +90,52 @@ export function ClinicTabAttachment() {
               >
                 Adicionar
               </Button>
-
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Anexo</TableCell>
-                    <TableCell>Data</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {data?.data.map((item) => (
-                    <TableRow key={item.id}>
-                      <TableCell>
-                        <Box display='flex' gap='0.5rem' alignItems='center'>
-                          <img
-                            src={item.url}
-                            alt={item.name}
-                            style={{
-                              height: '35px',
-                              borderRadius: '50%',
-                              width: '35px',
-                              objectPosition: 'center',
-                              objectFit: 'cover',
-                            }}
-                          />
-
-                          <Typography fontSize='14px' fontWeight='bold'>
-                            {TextEllipsis(item.name, 30)}
-                          </Typography>
-                        </Box>
-                      </TableCell>
-                      <TableCell>
-                        {moment(item.createdAt).format('DD/MM/yyyy')}
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
             </Box>
+
+            {isLoading ? (
+              <CircularProgress
+                sx={{ margin: '2rem auto', display: 'block' }}
+              />
+            ) : (
+              <Box display='flex' flexDirection='column' alignItems='flex-end'>
+                <Table>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>Anexo</TableCell>
+                      <TableCell>Data</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {data?.data.map((item) => (
+                      <TableRow key={item.id}>
+                        <TableCell>
+                          <Box display='flex' gap='0.5rem' alignItems='center'>
+                            <img
+                              src={item.url}
+                              alt={item.name}
+                              style={{
+                                height: '35px',
+                                borderRadius: '50%',
+                                width: '35px',
+                                objectPosition: 'center',
+                                objectFit: 'cover',
+                              }}
+                            />
+
+                            <Typography fontSize='14px' fontWeight='bold'>
+                              {TextEllipsis(item.name, 30)}
+                            </Typography>
+                          </Box>
+                        </TableCell>
+                        <TableCell>
+                          {moment(item.createdAt).format('DD/MM/yyyy')}
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </Box>
+            )}
           </Card>
         </Grid>
       </Grid>
