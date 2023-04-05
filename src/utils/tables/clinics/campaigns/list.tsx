@@ -9,6 +9,22 @@ interface CellType {
   row: ICampaign;
 }
 
+function getColor(percentage: number) {
+  if (percentage <= 30) {
+    return '#EA5455';
+  }
+
+  if (percentage <= 60) {
+    return '#D2AE6D';
+  }
+
+  if (percentage <= 90) {
+    return '#00CFE8';
+  }
+
+  return '#28C76F';
+}
+
 export function createClinicCampaignListTable() {
   return [
     {
@@ -46,7 +62,10 @@ export function createClinicCampaignListTable() {
           <Typography fontWeight='bold'>
             {Math.round(row.goal / 100)}%
           </Typography>
-          <ProgressDiv rawPercentage={Math.round(row.goal / 100)} />
+          <ProgressDiv
+            rawPercentage={Math.round(row.goal / 100)}
+            color={getColor(row.goal / 100)}
+          />
         </Box>
       ),
     },

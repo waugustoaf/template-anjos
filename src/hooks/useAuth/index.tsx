@@ -1,7 +1,15 @@
-import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 
 import { useRouter } from 'next/router';
 
+import { authConfig } from '@/config/auth';
+import { api } from '@/utils/api';
 import {
   AuthValuesType,
   ErrCallbackType,
@@ -11,13 +19,12 @@ import {
   RegisterParams,
   UserDataType,
 } from './types';
-import { authConfig } from '@/config/auth';
-import { api } from '@/utils/api';
+import { IUser } from '@/types/entities/IUsers';
 
 const defaultProvider: AuthValuesType = {
   user: {
     user: null,
-    company: null,
+    clinic: null,
   },
   loading: true,
   setUser: () => null,
@@ -25,6 +32,8 @@ const defaultProvider: AuthValuesType = {
   login: () => Promise.resolve(),
   logout: () => Promise.resolve(),
   register: () => Promise.resolve(),
+  handleUpdateToken: () => Promise.resolve(),
+  handleUpdateUser: () => Promise.resolve(),
 };
 
 const AuthContext = createContext(defaultProvider);
@@ -53,10 +62,10 @@ const AuthProvider = ({ children }: Props) => {
           },
         })
         .then(async (response) => {
-          const { company, ...rest } = response.data.data;
+          const { clinic, user } = response.data.data;
 
           setLoading(false);
-          setUser({ user: rest, company });
+          setUser({ user, clinic: clinic });
         })
         .catch(() => {
           localStorage.removeItem('@anjos-guia:userData');
@@ -79,6 +88,15 @@ const AuthProvider = ({ children }: Props) => {
   useEffect(() => {
     initAuth();
   }, []);
+
+  function handleUpdateToken(token: string) {
+    window.localStorage.setItem(authConfig.storageTokenKeyName, token);
+  }
+
+  function handleUpdateUser(user: UserDataType) {
+    setUser(user);
+    window.localStorage.setItem('@anjos-guia:userData', JSON.stringify(user));
+  }
 
   const handleLogin = (
     params: LoginParams,
@@ -110,12 +128,7 @@ const AuthProvider = ({ children }: Props) => {
 
         finallyCallback && finallyCallback();
 
-        const redirectURL =
-          returnUrl && returnUrl !== '/'
-            ? returnUrl
-            : response.data.data.user.verifiedAt
-            ? '/'
-            : '/auth/verify-email';
+        const redirectURL = returnUrl && returnUrl !== '/' ? returnUrl : '/';
 
         router.replace(redirectURL as string);
       })
@@ -166,6 +179,8 @@ const AuthProvider = ({ children }: Props) => {
     login: handleLogin,
     logout: handleLogout,
     register: handleRegister,
+    handleUpdateToken,
+    handleUpdateUser,
   };
 
   return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>;

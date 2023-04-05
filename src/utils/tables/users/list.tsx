@@ -15,10 +15,10 @@ import {
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { SetStateAction } from 'react';
-import {IUser} from "@/types/entities/IUser";
+import { IUser } from '@/types/entities/IUser';
 
 interface CellType {
-  row: IAngel;
+  row: IUser;
 }
 
 interface CreateUserListTableProps {
@@ -97,9 +97,7 @@ export function createUserListTable({
             aria-labelledby='alert-dialog-title'
             aria-describedby='alert-dialog-description'
           >
-            <DialogTitle id='alert-dialog-title'>
-              Apagar o anjo
-            </DialogTitle>
+            <DialogTitle id='alert-dialog-title'>Apagar o anjo</DialogTitle>
             <DialogContent>
               <DialogContentText id='alert-dialog-description'>
                 Tem certeza que deseja apagar permanentemente o usuário{' '}

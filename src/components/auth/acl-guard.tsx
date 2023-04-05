@@ -48,6 +48,8 @@ export const AclGuard = (props: AclGuardProps) => {
     );
   }
 
+  console.log({ auth });
+
   return (
     <BlankLayout>
       <Error401 />

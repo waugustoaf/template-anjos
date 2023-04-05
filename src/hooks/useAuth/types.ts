@@ -1,3 +1,4 @@
+import { IClinic } from '@/types/entities/IClinic';
 import { ICompany } from '@/types/entities/ICompany';
 import { IUser } from '@/types/entities/IUsers';
 
@@ -20,7 +21,7 @@ export type RegisterParams = {
 
 export type UserDataType = {
   user: IUser | null;
-  company: ICompany | null;
+  clinic: IClinic | null;
 };
 
 export type AuthValuesType = {
@@ -35,20 +36,23 @@ export type AuthValuesType = {
     finallyCallback?: (data?: any) => any,
   ) => void;
   register: (params: RegisterParams, errorCallback?: ErrCallbackType) => void;
+  handleUpdateToken: (token: string) => void;
+  handleUpdateUser: (user: UserDataType) => void;
 };
 
 export interface LoginResponseProps {
   id: string;
   token: string;
   user: IUser;
-  company: ICompany;
+  clinic: IClinic | null;
 }
 
 export interface SignUpResponseProps {
   user: IUser;
-  company: ICompany;
+  clinic: IClinic;
 }
 
-export interface MeResponseProps extends IUser {
-  company: ICompany;
+export interface MeResponseProps {
+  user: IUser | null;
+  clinic: IClinic | null;
 }
