@@ -1,7 +1,7 @@
 import { Icon } from '@/components/icon';
 
 import { IProduct } from '@/types/entities/IProduct';
-import { formatNumberFromBase100 } from '@/utils/currency';
+import {formatCurrencyToBRL, formatNumberFromBase100, formatNumberFromBase100Brl} from '@/utils/currency';
 import { TextEllipsis } from '@/utils/text';
 import {
   Button,
@@ -66,6 +66,18 @@ export function createProductListTable({
         <Box sx={{ display: 'flex', flexDirection: 'column' }}>
           <Typography noWrap sx={{ color: 'text.secondary' }}>
             {row.name}
+          </Typography>
+        </Box>
+      ),
+    },
+    {
+      flex: 0.2,
+      field: 'sellPrice',
+      headerName: 'Valor',
+      renderCell: ({ row }: CellType) => (
+        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+          <Typography noWrap sx={{ color: 'text.secondary' }}>
+            {formatNumberFromBase100Brl(row.sellPrice)}
           </Typography>
         </Box>
       ),
