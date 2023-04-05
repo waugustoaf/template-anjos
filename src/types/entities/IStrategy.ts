@@ -16,3 +16,11 @@ export interface IStrategy {
     autoPilot: boolean;
   };
 }
+
+export interface IStrategyCompact {
+  id: string;
+  name: string;
+  description: string;
+  link: string;
+  icon: string;
+}

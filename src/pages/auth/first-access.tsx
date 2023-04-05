@@ -60,16 +60,16 @@ const LinkStyled = styled(Link)(({ theme }) => ({
 }));
 
 const ResetPassword = () => {
-    const [values, setValues] = useState<State>({
+  const [values, setValues] = useState<State>({
     newPassword: '',
     showNewPassword: false,
     confirmNewPassword: '',
     showConfirmNewPassword: false,
   });
 
-    const theme = useTheme();
+  const theme = useTheme();
 
-    const hidden = useMediaQuery(theme.breakpoints.down('md'));
+  const hidden = useMediaQuery(theme.breakpoints.down('md'));
 
   // Handle New Password
   const handleNewPasswordChange =
@@ -108,7 +108,7 @@ const ResetPassword = () => {
           }}
         >
           <ResetPasswordIllustration
-            alt='first-access-illustration'
+            alt='reset-password-illustration'
             src={`/images/pages/auth-v2-reset-password-illustration-${theme.palette.mode}.png`}
           />
           <FooterIllustrationsV2 />
@@ -139,7 +139,7 @@ const ResetPassword = () => {
                   lineHeight: 1.385,
                 }}
               >
-                Alterar senha 🔒
+                Meu Primeiro Acesso 🔒
               </Typography>
             </Box>
             <form
@@ -149,11 +149,11 @@ const ResetPassword = () => {
             >
               <FormControl sx={{ display: 'flex', mb: 4 }}>
                 <InputLabel htmlFor='auth-reset-password-v2-new-password'>
-                  Nova senha
+                  Senha
                 </InputLabel>
                 <OutlinedInput
                   autoFocus
-                  label='Nova senha'
+                  label='Senha'
                   value={values.newPassword}
                   id='auth-reset-password-v2-new-password'
                   onChange={handleNewPasswordChange('newPassword')}
@@ -217,7 +217,7 @@ const ResetPassword = () => {
                 variant='contained'
                 sx={{ mb: 4 }}
               >
-                Salvar nova senha
+                Salvar dados de acesso
               </Button>
               <Typography
                 sx={{

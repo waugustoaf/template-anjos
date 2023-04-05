@@ -27,11 +27,15 @@ export function UserModal({
     register,
     setValue,
     reset,
+    getValues,
     handleSubmit,
+    trigger,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(userFormSchema),
   });
+
+  console.log({ errors, values: getValues() });
 
   const router = useRouter();
 
@@ -48,9 +52,8 @@ export function UserModal({
   async function onSubmit(data: any) {
     const formattedData = {
       ...data,
-      grantType: data.isAdmin ? 190 : 100,
+      grantType: data.isAdmin ? 90 : 10,
     };
-
     try {
       if (defaultUser) {
         await apiServices.user.update(defaultUser.id, formattedData);

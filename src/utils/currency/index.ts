@@ -41,3 +41,9 @@ export function formatNumberFromBase100(number: string | number) {
 
   return formattedNumber;
 }
+
+export function formatNumberFromBase100Brl(number: string | number) {
+  const formattedNumber = formatNumberFromBase100(number);
+
+  return formatCurrencyToBRL(formattedNumber);
+}
