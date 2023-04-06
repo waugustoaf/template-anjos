@@ -27,10 +27,6 @@ code[class*='language-'] {
   display: none !important;
 }
 
-.MuiBreadcrumbs-ol * {
-  color: #fff !important;
-}
-
 .MuiBreadcrumbs-ol .last {
   color: #D2AE6D !important;
 }
