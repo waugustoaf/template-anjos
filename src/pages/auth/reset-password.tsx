@@ -16,6 +16,9 @@ import { FooterIllustrationsV2 } from '@/components/footer/illustrations-v2';
 import { Icon } from '@/components/icon';
 import { BlankLayout } from '@/components/layout/blank';
 import { themeConfig } from '@/config/app';
+import {apiServices} from "@/services";
+import {toast} from "react-hot-toast";
+import {useRouter} from "next/router";
 
 interface State {
   newPassword: string;
@@ -68,8 +71,28 @@ const ResetPassword = () => {
   });
 
     const theme = useTheme();
+    const router = useRouter();
 
     const hidden = useMediaQuery(theme.breakpoints.down('md'));
+
+
+  async function handleSendNewPassword(event: ChangeEvent<HTMLFormElement>) {
+    event.preventDefault();
+    try {
+      await apiServices.auth.changePasswordWithToken({
+        token: router.query.token as string,
+        password: values.newPassword,
+      });
+
+      toast.success('Senha reiniciada com sucesso!');
+
+      setTimeout(async () => {
+        await router.push('/login');
+      }, 3000);
+    } catch {
+      toast.error('Falha ao enviar o link de verificação.');
+    }
+  }
 
   // Handle New Password
   const handleNewPasswordChange =
@@ -145,7 +168,7 @@ const ResetPassword = () => {
             <form
               noValidate
               autoComplete='off'
-              onSubmit={(e) => e.preventDefault()}
+              onSubmit={handleSendNewPassword}
             >
               <FormControl sx={{ display: 'flex', mb: 4 }}>
                 <InputLabel htmlFor='auth-reset-password-v2-new-password'>
