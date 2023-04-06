@@ -20,12 +20,18 @@ export function Breadcrumb({ items }: BreadcrumbProps) {
   const theme = useTheme();
   const [last, ...rest] = reverseArray(items);
 
+  console.log({ theme });
+
   return (
     <Breadcrumbs sx={{ mb: 3 }}>
       {rest.reverse().map(({ label, link }) => {
         if (!link) {
           return (
-            <Typography fontWeight='500' key={label}>
+            <Typography
+              color={`${theme.palette.text.primary} !important`}
+              fontWeight='500'
+              key={label}
+            >
               {label}
             </Typography>
           );
@@ -33,14 +39,20 @@ export function Breadcrumb({ items }: BreadcrumbProps) {
 
         return (
           <Link key={label} href={link || ''} passHref>
-            <MuiLink fontWeight='bold' underline='hover'>
+            <MuiLink
+              color={`${theme.palette.text.primary} !important`}
+              fontWeight='bold'
+              underline='hover'
+            >
               {label}
             </MuiLink>
           </Link>
         );
       })}
 
-      <Typography fontWeight='bold' className='last'>{last.label}</Typography>
+      <Typography fontWeight='bold' className='last'>
+        {last.label}
+      </Typography>
     </Breadcrumbs>
   );
 }

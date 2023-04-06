@@ -35,7 +35,7 @@ export function UserModal({
     resolver: yupResolver(userFormSchema),
   });
 
-  console.log({ errors, values: getValues() });
+  //console.log({ errors, values: getValues() });
 
   const router = useRouter();
 

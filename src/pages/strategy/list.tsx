@@ -5,13 +5,10 @@ import Card from '@mui/material/Card';
 import Grid from '@mui/material/Grid';
 import { DataGrid, ptBR } from '@mui/x-data-grid';
 
-import { SalesFunnelModal } from '@/components/pages/sales-funnel/sales-funnel-modal';
 import { Spinner } from '@/components/spinner';
 import { TableHeader } from '@/components/table-header';
 import { apiServices } from '@/services';
 import { DatePickerWrapper } from '@/styles/libs/react-datepicker';
-import { ISalesFunnel } from '@/types/entities/ISalesFunnel';
-import { createSalesFunnelListTable } from '@/utils/tables/sales-funnel/list';
 import { Pagination } from '@mui/material';
 import { toast } from 'react-hot-toast';
 import { useDebounce } from 'use-debounce';
