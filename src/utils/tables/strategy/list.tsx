@@ -7,6 +7,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { SetStateAction } from 'react';
 import {IStrategy} from "@/types/entities/IStrategy";
+import {formatNumberFromBase100} from "@/utils/currency";
 
 interface CellType {
   row: IStrategy;
@@ -34,7 +35,13 @@ export function createStrategyListTable({
       renderCell: ({ row }: CellType) => (
         <Button
           sx={{ padding: '0', margin: '0' }}
-          onClick={() => setStrategyToEdit(row)}
+          onClick={() => setStrategyToEdit({
+            ...row,
+            qtdMessages: formatNumberFromBase100(row.qtdMessages),
+            qtdConversations: formatNumberFromBase100(row.qtdConversations),
+            qtdAppointments: formatNumberFromBase100(row.qtdAppointments),
+            qtdSchedules: formatNumberFromBase100(row.qtdSchedules),
+          })}
         >
           <Typography sx={{ color: 'text.secondary' }}>
             #{TextEllipsis(row.id, 5)}

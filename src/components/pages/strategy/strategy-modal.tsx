@@ -10,6 +10,7 @@ import { useEffect, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
 import {IStrategy} from "@/types/entities/IStrategy";
+import {formatNumberFromBase100, formatNumberToBase100} from "@/utils/currency";
 
 interface StrategyModalProps {
   isOpen: boolean;
@@ -28,22 +29,17 @@ export function StrategyModal({
     register,
     setValue,
     reset,
+    getValues,
     handleSubmit,
+    trigger,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(strategyFormSchema),
   });
 
-  const router = useRouter();
+  console.log({ errors, values: getValues() });
 
-  const defaultBooleanValues = useRef({
-    conversation: false,
-    message: false,
-    negotiation: false,
-    sale: false,
-    schedule: false,
-    appointment: false,
-  }).current;
+  const router = useRouter();
 
   useEffect(() => {
     if (defaultStrategy) {
@@ -51,17 +47,29 @@ export function StrategyModal({
         ...defaultStrategy,
       });
     } else {
-      reset(defaultBooleanValues);
+      reset({});
     }
   }, [defaultStrategy]);
 
   async function onSubmit(data: Partial<IStrategy>) {
     try {
       if (defaultStrategy) {
-        await apiServices.strategy.update(defaultStrategy.id, data);
+        await apiServices.strategy.update(defaultStrategy.id, {
+          ...data,
+          qtdMessages: formatNumberToBase100(data.qtdMessages),
+          qtdConversations: formatNumberToBase100(data.qtdConversations),
+          qtdAppointments: formatNumberToBase100(data.qtdAppointments),
+          qtdSchedules: formatNumberToBase100(data.qtdSchedules),
+        });
         toast.success('Estratégia salva com sucesso.');
       } else {
-        await apiServices.strategy.create(data);
+        await apiServices.strategy.create({
+          ...data,
+          qtdMessages: formatNumberToBase100(data.qtdMessages),
+          qtdConversations: formatNumberToBase100(data.qtdConversations),
+          qtdAppointments: formatNumberToBase100(data.qtdAppointments),
+          qtdSchedules: formatNumberToBase100(data.qtdSchedules),
+        });
         toast.success('Estratégia adicionado com sucesso.');
       }
 
@@ -78,7 +86,7 @@ export function StrategyModal({
   }
 
   function handleClose() {
-    reset(defaultBooleanValues);
+    reset({});
     onClose();
   }
 
@@ -96,7 +104,7 @@ export function StrategyModal({
         <form onSubmit={handleSubmit(onSubmit)}>
           {mountForm({
             fields: strategyFormFields,
-            defaultValues: defaultStrategy || defaultBooleanValues,
+            defaultValues: defaultStrategy,
             errors,
             register: register,
             setValue,
