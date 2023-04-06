@@ -83,7 +83,13 @@ export function createStrategyListTable({
               <IconButton
                 size='small'
                 sx={{ color: 'text.secondary' }}
-                onClick={() => setStrategyToEdit(row)}
+                onClick={() => setStrategyToEdit({
+                  ...row,
+                  qtdMessages: formatNumberFromBase100(row.qtdMessages),
+                  qtdConversations: formatNumberFromBase100(row.qtdConversations),
+                  qtdAppointments: formatNumberFromBase100(row.qtdAppointments),
+                  qtdSchedules: formatNumberFromBase100(row.qtdSchedules),
+                })}
               >
                 <Icon icon='tabler:edit' />
               </IconButton>
