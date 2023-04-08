@@ -12,7 +12,7 @@ export interface ICampaign {
   finalValue: number;
 }
 
-export interface ICampignFull {
+export interface ICampaignFull {
   id: string;
   autoPilot: boolean;
   clinicId: string;

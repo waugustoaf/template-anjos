@@ -106,6 +106,8 @@ const AuthProvider = ({ children }: Props) => {
       }
     },
   ) => {
+    window.localStorage.removeItem(authConfig.storageTokenKeyName);
+
     api
       .post<LoginResponseProps>(authConfig.loginEndpoint, params)
       .then(async (response) => {

@@ -1,33 +1,45 @@
-import {IStrategyCompact} from "@/types/entities/IStrategy";
+import { IStrategyCompact } from '@/types/entities/IStrategy';
 
 export interface IBoardCampaign {
   id: string;
   name: string;
-  paidTraffic: boolean;
-  messageGoal: number;
-  conversationGoal: number;
-  appointmentGoal: number;
-  scheduleGoal: number;
-  negotiationGoal: number;
-  saleGoal: number;
-  messageCount: number;
-  conversationCount: number;
-  appointmentCount: number;
-  scheduleCount: number;
-  negotiationCount: number;
-  saleCount: number;
-  salesSum: number;
-  averageTicket: number;
-  financialGoal: number;
-  messageStep: boolean;
-  conversationStep: boolean;
-  appointmentStep: boolean;
-  scheduleStep: boolean;
-  negotiationStep: boolean;
-  saleStep: boolean;
-  lostStep: boolean;
   active: true;
+  salesSum: number;
+  lostStep: boolean;
+  paidTraffic: boolean;
+  financialGoal: number;
+  averageTicket: number;
   strategy: IStrategyCompact;
+  message: {
+    isEnabled: boolean;
+    goal: number;
+    count: number;
+  };
+  conversation: {
+    isEnabled: boolean;
+    goal: number;
+    count: number;
+  };
+  appointment: {
+    isEnabled: boolean;
+    goal: number;
+    count: number;
+  };
+  schedule: {
+    isEnabled: boolean;
+    goal: number;
+    count: number;
+  };
+  negotiation: {
+    isEnabled: boolean;
+    goal: number;
+    count: number;
+  };
+  sale: {
+    isEnabled: boolean;
+    goal: number;
+    count: number;
+  };
 }
 
 export interface IBoardCampaignCompact {
