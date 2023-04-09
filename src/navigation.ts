@@ -1,4 +1,4 @@
-import { VerticalNavItemsType } from "./types/app/layout";
+import { VerticalNavItemsType } from './types/app/layout';
 
 export const VerticalNavItems = (): VerticalNavItemsType => {
   return [
@@ -83,6 +83,11 @@ export const VerticalNavItems = (): VerticalNavItemsType => {
       title: 'Clínicas',
       icon: 'tabler:building-store',
       path: '/clinics/list',
+    },
+    {
+      title: 'Campanhas',
+      icon: 'tabler:building-store',
+      path: '/campaigns/list',
     },
   ];
 };

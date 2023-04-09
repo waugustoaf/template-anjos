@@ -1,8 +1,7 @@
-import { ICategory } from '@/types/entities/ICategory';
-import {ICampignFull} from "@/types/entities/ICampaign";
-import {IBoardCampaignCompact} from "@/types/entities/IBoardCampaign";
+import { IBoardCampaignCompact } from '@/types/entities/IBoardCampaign';
+import { ICampaign, ICampaignFull } from '@/types/entities/ICampaign';
 
-export type ListCategoriesResponse = ICategory[];
-export type CreateCategoryResponse = ICategory;
-export type GetCampaignResponse = ICampignFull;
+export type ListCampaignsResponse = ICampaign[];
+export type CreateCampaignResponse = ICampaign;
+export type GetCampaignResponse = ICampaignFull;
 export type ListBoardsCompact = IBoardCampaignCompact[];

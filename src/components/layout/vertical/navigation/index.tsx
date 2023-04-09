@@ -152,7 +152,7 @@ export const Navigation = (props: Props) => {
           sx={{ background: shadowBgColor() }}
         />
       )}
-      <Box sx={{ position: 'relative', overflow: 'hidden' }}>
+      <Box sx={{ position: 'relative' }}>
         {/* @ts-ignore */}
         <ScrollWrapper
           {...(hidden
