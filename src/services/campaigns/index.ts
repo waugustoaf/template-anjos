@@ -11,7 +11,7 @@ import { ICreateCampaign } from '@/types/entities/ICampaign';
 
 export const campaignsServices = {
   list: async (props?: PaginationProps) => {
-    const response = await api.get<ListCampaignsResponse>('/campaign', {
+    const response = await api.get<ListCampaignsResponse>('/campaign/list', {
       params: mergePagination(props),
     });
 

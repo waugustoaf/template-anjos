@@ -8,12 +8,10 @@ import { DataGrid, ptBR } from '@mui/x-data-grid';
 import { Breadcrumb } from '@/components/breadcrumb';
 import { Spinner } from '@/components/spinner';
 import { TableHeader } from '@/components/table-header';
-import { useAuth } from '@/hooks/useAuth';
 import { apiServices } from '@/services';
 import { DatePickerWrapper } from '@/styles/libs/react-datepicker';
 import { createCampaignListTable } from '@/utils/tables/campaigns/list';
 import { Pagination } from '@mui/material';
-import { toast } from 'react-hot-toast';
 import { useDebounce } from 'use-debounce';
 
 export default function SalesListPage() {
@@ -21,12 +19,10 @@ export default function SalesListPage() {
   const [page, setPage] = useState(1);
   const [debouncedSearch] = useDebounce(search, 750);
 
-  const { user } = useAuth();
-
   const { data, isLoading, isRefetching, refetch } = useQuery({
     queryKey: ['campaigns', debouncedSearch, page],
     queryFn: () =>
-      apiServices.campaign.listByClinic(user?.clinic?.id || '', {
+      apiServices.campaign.list({
         search: debouncedSearch,
         page,
       }),
@@ -35,7 +31,6 @@ export default function SalesListPage() {
   const columns = useMemo(() => {
     return createCampaignListTable();
   }, []);
-
 
   if (isLoading && !data) return <Spinner />;
 

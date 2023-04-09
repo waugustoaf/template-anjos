@@ -9,14 +9,12 @@ interface CellType {
 export function createCampaignListTable() {
   return [
     {
-      flex: 0.1,
+      flex: 0.2,
       field: 'campaign',
       minWidth: 100,
       headerName: 'Campanha',
       renderCell: ({ row }: CellType) => (
-        <Typography sx={{ color: 'text.secondary' }}>
-          Nome da campanha
-        </Typography>
+        <Typography sx={{ color: 'text.secondary' }}>{row.campaign}</Typography>
       ),
     },
     {
@@ -25,7 +23,7 @@ export function createCampaignListTable() {
       headerName: 'MÊS / ANO',
       renderCell: ({ row }: CellType) => (
         <Typography noWrap sx={{ color: 'text.secondary' }}>
-          {row.year} / {row.month.slice(0, 3)}
+          {row.month} / {row.year}
         </Typography>
       ),
     },
@@ -35,7 +33,7 @@ export function createCampaignListTable() {
       headerName: 'Estratégia',
       renderCell: ({ row }: CellType) => (
         <Typography noWrap sx={{ color: 'text.secondary' }}>
-          Desconhecida
+          {row.strategies}
         </Typography>
       ),
     },
@@ -55,7 +53,7 @@ export function createCampaignListTable() {
       headerName: 'LEADS / CONVERTIDO',
       renderCell: ({ row }: CellType) => (
         <Typography noWrap sx={{ color: 'text.secondary' }}>
-          {row.leads} / {row.goal}
+          {row.leads} / {row.leadsConverted || 0}
         </Typography>
       ),
     },
@@ -66,7 +64,7 @@ export function createCampaignListTable() {
       renderCell: ({ row }: CellType) => (
         <Typography noWrap sx={{ color: 'text.secondary' }}>
           {formatNumberFromBase100Brl(row.financialGoal)} /{' '}
-          {formatNumberFromBase100Brl(row.finalValue)}
+          {formatNumberFromBase100Brl(row.financialResult || 0)}
         </Typography>
       ),
     },

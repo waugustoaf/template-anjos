@@ -76,7 +76,7 @@ export default function CategoryAddPage() {
           ? formatNumberToBase100(currentData.averageTicket)
           : undefined,
         year: new Date().getFullYear(),
-        month: new Date().getMonth() + 1,
+        month: new Date().getMonth(),
         strategies: selectedStrategies,
         autoPilot: isAutoPilot,
       });

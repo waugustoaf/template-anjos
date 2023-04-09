@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react';
 export function ClinicTabCampaign({ clinicId }: { clinicId: string }) {
   const [currentPage, setCurrentPage] = useState(1);
 
-  const { data, isLoading, isRefetching } = useQuery(
+  const { data, isRefetching } = useQuery(
     ['clinic-campaign', clinicId],
     () =>
       apiServices.clinics.getCampaigns(clinicId, {

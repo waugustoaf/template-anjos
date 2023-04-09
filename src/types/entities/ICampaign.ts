@@ -5,11 +5,16 @@ export interface ICampaign {
   month: string;
   year: number;
   financialGoal: number;
+  financialResult?: number;
   averageTicket: number;
   leads: number;
+  leadsConverted?: number;
   leadsWithSale: number;
   goal: number;
   finalValue: number;
+  campaign: string;
+  strategies?: string;
+  autoPilot?: boolean;
 }
 
 export interface ICampaignFull {
