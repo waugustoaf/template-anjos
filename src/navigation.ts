@@ -18,17 +18,17 @@ export const VerticalNavItems = (): VerticalNavItemsType => {
     {
       title: 'Produtos',
       icon: 'tabler:filter',
-      path: '/product/list',
+      path: '/products/list',
     },
     {
       title: 'Clientes',
       icon: 'tabler:filter',
-      path: '/customer/list',
+      path: '/customers/list',
     },
     {
       title: 'Usuários',
       icon: 'tabler:filter',
-      path: '/user/list',
+      path: '/users/list',
     },
     {
       sectionTitle: 'Acompanhamento',
@@ -49,7 +49,7 @@ export const VerticalNavItems = (): VerticalNavItemsType => {
     {
       title: 'Estratégias de venda',
       icon: 'tabler:building-store',
-      path: '/strategy/list',
+      path: '/strategies/list',
     },
     {
       title: 'Estratégias do mês',

@@ -1,16 +1,19 @@
-import { Box, Button, CircularProgress } from '@mui/material';
+import { Box, Button, ButtonProps, CircularProgress } from '@mui/material';
 import { Icon } from '../icon';
 
-interface SubmitButtonProps {
+interface SubmitButtonProps extends ButtonProps {
   isLoading: boolean;
   title: string;
   hideCustomSpace?: boolean;
+  icon?: string;
 }
 
 export function SubmitButton({
   isLoading,
   title,
   hideCustomSpace,
+  icon = 'tabler:plus',
+  ...rest
 }: SubmitButtonProps) {
   return (
     <Box
@@ -27,12 +30,13 @@ export function SubmitButton({
         }}
         type='submit'
         disabled={isLoading}
+        {...rest}
       >
         {isLoading ? (
           <CircularProgress size={20} />
         ) : (
           <>
-            <Icon fontSize='1.125rem' icon='tabler:plus' />
+            <Icon fontSize='1.125rem' icon={icon} />
             {title}
           </>
         )}

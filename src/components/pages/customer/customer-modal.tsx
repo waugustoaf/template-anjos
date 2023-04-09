@@ -66,7 +66,7 @@ export function CustomerModal({
       }
 
       refetch && refetch();
-      router.push('/customer/list');
+      router.push('/customers/list');
       handleClose();
     } catch {
       toast.error(

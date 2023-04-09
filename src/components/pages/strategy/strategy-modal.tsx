@@ -37,8 +37,6 @@ export function StrategyModal({
     resolver: yupResolver(strategyFormSchema),
   });
 
-  console.log({ errors, values: getValues() });
-
   const router = useRouter();
 
   useEffect(() => {
@@ -74,7 +72,7 @@ export function StrategyModal({
       }
 
       refetch && refetch();
-      router.push('/strategy/list');
+      router.push('/strategies/list');
       onClose();
     } catch {
       toast.error(

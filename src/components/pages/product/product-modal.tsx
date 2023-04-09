@@ -71,7 +71,7 @@ export function ProductModal({
       }
 
       refetch && refetch();
-      router.push('/product/list');
+      router.push('/products/list');
       handleClose();
     } catch {
       toast.error(`Erro ao ${defaultProduct ? 'salvar' : 'adicionar'} produto`);

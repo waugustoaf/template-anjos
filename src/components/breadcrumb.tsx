@@ -20,8 +20,6 @@ export function Breadcrumb({ items }: BreadcrumbProps) {
   const theme = useTheme();
   const [last, ...rest] = reverseArray(items);
 
-  console.log({ theme });
-
   return (
     <Breadcrumbs sx={{ mb: 3 }}>
       {rest.reverse().map(({ label, link }) => {

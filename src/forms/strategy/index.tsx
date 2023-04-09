@@ -1,6 +1,9 @@
+import { Icon } from '@/components/icon';
+import { apiServices } from '@/services';
 import { FormFieldProps } from '@/utils/form/mount-form';
+import { tablerIcons } from '@/utils/icons/tabler-icons';
 import { Typography } from '@mui/material';
-import {apiServices} from "@/services";
+import { Box } from '@mui/system';
 
 export const strategyFormFields: FormFieldProps[] = [
   {
@@ -34,16 +37,35 @@ export const strategyFormFields: FormFieldProps[] = [
     rowSize: 12,
   },
   {
-    type: 'input',
+    type: 'autocomplete-sync',
     name: 'icon',
     title: 'Ícone',
-    placeholder: 'https://escolaanjosbusiness.com.br/',
+    placeholder: 'Ícone',
+    autocompleteSyncOptions: tablerIcons.map((i) => ({
+      label: i,
+      value: i,
+    })),
+    autoCompleteSyncRender: (props, { label, value }) => {
+      return (
+        <Box
+          display='flex'
+          gap='0.5rem'
+          alignItems='center'
+          sx={{ cursor: 'pointer' }}
+          {...props}
+        >
+          <Icon icon={`tabler:${value}`} />
+          <Typography>{label}</Typography>
+        </Box>
+      );
+    },
     rowSize: 12,
   },
   {
     type: 'label',
     name: 'configFunil',
-    title: 'Configurações do Funil - Informa os valores necessários para 1 venda',
+    title:
+      'Configurações do Funil - Informa os valores necessários para 1 venda',
     rowSize: 12,
   },
   {
@@ -69,5 +91,5 @@ export const strategyFormFields: FormFieldProps[] = [
     name: 'qtdAppointments',
     title: 'Consultas',
     rowSize: 6,
-  }
+  },
 ];

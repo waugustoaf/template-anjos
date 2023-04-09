@@ -24,6 +24,7 @@ import {
   UseFormTrigger,
 } from 'react-hook-form';
 import { InputFile } from '@/components/form/input-file';
+import { AutocompleteSync } from '@/components/form/autocomplete-sync';
 
 export interface FormFieldProps {
   rowSize: number;
@@ -31,7 +32,18 @@ export interface FormFieldProps {
   placeholder?: string;
   name: string;
   mask?: string;
+  autocompleteSyncOptions?: {
+    value: string;
+    label: string;
+  }[];
   autocompleteLabel?: string;
+  autoCompleteSyncRender?: (
+    container: any,
+    item: {
+      value: string;
+      label: string;
+    },
+  ) => React.ReactNode;
   autocompleteFn?: (value?: PaginationProps) => Promise<any>;
   selectOptions?: {
     value: string;
@@ -54,11 +66,12 @@ export interface FormFieldProps {
     | 'select'
     | 'textarea'
     | 'checkbox'
-    | 'autocomplete'
     | 'date'
     | 'time'
     | 'datetime'
     | 'file'
+    | 'autocomplete'
+    | 'autocomplete-sync'
     | 'autocomplete-multiple'
     | 'switch'
     | 'children'
@@ -217,6 +230,17 @@ function resolveField({
     case 'autocomplete':
       return (
         <Autocomplete
+          field={field}
+          errorMessage={errorMessage}
+          register={register}
+          setValue={setValue}
+          trigger={trigger}
+          defaultValue={defaultValue}
+        />
+      );
+    case 'autocomplete-sync':
+      return (
+        <AutocompleteSync
           field={field}
           errorMessage={errorMessage}
           register={register}

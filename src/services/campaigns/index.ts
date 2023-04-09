@@ -2,14 +2,16 @@ import { PaginationProps } from '@/types/app/pagination';
 import { api } from '@/utils/api';
 import { mergePagination } from '@/utils/api/pagination';
 import {
-  CreateCategoryResponse, GetCampaignResponse, ListBoardsCompact,
+  CreateCategoryResponse,
+  GetCampaignResponse,
+  ListBoardsCompact,
   ListCategoriesResponse,
 } from './types';
-import {ICreateCampaign} from "@/types/entities/ICampaign";
+import { ICreateCampaign } from '@/types/entities/ICampaign';
 
 export const campaignsServices = {
   list: async (props?: PaginationProps) => {
-    const response = await api.get<ListCategoriesResponse>('/category', {
+    const response = await api.get<ListCategoriesResponse>('/campaign', {
       params: mergePagination(props),
     });
 
@@ -20,13 +22,15 @@ export const campaignsServices = {
     return response.data;
   },
   create: async (data: ICreateCampaign) => {
-    const response = await api.post<CreateCategoryResponse>('/category', data);
+    const response = await api.post<CreateCategoryResponse>('/campaign', data);
 
     return response.data;
   },
   compactBoards: async () => {
-    const response = await api.get<ListBoardsCompact>(`/campaign/boardsCompact`);
+    const response = await api.get<ListBoardsCompact>(
+      `/campaign/boardsCompact`,
+    );
 
     return response.data;
-  }
+  },
 };

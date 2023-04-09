@@ -45,17 +45,6 @@ export const AppBarContent = (props: Props) => {
         justifyContent: 'space-between',
       }}
     >
-      <Button variant='text' onClick={onOpen} sx={{ padding: 0 }}>
-        <Box display='flex' alignItems='center' gap='0.25rem'>
-          <Avatar
-            title='Alterar clínica'
-            alt={user?.clinic?.fantasyName}
-            src={user?.clinic?.avatar || undefined}
-          >
-            {user?.clinic?.fantasyName.split(' ').map((word) => word[0])}
-          </Avatar>
-        </Box>
-      </Button>
       <Box
         className='actions-left'
         sx={{ mr: 2, display: 'flex', alignItems: 'center' }}
@@ -69,6 +58,18 @@ export const AppBarContent = (props: Props) => {
             <Icon fontSize='1.5rem' icon='tabler:menu-2' />
           </IconButton>
         ) : null}
+
+        <Button variant='text' onClick={onOpen} sx={{ padding: 0, minWidth: 0 }}>
+          <Box display='flex' alignItems='center' gap='0.25rem'>
+            <Avatar
+              title='Alterar clínica'
+              alt={user?.clinic?.fantasyName}
+              src={user?.clinic?.avatar || undefined}
+            >
+              {user?.clinic?.fantasyName.split(' ').map((word) => word[0])}
+            </Avatar>
+          </Box>
+        </Button>
       </Box>
       <Box
         className='actions-right'
