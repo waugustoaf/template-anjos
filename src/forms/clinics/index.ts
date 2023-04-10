@@ -41,11 +41,10 @@ export const clinicFormFields = {
       rowSize: 6,
     },
     {
-      type: 'input-mask',
+      type: 'input',
       name: 'instagram',
       title: 'Instagram',
-      placeholder: '@anjosbusiness_',
-      mask: '@***************************',
+      placeholder: 'Informe o instagram sem o @',
       rowSize: 6,
     },
     {
@@ -67,7 +66,7 @@ export const clinicFormFields = {
       type: 'select',
       name: 'state',
       title: 'Estado',
-      placeholder: 'Informe o estado',
+      placeholder: 'Selecione o estado',
       rowSize: 2,
       selectOptions: states,
     },

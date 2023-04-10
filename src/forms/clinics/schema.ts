@@ -5,14 +5,14 @@ export const clinicFormSchema = {
     fantasyName: yup.string().required('Nome fantasia é obrigatório'),
     name: yup.string().required('Nome completo é obrigatório'),
     document: yup.string().required('CPF/CNPJ é obrigatório'),
-    birthDate: yup.string(),
+    //birthDate: yup.string(),
     email: yup
       .string()
       .email('E-mail inválido')
       .required('E-mail é obrigatório'),
     phone: yup.string().required('Celular é obrigatório'),
-    city: yup.string(),
-    state: yup.string(),
+    //city: yup.string(),
+    //state: yup.string(),
   }),
   contract: yup.object().shape({
     userAttendanceId: yup.string().required('Anjo é obrigatório'),
