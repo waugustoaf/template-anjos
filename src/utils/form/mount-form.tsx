@@ -53,6 +53,7 @@ export interface FormFieldProps {
   dateFormat?: string;
   multipleFiles?: boolean;
   fileAccept?: Record<string, any>;
+  readonly?: boolean;
   type:
     | 'input'
     | 'input-mask'

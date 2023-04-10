@@ -13,6 +13,7 @@ export function Input(props: ResolveFieldProps) {
           label={field.title}
           placeholder={field.placeholder}
           defaultValue={defaultValue || ''}
+          disabled={field.readonly || false}
           {...(register ? register(field.name) : { name: field.name })}
         />
 

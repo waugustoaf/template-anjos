@@ -4,12 +4,12 @@ export const VerticalNavItems = (): VerticalNavItemsType => {
   return [
     {
       title: 'Dashboard',
-      icon: 'tabler:smart-home',
+      icon: 'tabler:gauge',
       path: '/',
     },
     {
       title: 'Dashboard Administrativo',
-      icon: 'tabler:smart-home',
+      icon: 'tabler:dashboard',
       path: '/dash-admin',
     },
     {
@@ -17,25 +17,33 @@ export const VerticalNavItems = (): VerticalNavItemsType => {
     },
     {
       title: 'Produtos',
-      icon: 'tabler:filter',
+      icon: 'tabler:stars',
       path: '/products/list',
     },
     {
       title: 'Clientes',
-      icon: 'tabler:filter',
+      icon: 'tabler:mood-happy',
       path: '/customers/list',
     },
     {
       title: 'Usuários',
-      icon: 'tabler:filter',
-      path: '/users/list',
+      icon: 'tabler:users',
+      path: '/user/list',
+    },
+    {
+      sectionTitle: 'Operação',
+    },
+    {
+      title: 'Campanhas',
+      icon: 'tabler:sitemap',
+      path: '/campaigns/list',
     },
     {
       sectionTitle: 'Acompanhamento',
     },
     {
       title: 'Pipeline',
-      icon: 'tabler:filter',
+      icon: 'tabler:layout-kanban',
       path: '/pipeline',
     },
     {
@@ -48,12 +56,12 @@ export const VerticalNavItems = (): VerticalNavItemsType => {
     },
     {
       title: 'Estratégias de venda',
-      icon: 'tabler:building-store',
+      icon: 'tabler:geometry',
       path: '/strategies/list',
     },
     {
       title: 'Estratégias do mês',
-      icon: 'tabler:building-store',
+      icon: 'tabler:calendar-plus',
       path: '/auto-pilot/list',
     },
     {
@@ -63,16 +71,6 @@ export const VerticalNavItems = (): VerticalNavItemsType => {
       title: 'Categorias',
       icon: 'tabler:stack-2',
       path: '/categories/list',
-      // children: [
-      //   {
-      //     title: 'Clientes',
-      //     path: '/dashboard/customers/list',
-      //   },
-      //   {
-      //     title: 'Categorias',
-      //     path: '/dashboard/customers/categories/list',
-      //   },
-      // ],
     },
     {
       title: 'Anjos',
@@ -83,11 +81,6 @@ export const VerticalNavItems = (): VerticalNavItemsType => {
       title: 'Clínicas',
       icon: 'tabler:building-store',
       path: '/clinics/list',
-    },
-    {
-      title: 'Campanhas',
-      icon: 'tabler:building-store',
-      path: '/campaigns/list',
     },
   ];
 };

@@ -36,6 +36,7 @@ export default function CategoryAddPage() {
     register,
     handleSubmit,
     setValue,
+    getValues,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(campaignFormSchema),
@@ -66,7 +67,6 @@ export default function CategoryAddPage() {
 
     try {
       setIsLoading(true);
-
       await apiServices.campaign.create({
         ...currentData,
         financialGoal: currentData.financialGoal
@@ -75,15 +75,15 @@ export default function CategoryAddPage() {
         averageTicket: currentData.averageTicket
           ? formatNumberToBase100(currentData.averageTicket)
           : undefined,
-        year: new Date().getFullYear(),
-        month: new Date().getMonth(),
+        year: parseInt(currentData.year) || new Date().getFullYear(),
+        month: parseInt(currentData.month) || new Date().getMonth(),
         strategies: selectedStrategies,
         autoPilot: isAutoPilot,
       });
       toast.success('Campanha criado com sucesso.');
       router.push('/campaigns/list');
     } catch {
-      toast.error('Erro ao adicionar a campanha.');
+      toast.error('Erro ao criar a campanha.');
     } finally {
       setIsLoading(false);
     }
@@ -105,7 +105,7 @@ export default function CategoryAddPage() {
         items={[
           { label: 'Anjos', link: '/' },
           { label: 'Campanhas', link: '/campaigns/list' },
-          { label: 'Adicionar' },
+          { label: 'Nova Campanha' },
         ]}
       />
 
@@ -133,8 +133,9 @@ export default function CategoryAddPage() {
                             padding: '1rem 0.5rem',
                             borderRadius: '6px',
                             width: '100%',
-                            color: isAutoPilot ? 'main' : 'text.disabled',
-                            borderColor: isAutoPilot ? 'main' : 'text.disabled',
+                            color: isAutoPilot ? 'text.disabled' : 'text.disabled',
+                            borderColor: isAutoPilot ? 'primary.main' : 'text.disabled',
+                            backgroundColor: isAutoPilot ? 'primary.main' : '',
                           }}
                         >
                           <Icon icon='tabler:motorbike' />
@@ -159,10 +160,9 @@ export default function CategoryAddPage() {
                             padding: '1rem 0.5rem',
                             borderRadius: '6px',
                             width: '100%',
-                            color: !isAutoPilot ? 'main' : 'text.disabled',
-                            borderColor: !isAutoPilot
-                              ? 'main'
-                              : 'text.disabled',
+                            color: !isAutoPilot ? 'text.disabled' : 'text.disabled',
+                            borderColor: !isAutoPilot ? 'primary.main' : 'text.disabled',
+                            backgroundColor: !isAutoPilot ? 'primary.main' : '',
                           }}
                         >
                           <Icon icon='tabler:adjustments-horizontal' />
@@ -181,10 +181,8 @@ export default function CategoryAddPage() {
 
                   <SubmitButton
                     isLoading={isLoading}
-                    title={isAutoPilot ? 'Adicionar' : 'Próximo'}
-                    icon={
-                      isAutoPilot ? 'tabler:plus' : 'tabler:arrow-narrow-right'
-                    }
+                    title={'Prosseguir'}
+                    icon={'tabler:arrow-narrow-right'}
                   />
                 </CardContent>
               ) : (
@@ -211,18 +209,23 @@ export default function CategoryAddPage() {
                             borderRadius: '6px',
                             width: '100%',
                             color: selectedStrategies.includes(strategy.id)
-                              ? 'main'
-                              : 'text.disabled',
+                              ? 'text.disabled'
+                              : 'primary.main',
                             borderColor: selectedStrategies.includes(
                               strategy.id,
                             )
-                              ? 'main'
+                              ? 'primary.main'
                               : 'text.disabled',
+                            backgroundColor: selectedStrategies.includes(
+                              strategy.id,
+                            )
+                              ? 'primary.main'
+                              : '',
                           }}
                         >
                           <Icon icon={`tabler:${strategy.icon}`} />
                           <Typography fontSize='15px' fontWeight='600'>
-                            USAR {"'"}
+                            USAR - {"'"}
                             {strategy.name.toUpperCase()}
                             {"'"}
                           </Typography>
@@ -244,18 +247,23 @@ export default function CategoryAddPage() {
                             borderRadius: '6px',
                             width: '100%',
                             color: !selectedStrategies.includes(strategy.id)
-                              ? 'main'
-                              : 'text.disabled',
+                              ? 'text.disabled'
+                              : 'primary.main',
                             borderColor: !selectedStrategies.includes(
                               strategy.id,
                             )
-                              ? 'main'
+                              ? 'primary.main'
                               : 'text.disabled',
+                            backgroundColor: !selectedStrategies.includes(
+                              strategy.id,
+                            )
+                              ? 'primary.main'
+                              : '',
                           }}
                         >
                           <Icon icon={`tabler:${strategy.icon}`} />
                           <Typography fontSize='15px' fontWeight='600'>
-                            NÃO USAR {"'"}
+                            NÃO USAR - {"'"}
                             {strategy.name.toUpperCase()}
                             {"'"}
                           </Typography>
@@ -271,7 +279,7 @@ export default function CategoryAddPage() {
                     type='button'
                     onClick={() => onSubmit({})}
                     isLoading={isLoading}
-                    title='Adicionar'
+                    title='Prosseguir'
                   />
                 </CardContent>
               )}

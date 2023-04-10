@@ -4,9 +4,10 @@ export interface IUser {
   id: string;
   email: string;
   name: string;
+  fullName: string;
   avatar: string | null;
   companyId: string;
-  grantType: 90;
+  grantType: number;
   status: 'ACTIVE' | 'INACTIVE';
   lastLogin: string | null;
   verifiedAt: string | null;
