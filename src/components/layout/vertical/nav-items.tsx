@@ -21,6 +21,7 @@ interface Props {
   setGroupActive: (value: string[]) => void;
   setCurrentActiveGroup: (item: string[]) => void;
   verticalNavItems?: LayoutProps['verticalLayoutProps']['navMenu']['navItems'];
+  grantType?: number;
 }
 
 export const resolveNavItemComponent = (
@@ -38,6 +39,10 @@ export const VerticalNavItems = (props: Props) => {
   const RenderMenuItems = verticalNavItems?.map(
     (item: NavGroup | NavLink | NavSectionTitle, index: number) => {
       const TagName: any = resolveNavItemComponent(item);
+      const requiredGrandType = item.grantType || 190;
+      const currentGrantType = props.grantType || 10;
+
+      if(currentGrantType < requiredGrandType) return null;
 
       return <TagName {...props} key={index} item={item} />;
     },

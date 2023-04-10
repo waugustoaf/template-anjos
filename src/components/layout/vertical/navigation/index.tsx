@@ -13,6 +13,7 @@ import { hexToRGBA } from '@/utils/colors/hex-to-rgba';
 import { themeConfig } from '@/config/app';
 import { VerticalNavItems } from '../nav-items';
 import { VerticalNavHeader } from '../nav-header';
+import { useAuth } from '@/hooks/useAuth';
 
 interface Props {
   navWidth: number;
@@ -65,6 +66,8 @@ export const Navigation = (props: Props) => {
   const [currentActiveGroup, setCurrentActiveGroup] = useState<string[]>([]);
 
   const shadowRef = useRef(null);
+
+  const { user } = useAuth();
 
   const theme = useTheme();
   const { mode } = settings;
@@ -183,6 +186,7 @@ export const Navigation = (props: Props) => {
                 setGroupActive={setGroupActive}
                 currentActiveGroup={currentActiveGroup}
                 setCurrentActiveGroup={setCurrentActiveGroup}
+                grantType={user?.user?.grantType || 0}
                 {...props}
               />
             </List>

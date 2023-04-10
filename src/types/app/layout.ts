@@ -40,6 +40,7 @@ export type NavSectionTitle = {
   action?: string;
   subject?: string;
   sectionTitle: string;
+  grantType?: number;
 };
 
 export type NavGroup = {
@@ -49,6 +50,7 @@ export type NavGroup = {
   subject?: string;
   badgeContent?: string;
   children?: (NavGroup | NavLink)[];
+  grantType?: number;
   badgeColor?:
     | 'default'
     | 'primary'
@@ -69,6 +71,7 @@ export type NavLink = {
   badgeContent?: string;
   externalLink?: boolean;
   openInNewTab?: boolean;
+  grantType?: number;
   badgeColor?:
     | 'default'
     | 'primary'
