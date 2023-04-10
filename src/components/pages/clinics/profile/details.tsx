@@ -1,6 +1,6 @@
 import { IClinic } from '@/types/entities/IClinic';
 import { beautifullyPhone } from '@/utils/text';
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, Link } from '@mui/material';
 
 function Detail({ title, value }: { title: string; value?: string }) {
   return (
@@ -26,14 +26,21 @@ export function ClinicProfileDetails({ clinic }: { clinic: Partial<IClinic> }) {
       marginTop='2rem'
     >
       <Box bgcolor='#ccc' height='1px' width='100%' />
-      <Typography fontSize='14px' marginTop='2rem' marginBottom='4px'>
-        DETALHES
-      </Typography>
+
       <Detail title='Nome Completo' value={clinic.name} />
       <Detail title='Nome Fantasia' value={clinic.fantasyName} />
+      <Link href={'https://instagram.com/'+clinic.instagram} target='_blank'>
+        <Detail title='Instagram' value={'@'+clinic.instagram} />
+      </Link>
       <Detail title='Email' value={clinic.email} />
-      <Detail title='Celular' value={beautifullyPhone(clinic.phone || '')} />
-      <Detail title='Status' value={clinic.status} />
+      <Link href={'https://whatsa.me/55'+clinic.phone} target='_blank'>
+        <Detail title='Celular' value={beautifullyPhone(clinic.phone || '')} />
+      </Link>
+      <Detail title='Status do contrato' value={
+        clinic.contractStatus === 'ACTIVE' ? 'ATIVO' :
+          clinic.contractStatus === 'INACTIVE' ? 'INATIVO' :
+            clinic.contractStatus === 'BLOCKED' ? 'Bloqueado' :
+              clinic.contractStatus === 'GUIVENUP' ? 'Desistiu' : 'Expirou' } />
       <Detail title='Anjo' value={clinic?.userAttendance?.name} />
       <Detail title='Categoria' value={clinic?.category?.name} />
       <Detail title='Cidade' value={clinic.city} />

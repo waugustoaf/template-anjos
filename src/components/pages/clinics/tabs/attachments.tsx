@@ -17,6 +17,7 @@ import {
   TableHead,
   TableRow,
   Typography,
+  Link,
 } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
 import moment from 'moment';
@@ -24,6 +25,7 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
+import {Icon} from "@/components/icon";
 
 export function ClinicTabAttachment() {
   const [isModalOpened, setIsModalOpened] = useState(false);
@@ -103,6 +105,7 @@ export function ClinicTabAttachment() {
                     <TableRow>
                       <TableCell>Anexo</TableCell>
                       <TableCell>Data</TableCell>
+                      <TableCell>Ações</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -110,18 +113,81 @@ export function ClinicTabAttachment() {
                       <TableRow key={item.id}>
                         <TableCell>
                           <Box display='flex' gap='0.5rem' alignItems='center'>
-                            <img
-                              src={item.url}
-                              alt={item.name}
-                              style={{
-                                height: '35px',
-                                borderRadius: '50%',
-                                width: '35px',
-                                objectPosition: 'center',
-                                objectFit: 'cover',
-                              }}
-                            />
-
+                            {item.url.includes('.png') || item.url.includes('.jpg') || item.url.includes('.jpeg') || item.url.includes('.gif') ? <img
+                                src={item.url}
+                                alt={item.name}
+                                style={{
+                                  height: '35px',
+                                  borderRadius: '50%',
+                                  width: '35px',
+                                  objectPosition: 'center',
+                                  objectFit: 'cover',
+                                }}
+                              />
+                              : item.url.includes('.pdf') ?
+                                <Icon icon='tabler:pdf' style={{
+                                  height: '35px',
+                                  borderRadius: '50%',
+                                  width: '35px',
+                                  objectPosition: 'center',
+                                  objectFit: 'cover',
+                                }} />
+                                : item.url.includes('.doc') || item.url.includes('.docx') ?
+                                  <Icon icon='tabler:notes' style={{
+                                    height: '35px',
+                                    borderRadius: '50%',
+                                    width: '35px',
+                                    objectPosition: 'center',
+                                    objectFit: 'cover',
+                                  }} />
+                                  : item.url.includes('.xls') || item.url.includes('.xlsx') ?
+                                    <Icon icon='tabler:edit' style={{
+                                      height: '35px',
+                                      borderRadius: '50%',
+                                      width: '35px',
+                                      objectPosition: 'center',
+                                      objectFit: 'cover',
+                                    }} />
+                                    : item.url.includes('.ppt') || item.url.includes('.pptx') ?
+                                      <Icon icon='tabler:presentation-analytics' style={{
+                                        height: '35px',
+                                        borderRadius: '50%',
+                                        width: '35px',
+                                        objectPosition: 'center',
+                                        objectFit: 'cover',
+                                      }} />
+                                      : item.url.includes('.zip') || item.url.includes('.rar') ?
+                                        <Icon icon='tabler:zip' style={{
+                                          height: '35px',
+                                          borderRadius: '50%',
+                                          width: '35px',
+                                          objectPosition: 'center',
+                                          objectFit: 'cover',
+                                        }} />
+                                        : item.url.includes('.mp4') || item.url.includes('.avi') || item.url.includes('.mov') || item.url.includes('.wmv') ?
+                                          <Icon icon='tabler:movie' style={{
+                                            height: '35px',
+                                            borderRadius: '50%',
+                                            width: '35px',
+                                            objectPosition: 'center',
+                                            objectFit: 'cover',
+                                          }} />
+                                          : item.url.includes('.mp3') || item.url.includes('.wav') || item.url.includes('.wma') ?
+                                            <Icon icon='tabler:headphones' style={{
+                                              height: '35px',
+                                              borderRadius: '50%',
+                                              width: '35px',
+                                              objectPosition: 'center',
+                                              objectFit: 'cover',
+                                            }} />
+                                            : <Icon icon='tabler:file-dots' style={{
+                                              height: '35px',
+                                              borderRadius: '50%',
+                                              width: '35px',
+                                              objectPosition: 'center',
+                                              objectFit: 'cover',
+                                            }} />
+                            }
                             <Typography fontSize='14px' fontWeight='bold'>
                               {TextEllipsis(item.name, 30)}
                             </Typography>
@@ -129,6 +195,12 @@ export function ClinicTabAttachment() {
                         </TableCell>
                         <TableCell>
                           {moment(item.createdAt).format('DD/MM/yyyy')}
+                        </TableCell>
+                        <TableCell>
+                          <Link href={item.url} target='_blank'> <Icon icon='tabler:file-download' style={{
+                            height: '25px',
+                            width: '25px',
+                          }} /> </Link>
                         </TableCell>
                       </TableRow>
                     ))}
@@ -150,7 +222,7 @@ export function ClinicTabAttachment() {
                   {
                     name: 'description',
                     rowSize: 12,
-                    title: 'Descrição',
+                    title: 'Informe uma descrição resumida do arquivo',
                     type: 'input',
                   },
                   {
@@ -158,6 +230,10 @@ export function ClinicTabAttachment() {
                     rowSize: 12,
                     title: 'Arquivo',
                     type: 'input-file',
+                    fileAccept: {
+                      title: "Todos os arquivos",
+                      fileType: "*",
+                    },
                   },
                 ],
                 setValue: setValue,

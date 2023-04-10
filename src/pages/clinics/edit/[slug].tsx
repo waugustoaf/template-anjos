@@ -141,10 +141,21 @@ export default function CategoryAddPage() {
 
       setCurrentClinicData((prevState) => ({
         ...prevState,
-        ...response.data,
+        ...{
+          ...response.data,
+          initialAverageRevenue: formatNumberFromBase100(
+            response.data.initialAverageRevenue,
+          ),
+          afterAverageRevenue: formatNumberFromBase100(
+            response.data.afterAverageRevenue,
+          ),
+          growthRate: formatNumberFromBase100(response.data.growthRate),
+          initialRevenue: formatNumberFromBase100(response.data.initialRevenue),
+          startValue: formatNumberFromBase100(response.data.startValue),
+        },
       }));
     } catch {
-      toast.error('Erro ao salvar categoria');
+      toast.error('Erro ao salvar clínica');
     } finally {
       setIsSubmitting(false);
     }

@@ -11,6 +11,7 @@ export interface IClinic {
   id: string;
   name: string;
   fantasyName: string;
+  instagram: string;
   document: string;
   birthDate: string;
   zipCode: string;

@@ -74,6 +74,9 @@ export const UserDropdown = (props: Props) => {
     handleDropdownClose();
   };
 
+  // @ts-ignore
+  // @ts-ignore
+  // @ts-ignore
   return (
     <Fragment>
       <Badge
@@ -132,9 +135,18 @@ export const UserDropdown = (props: Props) => {
               }}
             >
               <Typography sx={{ fontWeight: 500 }}>
-                {auth.user?.user?.name}
+                {auth.user?.user?.fullName}
               </Typography>
-              <Typography variant='body2'>Admin</Typography>
+              <Typography variant='body2'>
+                {
+                  auth.user?.user?.grantType ? (
+                    auth.user?.user?.grantType > 100 ? 'Anjo Administrador' :
+                    auth.user?.user?.grantType >= 100 ? 'Anjo' :
+                    auth.user?.user?.grantType >= 90 ? 'Administrador' :
+                    auth.user?.user?.grantType < 90 ? 'Usuário' : ''
+                  ) : ('Usuário')
+                }
+              </Typography>
             </Box>
           </Box>
         </Box>
@@ -146,25 +158,6 @@ export const UserDropdown = (props: Props) => {
           <Box sx={styles}>
             <Icon icon='tabler:user-check' />
             Meu perfil
-          </Box>
-        </MenuItemStyled>
-        <MenuItemStyled
-          sx={{ p: 0 }}
-          onClick={() => handleDropdownClose('/apps/email')}
-        >
-          <Box sx={styles}>
-            <Icon icon='tabler:mail' />
-            Notificações
-          </Box>
-        </MenuItemStyled>
-        <Divider sx={{ my: (theme) => `${theme.spacing(2)} !important` }} />
-        <MenuItemStyled
-          sx={{ p: 0 }}
-          onClick={() => handleDropdownClose('/pages/account-settings/account')}
-        >
-          <Box sx={styles}>
-            <Icon icon='tabler:settings' />
-            Configurações
           </Box>
         </MenuItemStyled>
         <Divider sx={{ my: (theme) => `${theme.spacing(2)} !important` }} />

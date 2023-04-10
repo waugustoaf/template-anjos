@@ -6,9 +6,9 @@ interface CampaignFormFieldsProps {
 }
 
 export function campaignFormFields({
-  autoPilot,
-  manual,
-}: CampaignFormFieldsProps): FormFieldProps[] {
+                                     autoPilot,
+                                     manual,
+                                   }: CampaignFormFieldsProps): FormFieldProps[] {
   return [
     {
       type: 'input',
@@ -18,17 +18,49 @@ export function campaignFormFields({
       rowSize: 12,
     },
     {
+      type: 'select',
+      name: 'month',
+      title: 'Mês',
+      placeholder: 'Selecione o mês da campanha',
+      selectOptions: [
+        { value: '1', label: 'Janeiro' },
+        { value: '2', label: 'Fevereiro' },
+        { value: '3', label: 'Março' },
+        { value: '4', label: 'Abril' },
+        { value: '5', label: 'Maio' },
+        { value: '6', label: 'Junho' },
+        { value: '7', label: 'Julho' },
+        { value: '8', label: 'Agosto' },
+        { value: '9', label: 'Setembro' },
+        { value: '10', label: 'Outubro' },
+        { value: '11', label: 'Novembro' },
+        { value: '12', label: 'Dezembro' },
+      ],
+      rowSize: 6,
+    },
+    {
+      type: 'select',
+      name: 'year',
+      title: 'Ano',
+      placeholder: 'Selecione o ano da campanha',
+      selectOptions: [
+        { value: '2023', label: '2023' },
+        { value: '2024', label: '2024' },
+      ],
+      rowSize: 6,
+    },
+    {
       type: 'input-currency',
       name: 'financialGoal',
       title: 'Meta',
-      placeholder: 'R$ 50.000,00',
+      placeholder: 'Informe a meta financeira da campanha',
       rowSize: 6,
     },
     {
       type: 'input-currency',
       name: 'averageTicket',
       title: 'Ticket Médio',
-      placeholder: 'R$ 3.000,00',
+      placeholder: 'Informe o ticket médio da campanha',
       rowSize: 6,
     },
     {
