@@ -1,5 +1,6 @@
 export interface IStrategy {
   id: string;
+  active: boolean;
   name: string;
   description: string;
   link: string;
@@ -10,7 +11,7 @@ export interface IStrategy {
   qtdAppointments: number;
   qtdSchedules: number;
   qtdNegotiations: number;
-  funnel: {
+  funnel?: {
     id: string;
     name: string;
     autoPilot: boolean;
@@ -21,6 +22,7 @@ export interface IStrategyCompact {
   id: string;
   name: string;
   description: string;
-  link: string;
+  link?: string;
   icon: string;
+  funnelId?: string;
 }

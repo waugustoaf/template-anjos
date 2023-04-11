@@ -1,15 +1,18 @@
-import { IStrategyCompact } from '@/types/entities/IStrategy';
+import { IStrategy, IStrategyCompact } from '@/types/entities/IStrategy';
 
 export interface IBoardCampaign {
   id: string;
   name: string;
+  campaignId: string;
+  strategyId: string;
+  funnelId: string;
   active: true;
   salesSum: number;
   lostStep: boolean;
   paidTraffic: boolean;
   financialGoal: number;
   averageTicket: number;
-  strategy: IStrategyCompact;
+  strategy: IStrategy;
   message: {
     isEnabled: boolean;
     goal: number;

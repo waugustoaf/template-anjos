@@ -82,5 +82,10 @@ export const VerticalNavItems = (): VerticalNavItemsType => {
       icon: 'tabler:building-store',
       path: '/clinics/list',
     },
+    {
+      title: 'Campanhas',
+      icon: 'tabler:building-store',
+      path: '/campaigns/list',
+    },
   ];
 };

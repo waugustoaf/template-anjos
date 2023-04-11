@@ -6,9 +6,9 @@ interface CampaignFormFieldsProps {
 }
 
 export function campaignFormFields({
-                                     autoPilot,
-                                     manual,
-                                   }: CampaignFormFieldsProps): FormFieldProps[] {
+  autoPilot,
+  manual,
+}: CampaignFormFieldsProps): FormFieldProps[] {
   return [
     {
       type: 'input',
@@ -43,10 +43,13 @@ export function campaignFormFields({
       name: 'year',
       title: 'Ano',
       placeholder: 'Selecione o ano da campanha',
-      selectOptions: [
-        { value: '2023', label: '2023' },
-        { value: '2024', label: '2024' },
-      ],
+      selectOptions: new Array(3)
+        .fill('-')
+        .map((_, index) => new Date().getFullYear() + index)
+        .map((year) => ({
+          value: year.toString(),
+          label: year.toString(),
+        })),
       rowSize: 6,
     },
     {
