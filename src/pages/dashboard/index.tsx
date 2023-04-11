@@ -4,18 +4,6 @@ import Grid from '@mui/material/Grid'
 // ** Demo Component Imports
 import ContratulationsPerson from '@/components/pages/dashboard/charts/congratulationsPerson'
 import ResumeHorizontal from "@/components/pages/dashboard/charts/resumeHorizontal";
-//import CampaignTime from "@/components/pages/dashboard/charts/campaignTime";
-
-//import EcommerceProfit from 'src/views/dashboards/ecommerce/EcommerceProfit'
-//import EcommerceOrders from 'src/views/dashboards/ecommerce/EcommerceOrders'
-//import EcommerceExpenses from 'src/views/dashboards/ecommerce/EcommerceExpenses'
-//import EcommerceEarningReports from 'src/views/dashboards/ecommerce/EcommerceEarningReports'
-//import EcommerceInvoiceTable from 'src/views/dashboards/ecommerce/EcommerceInvoiceTable'
-//import EcommerceRevenueReport from 'src/views/dashboards/ecommerce/EcommerceRevenueReport'
-//import EcommerceGeneratedLeads from 'src/views/dashboards/ecommerce/EcommerceGeneratedLeads'
-//import EcommercePopularProducts from 'src/views/dashboards/ecommerce/EcommercePopularProducts'
-//import EcommerceTransactionsVertical from 'src/views/dashboards/ecommerce/EcommerceTransactionsVertical'
-//import EcommerceTransactionsHorizontal from 'src/views/dashboards/ecommerce/EcommerceTransactionsHorizontal'
 
 // ** Custom Component Import
 import ApexChartWrapper from '@/@core/styles/react-apexcharts'
@@ -30,7 +18,7 @@ import StrategyConversionQuantity from "@/components/pages/dashboard/charts/stra
 import ProductsByInvoicing from "@/components/pages/dashboard/charts/productsByInvoicing";
 import ProductsBySalesQuantity from "@/components/pages/dashboard/charts/productsByQuantity";
 
-const EcommerceDashboard = () => {
+const DefaultDashboard = () => {
   return (
     <ApexChartWrapper>
       <Grid container spacing={6}>
@@ -79,4 +67,4 @@ const EcommerceDashboard = () => {
   )
 }
 
-export default EcommerceDashboard
+export default DefaultDashboard
