@@ -10,7 +10,7 @@ export const VerticalNavItems = (): VerticalNavItemsType => {
     {
       title: 'Dashboard Administrativo',
       icon: 'tabler:dashboard',
-      path: '/dash-admin',
+      path: '/dashboard',
     },
     {
       sectionTitle: 'Cadastros',
