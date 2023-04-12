@@ -2,7 +2,7 @@
 import Grid from '@mui/material/Grid'
 
 // ** Demo Component Imports
-import ContratulationsPerson from '@/components/pages/dashboard/charts/congratulationsPerson'
+import CongratulationsPerson from '@/components/pages/dashboard/charts/congratulationsPerson'
 import ResumeHorizontal from "@/components/pages/dashboard/charts/resumeHorizontal";
 
 // ** Custom Component Import
@@ -23,7 +23,7 @@ const DefaultDashboard = () => {
     <ApexChartWrapper>
       <Grid container spacing={6}>
         <Grid item xs={12} md={4}>
-          <ContratulationsPerson />
+          <CongratulationsPerson percentage={53} value={103.3} />
         </Grid>
         <Grid item xs={12} md={8}>
           <ResumeHorizontal />
