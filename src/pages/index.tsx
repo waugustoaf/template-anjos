@@ -1,29 +1,35 @@
-// ** MUI Import
-import Grid from '@mui/material/Grid'
+import Grid from '@mui/material/Grid';
 
-// ** Demo Component Imports
-import ContratulationsPerson from '@/components/pages/dashboard/charts/congratulationsPerson'
-import ResumeHorizontal from "@/components/pages/dashboard/charts/resumeHorizontal";
+import CongratulationsPerson from '@/components/pages/dashboard/charts/congratulationsPerson';
+import ResumeHorizontal from '@/components/pages/dashboard/charts/resumeHorizontal';
 
-// ** Custom Component Import
-import ApexChartWrapper from '@/@core/styles/react-apexcharts'
-import LeadCapture from "@/components/pages/dashboard/charts/leadCapture";
-import LeadConvert from "@/components/pages/dashboard/charts/leadConvertion";
-import CampaignGoal from "@/components/pages/dashboard/charts/campaignGoal";
-import CampaignTime from "@/components/pages/dashboard/charts/campaignTime";
-import AccomplishedExpected from "@/components/pages/dashboard/charts/accomplishedExpected";
-import SalesByStrategy from "@/components/pages/dashboard/charts/salesByStrategy";
-import StrategyConversionValue from "@/components/pages/dashboard/charts/strategyByConversionValue";
-import StrategyConversionQuantity from "@/components/pages/dashboard/charts/strategyByConversionQuantity";
-import ProductsByInvoicing from "@/components/pages/dashboard/charts/productsByInvoicing";
-import ProductsBySalesQuantity from "@/components/pages/dashboard/charts/productsByQuantity";
+import ApexChartWrapper from '@/@core/styles/react-apexcharts';
+import LeadCapture from '@/components/pages/dashboard/charts/leadCapture';
+import LeadConvert from '@/components/pages/dashboard/charts/leadConvertion';
+import CampaignGoal from '@/components/pages/dashboard/charts/campaignGoal';
+import CampaignTime from '@/components/pages/dashboard/charts/campaignTime';
+import AccomplishedExpected from '@/components/pages/dashboard/charts/accomplishedExpected';
+import SalesByStrategy from '@/components/pages/dashboard/charts/salesByStrategy';
+import StrategyConversionValue from '@/components/pages/dashboard/charts/strategyByConversionValue';
+import StrategyConversionQuantity from '@/components/pages/dashboard/charts/strategyByConversionQuantity';
+import ProductsByInvoicing from '@/components/pages/dashboard/charts/productsByInvoicing';
+import ProductsBySalesQuantity from '@/components/pages/dashboard/charts/productsByQuantity';
+import { useQuery } from '@tanstack/react-query';
+import { Spinner } from '@/components/spinner';
+import { apiServices } from '@/services';
 
 const DefaultDashboard = () => {
+  const { data, isLoading } = useQuery([], async () => {
+    return await apiServices.campaign.list();
+  });
+
+  if (isLoading) return <Spinner />;
+
   return (
     <ApexChartWrapper>
       <Grid container spacing={6}>
         <Grid item xs={12} md={4}>
-          <ContratulationsPerson />
+          <CongratulationsPerson value={53000} percentage={103.3} />
         </Grid>
         <Grid item xs={12} md={8}>
           <ResumeHorizontal />
@@ -64,7 +70,7 @@ const DefaultDashboard = () => {
         </Grid>
       </Grid>
     </ApexChartWrapper>
-  )
-}
+  );
+};
 
-export default DefaultDashboard
+export default DefaultDashboard;
