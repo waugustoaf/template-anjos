@@ -42,12 +42,6 @@ export const salesFunnelFormFields: FormFieldProps[] = [
   },
   {
     type: 'switch',
-    name: 'negotiation',
-    title: 'Negociação',
-    rowSize: 4,
-  },
-  {
-    type: 'switch',
     name: 'sale',
     title: 'Venda',
     rowSize: 4,

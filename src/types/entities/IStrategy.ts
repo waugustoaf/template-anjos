@@ -10,7 +10,6 @@ export interface IStrategy {
   qtdConversations: number;
   qtdAppointments: number;
   qtdSchedules: number;
-  qtdNegotiations: number;
   funnel?: {
     id: string;
     name: string;

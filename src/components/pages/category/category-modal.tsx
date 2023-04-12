@@ -40,7 +40,6 @@ export function CategoryModal({
   const defaultBooleanValues = useRef({
     conversation: false,
     message: false,
-    negotiation: false,
     sale: false,
     schedule: false,
     appointment: false,

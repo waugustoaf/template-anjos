@@ -38,7 +38,6 @@ export function SalesFunnelModal({
   const defaultBooleanValues = useRef({
     conversation: false,
     message: false,
-    negotiation: false,
     sale: false,
     schedule: false,
     appointment: false,

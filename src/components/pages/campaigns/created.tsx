@@ -1,5 +1,4 @@
 import { Icon } from '@/components/icon';
-import { IBoardCampaign } from '@/types/entities/IBoardCampaign';
 import { ICampaignFull } from '@/types/entities/ICampaign';
 import { Box, Button, Typography } from '@mui/material';
 import Link from 'next/link';
@@ -18,7 +17,6 @@ export function CreatedCampaigns({ campaign }: CreatedCampaignsProps) {
       'conversation',
       'schedule',
       'appointment',
-      'negotiation',
       'sale',
     ].reduce((prevState, currValue) => {
       const currentItem = (currentBoard as any)[currValue as any] as any;
@@ -47,7 +45,6 @@ export function CreatedCampaigns({ campaign }: CreatedCampaignsProps) {
       conversation: 'Conversas',
       schedule: 'Agendamentos',
       appointment: 'Consultas',
-      negotiation: 'Negociações',
       sale: 'Vendas',
     };
 
@@ -62,7 +59,7 @@ export function CreatedCampaigns({ campaign }: CreatedCampaignsProps) {
 
   return (
     <>
-      <Typography margin='0 auto' textAlign='center' fontWeight='bold'>
+      <Typography margin='1rem auto 0' textAlign='center' fontWeight='bold'>
         Estratégias
       </Typography>
       <Box

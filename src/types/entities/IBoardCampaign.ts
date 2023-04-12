@@ -33,11 +33,6 @@ export interface IBoardCampaign {
     goal: number;
     count: number;
   };
-  negotiation: {
-    isEnabled: boolean;
-    goal: number;
-    count: number;
-  };
   sale: {
     isEnabled: boolean;
     goal: number;

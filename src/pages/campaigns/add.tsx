@@ -137,11 +137,6 @@ export default function CategoryAddPage() {
               count: 0,
               isEnabled: true,
             },
-            negotiation: {
-              goal: 2,
-              count: 0,
-              isEnabled: true,
-            },
             sale: {
               goal: 1,
               count: 0,
@@ -163,7 +158,6 @@ export default function CategoryAddPage() {
               qtdConversations: 500,
               qtdAppointments: 200,
               qtdSchedules: 300,
-              qtdNegotiations: 0,
               active: true,
             },
           },
@@ -194,11 +188,6 @@ export default function CategoryAddPage() {
               count: 0,
               isEnabled: true,
             },
-            negotiation: {
-              goal: 2,
-              count: 0,
-              isEnabled: true,
-            },
             sale: {
               goal: 1,
               count: 0,
@@ -220,7 +209,6 @@ export default function CategoryAddPage() {
               qtdConversations: 500,
               qtdAppointments: 200,
               qtdSchedules: 300,
-              qtdNegotiations: 0,
               active: true,
             },
           },
