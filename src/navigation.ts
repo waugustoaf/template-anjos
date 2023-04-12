@@ -60,7 +60,7 @@ export const VerticalNavItems = (): VerticalNavItemsType => {
       path: '/strategies/list',
     },
     {
-      title: 'Estratégias do mês',
+      title: 'Piloto Automático',
       icon: 'tabler:calendar-plus',
       path: '/auto-pilot/list',
     },

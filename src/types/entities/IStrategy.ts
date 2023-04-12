@@ -25,3 +25,8 @@ export interface IStrategyCompact {
   icon: string;
   funnelId?: string;
 }
+
+export interface IStrategyNameId {
+  id: string;
+  name: string;
+}

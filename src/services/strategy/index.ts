@@ -18,6 +18,11 @@ export const strategyServices = {
 
     return response.data;
   },
+  full: async (props?: PaginationProps) => {
+    const response = await api.get<GetStrategyResponse>(`${baseUrl}/full`);
+
+    return response.data;
+  },
   get: async (id: string) => {
     const response = await api.get<GetStrategyResponse>(`${baseUrl}/${id}`);
 

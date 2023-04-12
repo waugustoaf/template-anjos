@@ -8,6 +8,7 @@ import {productServices} from "@/services/product";
 import {customerServices} from "@/services/customer";
 import {userServices} from "@/services/user";
 import {campaignsServices} from "@/services/campaigns";
+import {autoPilotServices} from "@/services/auto-pilot";
 
 export const apiServices = {
   auth: authService,
@@ -20,4 +21,5 @@ export const apiServices = {
   customer: customerServices,
   user: userServices,
   campaign: campaignsServices,
+  autoPilot: autoPilotServices,
 };
