@@ -1,6 +1,6 @@
-import {IAutoPilot, IAutoPilotWitMonthDescription, IGetAutoPilot} from "@/types/entities/IAutoPilot";
+import {IAutoPilot} from "@/types/entities/IAutoPilot";
 
-export type ListAutoPilotResponse = IGetAutoPilot[];
+export type ListAutoPilotResponse = IAutoPilot[];
 export type CreateAutoPilotResponse = IAutoPilot;
-export type GetAutoPilotResponse = IGetAutoPilot;
+export type GetAutoPilotResponse = IAutoPilot;
 export type UpdateAutoPilotResponse = IAutoPilot;

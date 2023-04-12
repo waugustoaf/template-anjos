@@ -7,7 +7,6 @@ import {
   ListAutoPilotResponse,
   UpdateAutoPilotResponse,
 } from './types';
-import {IGetAutoPilot} from "@/types/entities/IAutoPilot";
 
 export const autoPilotServices = {
   list: async (props?: PaginationProps) => {

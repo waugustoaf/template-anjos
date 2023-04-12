@@ -1,7 +1,6 @@
 import { Icon } from '@/components/icon';
-import {IAutoPilot, IAutoPilotWitMonthDescription, IGetAutoPilot} from '@/types/entities/IAutoPilot';
+import {IAutoPilot} from '@/types/entities/IAutoPilot';
 
-import { TextEllipsis } from '@/utils/text';
 import {
   Button,
   Dialog,
@@ -18,14 +17,14 @@ import { SetStateAction } from 'react';
 import {apiServices} from "@/services";
 
 interface CellType {
-  row: IGetAutoPilot;
+  row: IAutoPilot;
 }
 
 interface CreateAutoPilotListTableProps {
   autoPilotToDelete: IAutoPilot | null;
-  setAutoPilotToDelete: (value: SetStateAction<IGetAutoPilot | null>) => void;
+  setAutoPilotToDelete: (value: SetStateAction<IAutoPilot | null>) => void;
   handleDeleteAutoPilot: () => void;
-  setAutoPilotToEdit: (value: SetStateAction<IGetAutoPilot | null>) => void;
+  setAutoPilotToEdit: (value: SetStateAction<IAutoPilot | null>) => void;
 }
 
 export function createAutoPilotListTable({

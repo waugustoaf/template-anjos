@@ -12,7 +12,7 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
 import {autoPilotSchema} from "@/forms/auto-pilot/schema";
 import {autoPilotFormFields} from "@/forms/auto-pilot";
-import {IGetAutoPilot} from "@/types/entities/IAutoPilot";
+
 
 interface AutoPilotModalProps {
   isOpen: boolean;
@@ -45,25 +45,9 @@ export function AutoPilotModal({
 
   useEffect(() => {
     if (defaultAutoPilot) {
-      const fetchData = async () => {
-        const autoPilot = await apiServices.autoPilot.get(defaultAutoPilot.id);
-        console.log(autoPilot);
-        defaultAutoPilot.id = autoPilot.id;
-        defaultAutoPilot.year = autoPilot.year;
-        defaultAutoPilot.month = autoPilot.month;
-        defaultAutoPilot.strategies = ['39fa530d-2abd-444c-8791-d5841aa64453', 'ab20f69c-7955-49bc-8101-1794df156434'];
-      }
-
-      fetchData()
-        .catch(console.error);
 
       reset({
         ...defaultAutoPilot,
-        strategies: [{
-          id: '39fa530d-2abd-444c-8791-d5841aa64453'
-        }, {
-          id: 'ab20f69c-7955-49bc-8101-1794df156434'
-        }]
       });
     } else {
       reset();
