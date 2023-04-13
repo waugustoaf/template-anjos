@@ -73,6 +73,11 @@ export const VerticalNavItems = (): VerticalNavItemsType => {
       sectionTitle: 'Cadastros',
     },
     {
+      title: 'Clínicas',
+      icon: 'tabler:building-store',
+      path: '/clinics/list',
+    },
+    {
       title: 'Categorias',
       icon: 'tabler:stack-2',
       path: '/categories/list',
@@ -82,10 +87,5 @@ export const VerticalNavItems = (): VerticalNavItemsType => {
       icon: 'tabler:user',
       path: '/angels/list',
     },
-    {
-      title: 'Clínicas',
-      icon: 'tabler:building-store',
-      path: '/clinics/list',
-    }
   ];
 };
