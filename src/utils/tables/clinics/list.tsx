@@ -22,6 +22,7 @@ import Typography from '@mui/material/Typography';
 import Link from 'next/link';
 import { SetStateAction } from 'react';
 import CustomAvatar from "@/@core/components/mui/avatar";
+import {useTheme} from "@mui/material/styles";
 
 interface CellType {
   row: IClinic;
@@ -60,6 +61,7 @@ export function createClinicListTable({
   setClinicToDelete,
   handleDeleteClinic,
 }: CreateClinicListTableProps) {
+  const theme = useTheme();
   return [
     {
       flex: 0.3,
@@ -106,8 +108,24 @@ export function createClinicListTable({
       field: 'plan',
       headerName: 'Campanha Ativa',
       renderCell: ({ row }: CellType) => (
-        <Typography noWrap sx={{ color: 'text.secondary' }}>
-          {getPlanStatus(row.planStatus)}
+        <Typography noWrap sx={{ color: '#fff' }}>
+
+          <Box
+            padding='2px 8px'
+            bgcolor={row.planStatus === 'NOPLAN' ? theme.palette.error.main : theme.palette.success.main}
+            borderRadius='4px'
+            fontSize='13px'
+            fontWeight='700'
+            marginTop='1.5rem'
+            marginLeft={'2.5rem'}
+            alignItems={'center'}
+            alignContent={'center'}
+          >
+            {getPlanStatus(row.planStatus)}
+          </Box>
+
+
+        }
         </Typography>
       ),
     },
@@ -130,15 +148,6 @@ export function createClinicListTable({
       renderCell: ({ row }: CellType) => (
         <>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            {/* <Tooltip title='Apagar cliente'>
-              <IconButton
-                size='small'
-                sx={{ color: 'text.secondary' }}
-                onClick={() => setClinicToDelete(row)}
-              >
-                <Icon icon='tabler:trash' />
-              </IconButton>
-            </Tooltip> */}
             <Tooltip title='Editar'>
               <IconButton
                 size='small'
