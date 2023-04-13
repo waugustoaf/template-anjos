@@ -2,7 +2,7 @@ import { ThemeConfig } from '@/types/app';
 import { Mode } from '@/types/app/layout';
 
 export const themeConfig: ThemeConfig = {
-  templateName: 'Anjos Guia',
+  templateName: 'Anjo Guia',
   layout: 'vertical',
   mode: 'light' as Mode,
   direction: 'ltr',
