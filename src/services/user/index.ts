@@ -4,7 +4,7 @@ import { mergePagination } from '@/utils/api/pagination';
 import {
   CreateUserResponse,
   GetUserResponse,
-  ListUsersResponse,
+  ListUsersResponse, MeResponse,
   UpdateUserResponse,
 } from './types';
 
@@ -20,6 +20,13 @@ export const userServices = {
     const response = await api.get<GetUserResponse>(`/user/${id}`);
 
     return response.data;
+  },
+  me: async () => {
+    const response = await api.get<MeResponse>(
+      '/auth/me',
+    );
+
+    return response.data.user;
   },
   create: async (data: any) => {
     const response = await api.post<CreateUserResponse>(
@@ -39,6 +46,23 @@ export const userServices = {
   },
   delete: async (id: string) => {
     const response = await api.delete(`/angel/${id}`);
+
+    return response.data;
+  },
+  changePassword: async (email: string | undefined, password: string | undefined, confirmPassword: string | undefined, currentPassword: string | undefined) => {
+    const response = await api.post(`/auth/changePassword`, {
+      email,
+      password,
+      currentPassword,
+    });
+
+    return response.data;
+  },
+  changeMe: async (body: any) => {
+    const response = await api.put<UpdateUserResponse>(
+      `/user/me`,
+      body,
+    );
 
     return response.data;
   },

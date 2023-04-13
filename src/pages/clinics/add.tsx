@@ -57,7 +57,7 @@ function getTitle(title: string) {
   }
 }
 
-export default function CategoryAddPage() {
+export default function ClinicAddPage() {
   const [currentTab, setCurrentTab] = useState<
     'personal-data' | 'contract' | 'billings' | 'attachments'
   >('personal-data');
