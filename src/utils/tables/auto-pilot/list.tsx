@@ -37,24 +37,24 @@ export function createAutoPilotListTable({
   return [
     {
       flex: 0.1,
-      field: 'year',
-      headerName: 'Ano',
-      renderCell: ({ row }: CellType) => (
-        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-          <Typography noWrap sx={{ color: 'text.secondary' }}>
-            {row.year}
-          </Typography>
-        </Box>
-      ),
-    },
-    {
-      flex: 0.1,
       field: 'monthDescription',
       headerName: 'Mês',
       renderCell: ({ row }: CellType) => (
         <Box sx={{ display: 'flex', flexDirection: 'column' }}>
           <Typography noWrap sx={{ color: 'text.secondary' }}>
             {row.monthDescription}
+          </Typography>
+        </Box>
+      ),
+    },
+    {
+      flex: 0.1,
+      field: 'year',
+      headerName: 'Ano',
+      renderCell: ({ row }: CellType) => (
+        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+          <Typography noWrap sx={{ color: 'text.secondary' }}>
+            {row.year}
           </Typography>
         </Box>
       ),

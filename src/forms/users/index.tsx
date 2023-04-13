@@ -24,10 +24,4 @@ export const userFormFields: FormFieldProps[] = [
     title: 'Pode ver valores',
     rowSize: 12,
   },
-  {
-    type: 'label',
-    name: 'passwordSendByEmail',
-    title: 'Um link para criar a senha será enviado por email !',
-    rowSize: 12,
-  },
 ];

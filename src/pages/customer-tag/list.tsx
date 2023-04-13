@@ -17,6 +17,9 @@ import { Breadcrumb } from '@/components/breadcrumb';
 import {ProductModal} from "@/components/pages/product/product-modal";
 import {createProductListTable} from "@/utils/tables/product/list";
 import {IProduct} from "@/types/entities/IProduct";
+import {ICustomerTag} from "@/types/entities/ICustomerTag";
+import {createCustomerTagListTable} from "@/utils/tables/customer-tag/list";
+import {CustomerTagModal} from "@/components/pages/customer-tag/customerTag-modal";
 
 export default function ProductListPage() {
   const [search, setSearch] = useState<string>('');
@@ -24,43 +27,43 @@ export default function ProductListPage() {
   const [debouncedSearch] = useDebounce(search, 750);
   const [isAddModalOpen, setIsAddModalOpen] =
     useState<boolean>(false);
-  const [productToEdit, setProductToEdit] =
-    useState<IProduct | null>(null);
-  const [productToDelete, setProductToDelete] =
-    useState<IProduct | null>(null);
+  const [customerTagToEdit, setCustomerTagToEdit] =
+    useState<ICustomerTag | null>(null);
+  const [customerTagToDelete, setCustomerTagToDelete] =
+    useState<ICustomerTag | null>(null);
 
   const { data, isLoading, isRefetching, refetch } = useQuery({
-    queryKey: ['products', debouncedSearch, page],
+    queryKey: ['customertag', debouncedSearch, page],
     queryFn: () =>
-      apiServices.product.list({
+      apiServices.customerTag.list({
         search: debouncedSearch,
         page,
       }),
   });
 
-  async function handleDeleteProduct() {
+  async function handleDeleteCustomerTag() {
     try {
-      if (!productToDelete) return;
+      if (!customerTagToDelete) return;
 
-      await apiServices.product.delete(productToDelete.id);
+      await apiServices.customerTag.delete(customerTagToDelete.id);
 
-      toast.success('Produto excluído com sucesso.');
+      toast.success('Tag excluída com sucesso.');
       refetch();
     } catch {
-      toast.error('Erro ao apagar o produto.');
+      toast.error('Essa tag não pode ser excluída, Tag Em uso.');
     } finally {
-      setProductToDelete(null);
+      setCustomerTagToDelete(null);
     }
   }
 
   const columns = useMemo(() => {
-    return createProductListTable({
-      productToDelete,
-      setProductToDelete,
-      handleDeleteProduct,
-      setProductToEdit
+    return createCustomerTagListTable({
+      customerTagToDelete,
+      setCustomerTagToDelete,
+      handleDeleteCustomerTag,
+      setCustomerTagToEdit,
     });
-  }, [productToDelete, setProductToDelete, setProductToEdit]);
+  }, [customerTagToDelete, setCustomerTagToDelete, setCustomerTagToEdit]);
 
   function handleAdd() {
     setIsAddModalOpen(true);
@@ -68,7 +71,7 @@ export default function ProductListPage() {
 
   function handleCloseModal() {
     setIsAddModalOpen(false);
-    setProductToEdit(null);
+    setCustomerTagToEdit(null);
   }
 
   if (isLoading && !data) return <Spinner />;
@@ -77,7 +80,7 @@ export default function ProductListPage() {
     <>
       <DatePickerWrapper>
         <Breadcrumb
-          items={[{ label: 'Anjos', link: '/' }, { label: 'Produto' }]}
+          items={[{ label: 'Anjos', link: '/' }, { label: 'Tag' }]}
         />
 
         <Grid container spacing={6}>
@@ -86,7 +89,7 @@ export default function ProductListPage() {
               <TableHeader
                 search={search}
                 onSearch={setSearch}
-                inputPlaceholder='Buscar produto'
+                inputPlaceholder='Buscar tag'
                 addOnClick={handleAdd}
               />
               <DataGrid
@@ -100,7 +103,7 @@ export default function ProductListPage() {
                 loading={isRefetching}
                 localeText={{
                   ...ptBR.components.MuiDataGrid.defaultProps.localeText,
-                  noRowsLabel: 'Nenhuma produto encontrada',
+                  noRowsLabel: 'Nenhuma tag encontrada',
                 }}
               />
               <Pagination
@@ -119,10 +122,10 @@ export default function ProductListPage() {
         </Grid>
       </DatePickerWrapper>
 
-      <ProductModal
-        isOpen={isAddModalOpen || !!productToEdit}
+      <CustomerTagModal
+        isOpen={isAddModalOpen || !!customerTagToEdit}
         onClose={handleCloseModal}
-        defaultProduct={productToEdit}
+        defaultCustomerTag={customerTagToEdit}
         refetch={refetch}
       />
     </>

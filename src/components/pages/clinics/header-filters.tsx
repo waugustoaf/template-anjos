@@ -61,8 +61,8 @@ export function ClinicHeaderFilters({ filters, setFilters }: Props) {
       <FormControl fullWidth>
         <InputLabel>Status</InputLabel>
         <Select
-          label='Status'
-          title='Status'
+          label='Status do contrato'
+          title='Status do contrato'
           onChange={(event) =>
             handleUpdateFilter('status', event.target.value as string)
           }
@@ -70,14 +70,16 @@ export function ClinicHeaderFilters({ filters, setFilters }: Props) {
           <MenuItem value='ACTIVE'>Ativo</MenuItem>
           <MenuItem value='INACTIVE'>Inativo</MenuItem>
           <MenuItem value='BLOCKED'>Bloqueado</MenuItem>
+          <MenuItem value='GUIVENUP'>Desistiu</MenuItem>
+          <MenuItem value='EXPIRATION'>Expirou</MenuItem>
         </Select>
       </FormControl>
 
       <FormControl fullWidth>
-        <InputLabel>Status do plano</InputLabel>
+        <InputLabel>Status da campanha</InputLabel>
         <Select
-          label='Status do plano'
-          title='Status do plano'
+          label='Status da campanha'
+          title='Status da campanha'
           onChange={(event) =>
             handleUpdateFilter('planStatus', event.target.value as string)
           }

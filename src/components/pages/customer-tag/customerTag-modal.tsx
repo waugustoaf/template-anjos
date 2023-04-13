@@ -1,8 +1,7 @@
-import { angelFormFields } from '@/forms/angels';
-import { angelFormSchema } from '@/forms/angels/schema';
+import { productFormFields } from '@/forms/product';
+import { productFormSchema } from '@/forms/product/schema';
 import { apiServices } from '@/services';
-import { IAngel } from '@/types/entities/IAngel';
-import { clearFormEventManager, clearForms } from '@/utils/event/clear-form';
+import { IProduct } from '@/types/entities/IProduct';
 import { mountForm } from '@/utils/form/mount-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Box, Button, Dialog, DialogContent, DialogTitle } from '@mui/material';
@@ -10,70 +9,74 @@ import { useRouter } from 'next/router';
 import { useEffect, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
+import { clearForms } from '@/utils/event/clear-form';
+import { formatNumberToBase100 } from '@/utils/currency';
+import {ICustomerTag} from "@/types/entities/ICustomerTag";
+import {customerTagFormFields} from "@/forms/customer-tag";
+import {customerTagFormSchema} from "@/forms/customer-tag/schema";
 
-interface AngelModalProps {
+interface CustomerTagModalProps {
   isOpen: boolean;
   onClose: () => void;
-  defaultAngel?: any | null;
+  defaultCustomerTag?: ICustomerTag | null;
   refetch?: () => void;
 }
 
-export function AngelModal({
-  defaultAngel,
+export function CustomerTagModal({
+  defaultCustomerTag,
   onClose,
   isOpen,
   refetch,
-}: AngelModalProps) {
+}: CustomerTagModalProps) {
   const {
     register,
     setValue,
     reset,
     handleSubmit,
+    getValues,
     formState: { errors },
   } = useForm({
-    resolver: yupResolver(angelFormSchema),
+    resolver: yupResolver(customerTagFormSchema),
   });
 
   const router = useRouter();
 
   useEffect(() => {
-    if (defaultAngel) {
+    if (defaultCustomerTag) {
       reset({
-        ...defaultAngel,
+        ...defaultCustomerTag,
       });
     } else {
-      reset();
+      reset({});
     }
-  }, [defaultAngel]);
+  }, [defaultCustomerTag]);
 
-  async function onSubmit(data: any) {
-    const formattedData = {
-      ...data,
-      grantType: data.isAdmin ? 190 : 100,
-    };
+  function handleClose() {
+    reset();
+    onClose();
+    clearForms();
+  }
 
+  async function onSubmit(data: Partial<IProduct>) {
     try {
-      if (defaultAngel) {
-        await apiServices.angel.update(defaultAngel.id, formattedData);
-        toast.success('Anjo salvo com sucesso.');
+      if (defaultCustomerTag) {
+        await apiServices.customerTag.update(defaultCustomerTag.id, {
+          ...data
+        });
+        toast.success('Tag salva com sucesso.');
       } else {
-        await apiServices.angel.create(formattedData);
-        toast.success('Anjo adicionado com sucesso.');
+        await apiServices.customerTag.create({
+          ...data,
+        });
+        toast.success('Tag adicionada com sucesso.');
       }
 
       refetch && refetch();
+      router.push('/customer-tag/list');
       handleClose();
     } catch {
-      toast.error(
-        `Erro ao ${defaultAngel ? 'salvar' : 'adicionar'} anjo`,
-      );
+      toast.error(`Erro ao ${defaultCustomerTag ? 'salvar' : 'adicionar'} produto`);
     }
-  }
-
-  function handleClose() {
-    clearForms();
-    reset();
-    onClose();
   }
 
   return (
@@ -84,23 +87,17 @@ export function AngelModal({
       aria-describedby='alert-dialog-description'
     >
       <DialogTitle id='alert-dialog-title'>
-        {defaultAngel ? 'Salvar' : 'Adicionar'}&nbsp; Anjo
+        {defaultCustomerTag ? 'Salvar' : 'Adicionar'}&nbsp; Tag
       </DialogTitle>
       <DialogContent>
         <form onSubmit={handleSubmit(onSubmit)}>
           {mountForm({
-            fields: angelFormFields,
-            defaultValues: defaultAngel || {},
+            fields: customerTagFormFields,
+            defaultValues: defaultCustomerTag,
             errors,
             register: register,
             setValue,
           })}
-
-          {!defaultAngel && (
-            <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '1.5rem 0 0.5rem'}}>
-              Um link para criar a senha será enviado por email !
-            </Box>
-          )}
 
           <Box
             sx={{
@@ -112,7 +109,7 @@ export function AngelModal({
           >
             <Button onClick={handleClose}>Cancelar</Button>
             <Button type='submit' variant='contained'>
-              {defaultAngel ? 'Salvar' : 'Adicionar'}
+              {defaultCustomerTag ? 'Salvar' : 'Adicionar'}
             </Button>
           </Box>
         </form>

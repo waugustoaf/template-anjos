@@ -5,5 +5,6 @@ export interface ISalesFunnel {
   message: boolean;
   sale: boolean;
   schedule: boolean;
+  appointment: boolean;
   status: 'ACTIVE' | 'INACTIVE' | 'BLOCKED';
 }

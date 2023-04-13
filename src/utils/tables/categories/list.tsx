@@ -26,29 +26,25 @@ export function createCategoryListTable({
 }: CreateCategoryListTableProps) {
   return [
     {
-      flex: 0.1,
-      field: 'id',
-      minWidth: 100,
-      headerName: 'ID',
-      renderCell: ({ row }: CellType) => (
-        <Button
-          sx={{ padding: '0', margin: '0' }}
-          onClick={() => setCategoryToEdit(row)}
-        >
-          <Typography sx={{ color: 'text.secondary' }}>
-            #{TextEllipsis(row.id, 5)}
-          </Typography>
-        </Button>
-      ),
-    },
-    {
-      flex: 0.2,
+      flex: 0.3,
       field: 'name',
       headerName: 'Categoria',
       renderCell: ({ row }: CellType) => (
         <Box sx={{ display: 'flex', flexDirection: 'column' }}>
           <Typography noWrap sx={{ color: 'text.secondary' }}>
             {row.name}
+          </Typography>
+        </Box>
+      ),
+    },
+    {
+      flex: 0.3,
+      field: 'autoPilot',
+      headerName: 'Piloto Automático',
+      renderCell: ({ row }: CellType) => (
+        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+          <Typography noWrap sx={{ color: 'text.secondary' }}>
+            {row.autoPilot ? 'Sim' : 'Não'}
           </Typography>
         </Box>
       ),
@@ -62,15 +58,6 @@ export function createCategoryListTable({
       renderCell: ({ row }: CellType) => (
         <>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            {/* <Tooltip title='Apagar cliente'>
-              <IconButton
-                size='small'
-                sx={{ color: 'text.secondary' }}
-                onClick={() => setCategoryToDelete(row)}
-              >
-                <Icon icon='tabler:trash' />
-              </IconButton>
-            </Tooltip> */}
             <Tooltip title='Editar'>
               <IconButton
                 size='small'

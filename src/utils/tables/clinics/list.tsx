@@ -7,6 +7,7 @@ import {
   TextEllipsis,
 } from '@/utils/text';
 import {
+  Avatar,
   Button,
   Dialog,
   DialogActions,
@@ -20,6 +21,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Link from 'next/link';
 import { SetStateAction } from 'react';
+import CustomAvatar from "@/@core/components/mui/avatar";
 
 interface CellType {
   row: IClinic;
@@ -34,9 +36,9 @@ interface CreateClinicListTableProps {
 function getPlanStatus(status: string) {
   switch (status) {
     case 'NOPLAN':
-      return 'Sem plano';
+      return 'Não';
     default:
-      return 'Desconhecido';
+      return 'Sim';
   }
 }
 
@@ -49,7 +51,7 @@ function getStatus(status: IClinic['status']) {
     case 'BLOCKED':
       return 'Bloqueado';
     default:
-      return 'Desconhecido';
+      return status;
   }
 }
 
@@ -60,26 +62,32 @@ export function createClinicListTable({
 }: CreateClinicListTableProps) {
   return [
     {
-      flex: 0.1,
-      field: 'id',
-      headerName: 'ID',
-      renderCell: ({ row }: CellType) => (
-        <Typography sx={{ color: 'text.secondary' }}>
-          #{TextEllipsis(row.id, 5)}
-        </Typography>
-      ),
-    },
-    {
       flex: 0.3,
       field: 'clinic',
       minWidth: 100,
       headerName: 'Clínica',
       renderCell: ({ row }: CellType) => (
-        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-          <Typography noWrap sx={{ color: 'text.secondary', fontWeight: 500 }}>
-            {TextEllipsis(`${row.name} - ${row.fantasyName}`, 40)}
-          </Typography>
-          {beautifullySimplePhone(row.phone)}
+        <Box display='flex' gap='0.8rem'  width='100%'>
+          <Avatar
+            alt={row.fantasyName}
+            src={row.avatar || undefined}
+          >
+            <Typography fontSize={12}>
+              {row.fantasyName.split(' ').map((word) => word[0])}
+            </Typography>
+          </Avatar>
+          <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+            <Typography noWrap sx={{ color: 'text.secondary', fontWeight: 500 }}>
+                {TextEllipsis(`${row.name} - ${row.fantasyName}`, 50)}
+            </Typography>
+            {
+              row.phone ?
+                <Link href={'https://whatsa.me/55'+row.phone} target='_blank' >
+                  {beautifullyPhone(row.phone || '')}
+                </Link> :
+                'Não informado'
+            }
+          </Box>
         </Box>
       ),
     },
@@ -96,7 +104,7 @@ export function createClinicListTable({
     {
       flex: 0.1,
       field: 'plan',
-      headerName: 'Plano',
+      headerName: 'Campanha Ativa',
       renderCell: ({ row }: CellType) => (
         <Typography noWrap sx={{ color: 'text.secondary' }}>
           {getPlanStatus(row.planStatus)}
@@ -109,7 +117,7 @@ export function createClinicListTable({
       headerName: 'Status',
       renderCell: ({ row }: CellType) => (
         <Typography noWrap sx={{ color: 'text.secondary' }}>
-          {getStatus(row.status)}
+          {getStatus(row.contractStatus)}
         </Typography>
       ),
     },

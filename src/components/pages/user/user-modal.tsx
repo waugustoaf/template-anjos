@@ -98,6 +98,12 @@ export function UserModal({
             setValue,
           })}
 
+          {!defaultUser && (
+            <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '1.5rem 0 0.5rem'}}>
+              Um link para criar a senha será enviado por email !
+            </Box>
+          )}
+
           <Box
             sx={{
               display: 'flex',

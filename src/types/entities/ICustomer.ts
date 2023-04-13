@@ -12,6 +12,7 @@ export interface ICustomer {
   origin: string;
   descOrigin: string;
   instagram: string;
+  whatsapp: string;
   observation: string;
   city: string;
   state: string;

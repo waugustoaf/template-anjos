@@ -26,29 +26,29 @@ export function createSalesFunnelListTable({
 }: CreateSalesFunnelListTableProps) {
   return [
     {
-      flex: 0.1,
-      field: 'id',
-      minWidth: 100,
-      headerName: 'ID',
-      renderCell: ({ row }: CellType) => (
-        <Button
-          sx={{ padding: '0', margin: '0' }}
-          onClick={() => setSalesFunnelToEdit(row)}
-        >
-          <Typography sx={{ color: 'text.secondary' }}>
-            #{TextEllipsis(row.id, 5)}
-          </Typography>
-        </Button>
-      ),
-    },
-    {
-      flex: 0.2,
+      flex: 0.3,
       field: 'name',
       headerName: 'Nome',
       renderCell: ({ row }: CellType) => (
         <Box sx={{ display: 'flex', flexDirection: 'column' }}>
           <Typography noWrap sx={{ color: 'text.secondary' }}>
             {row.name}
+          </Typography>
+        </Box>
+      ),
+    },
+    {
+      flex: 0.3,
+      field: 'description',
+      headerName: 'Passos',
+      renderCell: ({ row }: CellType) => (
+        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+          <Typography noWrap sx={{ color: 'text.secondary' }}>
+            {row.message ? 'Mensagem - ' : ''}
+            {row.conversation ? 'Conversa - ' : ''}
+            {row.schedule ? 'Agendamento - ' : ''}
+            {row.appointment ? 'Consulta - ' : ''}
+            {row.sale ? 'Venda ' : ''}
           </Typography>
         </Box>
       ),

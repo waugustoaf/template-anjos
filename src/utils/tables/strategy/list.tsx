@@ -1,13 +1,22 @@
 import { Icon } from '@/components/icon';
-import { ISalesFunnel } from '@/types/entities/ISalesFunnel';
-
-import { TextEllipsis } from '@/utils/text';
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, Tooltip } from '@mui/material';
+import { Theme } from '@mui/material/styles';
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  IconButton,
+  Link,
+  Tooltip
+} from '@mui/material';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { SetStateAction } from 'react';
 import {IStrategy} from "@/types/entities/IStrategy";
 import {formatNumberFromBase100} from "@/utils/currency";
+import CustomAvatar from "@/@core/components/mui/avatar";
 
 interface CellType {
   row: IStrategy;
@@ -28,35 +37,30 @@ export function createStrategyListTable({
 }: CreateListTableProps) {
   return [
     {
-      flex: 0.1,
-      field: 'id',
-      minWidth: 100,
-      headerName: 'ID',
-      renderCell: ({ row }: CellType) => (
-        <Button
-          sx={{ padding: '0', margin: '0' }}
-          onClick={() => setStrategyToEdit({
-            ...row,
-            qtdMessages: formatNumberFromBase100(row.qtdMessages),
-            qtdConversations: formatNumberFromBase100(row.qtdConversations),
-            qtdAppointments: formatNumberFromBase100(row.qtdAppointments),
-            qtdSchedules: formatNumberFromBase100(row.qtdSchedules),
-          })}
-        >
-          <Typography sx={{ color: 'text.secondary' }}>
-            #{TextEllipsis(row.id, 5)}
-          </Typography>
-        </Button>
-      ),
-    },
-    {
-      flex: 0.2,
+      flex: 0.3,
       field: 'name',
       headerName: 'Nome',
       renderCell: ({ row }: CellType) => (
         <Box sx={{ display: 'flex', flexDirection: 'column' }}>
           <Typography noWrap sx={{ color: 'text.secondary' }}>
-            {row.name}
+            <Box display='flex' justifyContent='center' alignItems='center' width='100%'>
+              <CustomAvatar skin='light' sx={{ mr: 4, width: 42, height: 42 }}>
+                <Icon icon={'tabler:'+ row.icon} />
+              </CustomAvatar>
+              {row.name}
+            </Box>
+          </Typography>
+        </Box>
+      ),
+    },
+    {
+      flex: 0.3,
+      field: 'description',
+      headerName: 'Descrição',
+      renderCell: ({ row }: CellType) => (
+        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+          <Typography noWrap sx={{ color: 'text.secondary' }}>
+              {row.description}
           </Typography>
         </Box>
       ),

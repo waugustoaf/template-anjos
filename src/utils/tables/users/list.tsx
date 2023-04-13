@@ -1,7 +1,7 @@
 import { Icon } from '@/components/icon';
 import { IAngel } from '@/types/entities/IAngel';
 
-import { TextEllipsis } from '@/utils/text';
+import {beautifullyPhone, TextEllipsis} from '@/utils/text';
 import {
   Button,
   Dialog,
@@ -9,7 +9,7 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
-  IconButton,
+  IconButton, Link,
   Tooltip,
 } from '@mui/material';
 import Box from '@mui/material/Box';
@@ -36,29 +36,31 @@ export function createUserListTable({
 }: CreateUserListTableProps) {
   return [
     {
-      flex: 0.1,
-      field: 'id',
-      minWidth: 100,
-      headerName: 'ID',
-      renderCell: ({ row }: CellType) => (
-        <Button
-          sx={{ padding: '0', margin: '0' }}
-          onClick={() => setUserToEdit(row)}
-        >
-          <Typography sx={{ color: 'text.secondary' }}>
-            #{TextEllipsis(row.id, 5)}
-          </Typography>
-        </Button>
-      ),
-    },
-    {
-      flex: 0.2,
+      flex: 0.3,
       field: 'name',
       headerName: 'Nome',
       renderCell: ({ row }: CellType) => (
         <Box sx={{ display: 'flex', flexDirection: 'column' }}>
           <Typography noWrap sx={{ color: 'text.secondary' }}>
             {row.name}
+          </Typography>
+        </Box>
+      ),
+    },
+    {
+      flex: 0.3,
+      field: 'grantType',
+      headerName: 'Tipo de usuário',
+      renderCell: ({ row }: CellType) => (
+        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+          <Typography noWrap sx={{ color: 'text.secondary' }}>
+            <Box>
+              {
+                row.grantType && row.grantType > 50 ?
+                  'Administrador' :
+                  'Usuário comum'
+              }
+            </Box>
           </Typography>
         </Box>
       ),
@@ -72,15 +74,6 @@ export function createUserListTable({
       renderCell: ({ row }: CellType) => (
         <>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            {/* <Tooltip title='Apagar'>
-              <IconButton
-                size='small'
-                sx={{ color: 'text.secondary' }}
-                onClick={() => setAngelToDelete(row)}
-              >
-                <Icon icon='tabler:trash' />
-              </IconButton>
-            </Tooltip> */}
             <Tooltip title='Editar'>
               <IconButton
                 size='small'

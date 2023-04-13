@@ -1,8 +1,18 @@
 import { Icon } from '@/components/icon';
 import { ISalesFunnel } from '@/types/entities/ISalesFunnel';
 
-import { TextEllipsis } from '@/utils/text';
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, Tooltip } from '@mui/material';
+import {beautifullyPhone, TextEllipsis} from '@/utils/text';
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  IconButton,
+  Link,
+  Tooltip
+} from '@mui/material';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { SetStateAction } from 'react';
@@ -28,22 +38,6 @@ export function createCustomerListTable({
 }: CreateListTableProps) {
   return [
     {
-      flex: 0.1,
-      field: 'id',
-      minWidth: 100,
-      headerName: 'ID',
-      renderCell: ({ row }: CellType) => (
-        <Button
-          sx={{ padding: '0', margin: '0' }}
-          onClick={() => setCustomerToEdit(row)}
-        >
-          <Typography sx={{ color: 'text.secondary' }}>
-            #{TextEllipsis(row.id, 5)}
-          </Typography>
-        </Button>
-      ),
-    },
-    {
       flex: 0.2,
       field: 'name',
       headerName: 'Nome',
@@ -51,6 +45,46 @@ export function createCustomerListTable({
         <Box sx={{ display: 'flex', flexDirection: 'column' }}>
           <Typography noWrap sx={{ color: 'text.secondary' }}>
             {row.name}
+          </Typography>
+        </Box>
+      ),
+    },
+    {
+      flex: 0.2,
+      field: 'instagram',
+      headerName: 'Instagram',
+      renderCell: ({ row }: CellType) => (
+        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+          <Typography noWrap sx={{ color: 'text.secondary' }}>
+            <Box>
+              {
+                row.instagram ?
+                <Link href={'https://instagram.com/'+row.instagram} target='_blank'>
+                  @{row.instagram}
+                </Link> :
+                'Não informado'
+              }
+            </Box>
+          </Typography>
+        </Box>
+      ),
+    },
+    {
+      flex: 0.2,
+      field: 'whatsapp',
+      headerName: 'Whatsapp',
+      renderCell: ({ row }: CellType) => (
+        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+          <Typography noWrap sx={{ color: 'text.secondary' }}>
+            <Box>
+              {
+                row.whatsapp ?
+                  <Link href={'https://whatsa.me/55'+row.whatsapp} target='_blank'>
+                    {beautifullyPhone(row.whatsapp || '')}
+                  </Link> :
+                  'Não informado'
+              }
+            </Box>
           </Typography>
         </Box>
       ),

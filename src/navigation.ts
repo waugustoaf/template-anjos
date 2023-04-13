@@ -31,6 +31,11 @@ export const VerticalNavItems = (): VerticalNavItemsType => {
       path: '/user/list',
     },
     {
+      title: 'Tag',
+      icon: 'tabler:tag',
+      path: '/customer-tag/list',
+    },
+    {
       sectionTitle: 'Operação',
     },
     {
@@ -44,7 +49,7 @@ export const VerticalNavItems = (): VerticalNavItemsType => {
     {
       title: 'Pipeline',
       icon: 'tabler:layout-kanban',
-      path: '/pipeline',
+      path: '/campaigns/9de46756-e26a-411a-87b3-102333285ca0/boards/d53d4443-4f1a-43c9-bdc9-512734c290c7',
     },
     {
       sectionTitle: 'Configurações',

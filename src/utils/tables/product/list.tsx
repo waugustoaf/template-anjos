@@ -43,23 +43,7 @@ export function createProductListTable({
 
   return [
     {
-      flex: 0.1,
-      field: 'id',
-      minWidth: 100,
-      headerName: 'ID',
-      renderCell: ({ row }: CellType) => (
-        <Button
-          sx={{ padding: '0', margin: '0' }}
-          onClick={() => handleEditProduct(row)}
-        >
-          <Typography sx={{ color: 'text.secondary' }}>
-            #{TextEllipsis(row.id, 5)}
-          </Typography>
-        </Button>
-      ),
-    },
-    {
-      flex: 0.2,
+      flex: 0.4,
       field: 'name',
       headerName: 'Nome',
       renderCell: ({ row }: CellType) => (
