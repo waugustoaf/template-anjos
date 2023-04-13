@@ -82,8 +82,8 @@ export function createClinicListTable({
             </Typography>
             {
               row.phone ?
-                <Link href={'https://whatsa.me/55'+row.phone} target='_blank' >
-                  {beautifullyPhone(row.phone || '')}
+                <Link href={'https://whatsa.me/55'+row.phone} target='_blank' style={{ textDecoration: 'none', color:'#D2AE6D' }} >
+                  { beautifullyPhone(row.phone || '') }
                 </Link> :
                 'Não informado'
             }
