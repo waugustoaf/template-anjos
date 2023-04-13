@@ -93,9 +93,12 @@ export default function CategoryAddPage() {
     apiServices.clinics.get(slug),
   );
 
-  async function handleSaveClinic(data: Partial<IClinic>) {
+  async function handleSaveClinic(data: Partial<IClinic>) {;
     const formattedData = truthyObject({
       ...data,
+      birthDate: data.birthDate
+        ? formatDateToISO(localDateToUTC(data.birthDate))
+        : undefined,
       accumulativeTime: data.accumulativeTime
         ? Number(data.accumulativeTime)
         : undefined,
@@ -121,6 +124,9 @@ export default function CategoryAddPage() {
         : undefined,
       startValue: data.startValue
         ? formatNumberToBase100(Number(data.startValue))
+        : undefined,
+      habitantsCount: data.habitantsCount
+        ? Number(data.habitantsCount)
         : undefined,
       expertiseId:
         Array.isArray(data.expertiseId) && data.expertiseId?.[0]?.name

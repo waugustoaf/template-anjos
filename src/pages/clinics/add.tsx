@@ -73,6 +73,9 @@ export default function ClinicAddPage() {
 
     const formattedData = truthyObject({
       ...data,
+      birthDate: data.birthDate
+        ? formatDateToISO(localDateToUTC(data.birthDate))
+        : undefined,
       accumulativeTime: data.accumulativeTime
         ? Number(data.accumulativeTime)
         : undefined,

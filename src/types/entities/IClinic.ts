@@ -20,6 +20,7 @@ export interface IClinic {
   complement: string;
   neighborhood: string;
   city: string;
+  habitantsCount: number;
   state: string;
   phone: string;
   observation: string;

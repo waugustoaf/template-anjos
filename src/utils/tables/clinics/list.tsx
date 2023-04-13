@@ -61,7 +61,6 @@ export function createClinicListTable({
   setClinicToDelete,
   handleDeleteClinic,
 }: CreateClinicListTableProps) {
-  const theme = useTheme();
   return [
     {
       flex: 0.3,
@@ -112,20 +111,16 @@ export function createClinicListTable({
 
           <Box
             padding='2px 8px'
-            bgcolor={row.planStatus === 'NOPLAN' ? theme.palette.error.main : theme.palette.success.main}
+            bgcolor={row.planStatus === 'NOPLAN' ? 'error.main' : 'success.main'}
             borderRadius='4px'
             fontSize='13px'
             fontWeight='700'
-            marginTop='1.5rem'
             marginLeft={'2.5rem'}
             alignItems={'center'}
             alignContent={'center'}
           >
             {getPlanStatus(row.planStatus)}
           </Box>
-
-
-        }
         </Typography>
       ),
     },
