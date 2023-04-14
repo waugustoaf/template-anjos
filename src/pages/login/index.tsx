@@ -107,7 +107,7 @@ const LoginPage = () => {
           <Box sx={{ width: '100%', maxWidth: 400 }}>
             <img
               src='/images/favicon.svg'
-              width='35'
+              width='60'
               alt={themeConfig.templateName}
             />
             <Box sx={{ my: 6 }}>
@@ -119,7 +119,7 @@ const LoginPage = () => {
                   lineHeight: 1.385,
                 }}
               >
-                {`Bem-vindo(a) à ${themeConfig.templateName}! 👋🏻`}
+                {`Bem-vindo(a) ao Anjo Guia. 👼🏼 `}
               </Typography>
               <Typography sx={{ color: 'text.secondary' }}>
                 Por favor, entre em sua conta e aproveite a aventura
