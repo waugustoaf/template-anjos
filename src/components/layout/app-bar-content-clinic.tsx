@@ -14,6 +14,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { useDebounce } from 'use-debounce';
+import {useRouter} from "next/router";
 
 interface Props {
   onClose: () => void;
@@ -22,6 +23,7 @@ interface Props {
 export const AppBarContentClinic = ({ onClose }: Props) => {
   const [search, setSearch] = useState('');
   const [debouncedSearch] = useDebounce(search, 750);
+  const router = useRouter();
 
   const { handleUpdateToken, handleUpdateUser } = useAuth();
 
@@ -44,6 +46,7 @@ export const AppBarContentClinic = ({ onClose }: Props) => {
         user: response.data.user,
         clinic: response.data.clinic,
       });
+      await router.push('/dashboard');
       onClose();
     } catch {
       toast.error('Não foi possível selecionar a clínica');
