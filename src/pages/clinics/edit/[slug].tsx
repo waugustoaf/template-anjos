@@ -160,8 +160,9 @@ export default function CategoryAddPage() {
           startValue: formatNumberFromBase100(response.data.startValue),
         },
       }));
-    } catch {
-      toast.error('Erro ao salvar clínica');
+    } catch (e) {
+      console.log('teste');
+      toast.error('Erro ao salvar clínicas');
     } finally {
       setIsSubmitting(false);
     }

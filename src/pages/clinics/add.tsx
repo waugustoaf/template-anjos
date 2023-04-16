@@ -13,6 +13,7 @@ import { formatDateToISO, localDateToUTC } from '@/utils/date';
 import { truthyObject } from '@/utils/functions/formatters';
 import { Box, Button } from '@mui/material';
 import { toast } from 'react-hot-toast';
+import {AxiosError} from "axios";
 
 interface TabButtonProps {
   tab: 'personal-data' | 'contract' | 'billings' | 'attachments';
@@ -121,8 +122,28 @@ export default function ClinicAddPage() {
         ...prevState,
         ...response.data,
       }));
-    } catch {
-      toast.error('Erro ao salvar categoria');
+    } catch (e) {
+      const error = e as AxiosError;
+      if (error.code === 'ERR_BAD_REQUEST') {
+        if (error.response?.data) {
+
+          // @ts-ignore
+          if (error.response?.data?.error?.includes('EMAIL_ALREADY_EXISTS')){
+            return toast.error('E-mail já cadastrado');
+          }
+
+          // @ts-ignore
+          if (error.response?.data?.error?.includes('DOCUMENT_ALREADY_EXISTS')){
+            return toast.error('Documento já cadastrado');
+          }
+        }
+        // @ts-ignore
+        console.log(error.response?.data?.error);
+        // @ts-ignore
+        return toast.error(error.response?.data?.error);
+      }
+      console.log(error);
+      toast.error('Erro ao salvar clínica');
     } finally {
       setIsLoading(false);
     }
