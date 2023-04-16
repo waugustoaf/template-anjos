@@ -127,7 +127,7 @@ export default function CategoryAddPage() {
         : undefined,
       habitantsCount: data.habitantsCount
         ? Number(data.habitantsCount)
-        : undefined,
+        : 0,
       expertiseId:
         Array.isArray(data.expertiseId) && data.expertiseId?.[0]?.name
           ? data.expertiseId.map((i) => i.id)
@@ -160,8 +160,9 @@ export default function CategoryAddPage() {
           startValue: formatNumberFromBase100(response.data.startValue),
         },
       }));
-    } catch {
-      toast.error('Erro ao salvar clínica');
+    } catch (e) {
+      console.log('teste');
+      toast.error('Erro ao salvar clínicas');
     } finally {
       setIsSubmitting(false);
     }
@@ -179,6 +180,9 @@ export default function CategoryAddPage() {
         afterAverageRevenue: formatNumberFromBase100(
           data.data.afterAverageRevenue,
         ),
+        habitantsCount: data.habitantsCount
+          ? Number(data.habitantsCount)
+          : 0,
         growthRate: formatNumberFromBase100(data.data.growthRate),
         initialRevenue: formatNumberFromBase100(data.data.initialRevenue),
         startValue: formatNumberFromBase100(data.data.startValue),
