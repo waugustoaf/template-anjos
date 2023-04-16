@@ -102,6 +102,9 @@ export default function ClinicAddPage() {
       startValue: data.startValue
         ? formatNumberToBase100(Number(data.startValue))
         : undefined,
+      habitantsCount: data.habitantsCount
+        ? Number(data.habitantsCount)
+        : 0,
     });
 
     setCurrentClinicData((prevState) => ({
