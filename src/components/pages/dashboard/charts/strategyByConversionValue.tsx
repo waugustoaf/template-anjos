@@ -28,12 +28,6 @@ import { useSettings } from '@/@core/hooks/useSettings'
 // ** Util Import
 import { hexToRGBA } from '@/@core/utils/hex-to-rgba'
 
-const yearOptions = [new Date().getFullYear() - 1, new Date().getFullYear() - 2, new Date().getFullYear() - 3]
-
-const barSeries = [
-  { name: 'Estratégias', data: [250, 230, 200, 150] },
-]
-
 const StyledGrid = styled(Grid)<GridProps>(({ theme }) => ({
   [theme.breakpoints.down('sm')]: {
     borderBottom: `1px solid ${theme.palette.divider}`
@@ -43,11 +37,34 @@ const StyledGrid = styled(Grid)<GridProps>(({ theme }) => ({
   }
 }))
 
-const StrategyConversionValue = () => {
+
+interface DataStrategyConversionValueProps {
+  data: StrategyConversionValueProps[] | undefined
+}
+
+interface StrategyConversionValueProps {
+  strategyId: string | undefined
+  icon: string | undefined
+  name: string | undefined
+  value: number | undefined;
+}
+
+const StrategyConversionValue = ({data}: DataStrategyConversionValueProps) => {
+
+  const strategies: string[] = [];
+  const dataValues: number[] = [];
+
+  const barSeries = [
+    { name: 'Estratégias', data: dataValues },
+  ]
+
+  data?.map((item) => {
+    strategies.push(item.name!)
+    dataValues.push(item.value!)
+  });
+
   // ** Hooks & Var
   const theme = useTheme()
-  const { settings } = useSettings()
-  const { direction } = settings
 
   const barOptions: ApexOptions = {
     chart: {
@@ -113,7 +130,7 @@ const StrategyConversionValue = () => {
       axisTicks: { show: false },
       crosshairs: { opacity: 0 },
       axisBorder: { show: false },
-      categories: ['Parcerias', 'Inj. Caixa Rapido', 'Indicação Simples', 'Digital Influencer', 'Ind. 3 etapas'],
+      categories: strategies,
       labels: {
         style: {
           fontSize: '14px',

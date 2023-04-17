@@ -14,28 +14,39 @@ const Illustration = styled('img')(({ theme }) => ({
 }));
 
 interface CongratulationsPersonProps {
-  value: number;
-  percentage: number;
+  value: number | undefined;
+  percentage: number | undefined;
 }
 
 const CongratulationsPerson = ({
   percentage,
   value,
 }: CongratulationsPersonProps) => {
+  // @ts-ignore
   return (
     <Card sx={{ position: 'relative' }} style={{ minHeight: '100%' }}>
       <CardContent>
         <Typography variant='h6' sx={{ fontWeight: 500 }}>
+
           Parabéns Anjo! 🎉
         </Typography>
         <Typography sx={{ mb: 2, color: 'text.secondary' }}>
-          Best seller of the month
+          {percentage ?
+            percentage < 30 ? ('Você pode melhorar') :
+            percentage > 30 && percentage < 50 ? ('Quem trabalha sempre alcança') :
+              percentage > 50 && percentage < 80 ? ('Estamos no caminho  !') :
+                percentage > 80 && percentage < 100 ? ('quase lá !') :
+                  percentage == 100 ? ('Parabéns Conseguimos') :
+                    percentage > 100 ? ('Isso é fenomenal !') :
+              ('Vamos Vamos !') :
+            ''}
         </Typography>
         <Typography
           variant='h5'
           sx={{ mb: 0.5, fontWeight: 500, color: 'primary.main' }}
         >
-          {value} - {percentage}%
+          {value?.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} -
+          {percentage}%
         </Typography>
 
         <Illustration

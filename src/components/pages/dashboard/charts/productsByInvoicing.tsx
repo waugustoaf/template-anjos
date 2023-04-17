@@ -10,35 +10,36 @@ import { Icon } from '@/components/icon';
 
 interface DataType {
   title: string
-  imgSrc: string
   subtitle: string
   value: string
   trend?: 'positive' | 'negative'
 }
 
-const data: DataType[] = [
-  {
-    title: 'Pacote Emagrece',
-    value: 'R$ 45.000,00',
-    subtitle: '10',
-    imgSrc: '/images/cards/us.png'
-  },
-  {
-    title: 'Lipoescultura gessada',
-    trend: 'positive',
-    value: 'R$ 3.000,00',
-    subtitle: '2 vendas',
-    imgSrc: '/images/cards/brazil.png'
-  },
-  {
-    title: 'Limpeza de pele',
-    subtitle: '150 vendas',
-    value: 'R$ 3.000,00',
-    imgSrc: '/images/cards/india.png'
-  }
-]
+interface DataProductsByInvoicingProps {
+  data: ProductsByInvoicingProps[] | undefined
+}
 
-const ProductsByInvoicing = () => {
+interface ProductsByInvoicingProps {
+  strategyId: string | undefined
+  icon: string | undefined
+  name: string | undefined
+  value: number | undefined;
+  quantity: number | undefined;
+}
+
+const ProductsByInvoicing = ({data}: DataProductsByInvoicingProps) => {
+
+
+  const customData: DataType[] = []
+
+  data?.map((item) => {
+    customData.push({
+      title: item.name ? item.name : '',
+      value: item.value ? `R$ ${item.value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}` : '',
+      subtitle: `${item.quantity ? `R$ ${item.quantity}` : '0'} vendas`,
+    });
+  });
+
   return (
     <Card>
       <CardHeader
@@ -47,7 +48,7 @@ const ProductsByInvoicing = () => {
         subheaderTypographyProps={{ sx: { mt: '0 !important' } }}
       />
       <CardContent>
-        {data.map((item: DataType, index: number) => {
+        {customData.map((item: DataType, index: number) => {
           return (
             <Box
               key={item.title}
@@ -55,7 +56,7 @@ const ProductsByInvoicing = () => {
                 display: 'flex',
                 '& img': { mr: 4 },
                 alignItems: 'center',
-                mb: index !== data.length - 1 ? 4 : undefined
+                mb: index !== customData.length - 1 ? 4 : undefined
               }}
             >
               {/* <img width={34} src={item.imgSrc} alt={item.subtitle} /> */}
@@ -96,4 +97,4 @@ const ProductsByInvoicing = () => {
   )
 }
 
-export default ProductsByInvoicing
+export default ProductsByInvoicing;
