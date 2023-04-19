@@ -38,10 +38,10 @@ export interface IDashLeads {
 }
 
 export interface IDashLeadsConversion {
-  strategyId: string;
-  name: string;
-  gain: number;
-  lost: number;
+  strategyId?: string;
+  name?: string;
+  gain?: number;
+  lost?: number;
 }
 
 export interface IDashGoalPoint{

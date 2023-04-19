@@ -3,29 +3,21 @@ import { useState } from 'react';
 
 import { Breadcrumb } from '@/components/breadcrumb';
 import { Icon } from '@/components/icon';
-import { ClinicTabBilling } from '@/components/pages/clinics/tabs/billings';
-import { ClinicTabContract } from '@/components/pages/clinics/tabs/contract';
-import { ClinicTabPersonalData } from '@/components/pages/clinics/tabs/personal-data';
-import { clinicServices } from '@/services/clinics';
-import { IClinic } from '@/types/entities/IClinic';
-import { formatNumberToBase100 } from '@/utils/currency';
-import { formatDateToISO, localDateToUTC } from '@/utils/date';
+import { ProfilePasswordData } from '@/components/pages/profile/tabs/password-data';
+import { ProfilePersonalData } from '@/components/pages/profile/tabs/personal-data';
+import { userServices } from '@/services/user';
+import { IProfile } from '@/types/entities/IProfile';
 import { truthyObject } from '@/utils/functions/formatters';
 import { Box, Button } from '@mui/material';
 import { toast } from 'react-hot-toast';
-import {IProfile} from "@/types/entities/IProfile";
-import {userServices} from "@/services/user";
-import {ProfilePersonalData} from "@/components/pages/profile/tabs/personal-data";
-import {ProfilePasswordData} from "@/components/pages/profile/tabs/password-data";
+import { useAuth } from '@/hooks/useAuth';
 
 interface TabButtonProps {
   tab: 'personal-data' | 'password';
   activeTab: 'personal-data' | 'password';
   icon: string;
   title: string;
-  onChange: (
-    tab: 'personal-data' | 'password',
-  ) => void;
+  onChange: (tab: 'personal-data' | 'password') => void;
 }
 
 function TabButton({ activeTab, icon, tab, title, onChange }: TabButtonProps) {
@@ -58,12 +50,15 @@ function getTitle(title: string) {
 }
 
 export default function ProfileAddPage() {
-  const [currentTab, setCurrentTab] = useState<
-    'personal-data' | 'password'
-  >('personal-data');
-  const [profileData, setProfileData] = useState<Partial<IProfile>>(
-    {},
+  const { user } = useAuth();
+
+  const [currentTab, setCurrentTab] = useState<'personal-data' | 'password'>(
+    'personal-data',
   );
+  const [profileData, setProfileData] = useState<Partial<IProfile>>({
+    email: user?.user?.email || '',
+    fullName: user?.user?.fullName || '',
+  });
   const [isLoading, setIsLoading] = useState(false);
 
   async function handleSaveProfile(data: Partial<IProfile>) {
@@ -94,7 +89,12 @@ export default function ProfileAddPage() {
 
     try {
       setIsLoading(true);
-      await userServices.changePassword(data.email, data.newPassword, data.confirmPassword, data.currentPassword);
+      await userServices.changePassword(
+        data.email,
+        data.newPassword,
+        data.confirmPassword,
+        data.currentPassword,
+      );
     } catch {
       toast.error('Erro ao salvar atualizar a senha');
     } finally {
@@ -105,10 +105,7 @@ export default function ProfileAddPage() {
   return (
     <>
       <Breadcrumb
-        items={[
-          { label: 'Meu Perfil' },
-          { label: getTitle(currentTab) },
-        ]}
+        items={[{ label: 'Meu Perfil' }, { label: getTitle(currentTab) }]}
       />
 
       <Box display='flex' alignItems='center' gap='0.5rem' mb='1rem'>

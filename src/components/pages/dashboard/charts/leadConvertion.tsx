@@ -42,11 +42,10 @@ interface DataLeadStrategyProps {
 }
 
 interface LeadStrategyProps {
-  strategyId: number | undefined
-  name: string | undefined;
-  gain: number | undefined;
-
-  lost: number | undefined;
+  strategyId?: string;
+  name?: string;
+  gain?: number;
+  lost?: number;
 }
 
 const LeadConvert = ( { data }: DataLeadStrategyProps ) => {
