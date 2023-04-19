@@ -161,7 +161,6 @@ export default function CategoryAddPage() {
         },
       }));
     } catch (e) {
-      console.log('teste');
       toast.error('Erro ao salvar clínicas');
     } finally {
       setIsSubmitting(false);

@@ -12,6 +12,8 @@ export function CreatedCampaigns({ campaign }: CreatedCampaignsProps) {
   const [currentBoard, setCurrentBoard] = useState(campaign.boards[0]);
 
   const fields = useMemo(() => {
+    console.log({ currentBoard });
+
     return [
       'message',
       'conversation',
@@ -21,13 +23,15 @@ export function CreatedCampaigns({ campaign }: CreatedCampaignsProps) {
     ].reduce((prevState, currValue) => {
       const currentItem = (currentBoard as any)[currValue as any] as any;
 
-      if (currentItem.isEnabled) {
+      if (currentItem.isEnable) {
         return [...prevState, { ...currentItem, name: currValue }];
       }
 
       return prevState;
     }, [] as any[]);
   }, [currentBoard]);
+
+  console.log({ campaign, fields });
 
   const maxValue = useMemo(() => {
     let maxValue = 0;

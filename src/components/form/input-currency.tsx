@@ -1,6 +1,6 @@
 import { ResolveFieldProps } from '@/utils/form/mount-form';
 import { FormControl, FormHelperText, Grid, TextField } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { formatValue } from 'react-currency-input-field';
 
 export function InputCurrency(props: ResolveFieldProps) {
