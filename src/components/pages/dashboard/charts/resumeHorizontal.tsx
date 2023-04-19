@@ -22,28 +22,13 @@ interface DataType {
   color: ThemeColor
 }
 
-const data: DataType[] = [
-  {
-    color: 'info',
-    stats: '2.500',
-    title: 'Leads',
-    icon: 'tabler:users'
-  },
-  {
-    color: 'error',
-    stats: '350',
-    title: 'Vendas',
-    icon: 'tabler:shopping-cart'
-  },
-  {
-    stats: 'R$ 3.400,00',
-    color: 'success',
-    title: 'Ticket Médio',
-    icon: 'tabler:currency-dollar'
-  }
-]
+interface ResumeHorizontalProps {
+  leads: number | undefined;
+  sales: number | undefined;
+  ticket: number | undefined;
+}
 
-const renderStats = () => {
+const renderStats = (data: DataType[]) => {
   return data.map((sale: DataType, index: number) => (
     <Grid item xs={6} md={4} key={index}>
       <Box key={index} sx={{ display: 'flex', alignItems: 'center' }}>
@@ -59,7 +44,29 @@ const renderStats = () => {
   ))
 }
 
-const ResumeHorizontal = () => {
+const ResumeHorizontal = ({leads,sales, ticket}: ResumeHorizontalProps) => {
+
+  const data: DataType[] = [
+    {
+      color: 'info',
+      stats: leads ? leads.toString() : '0',
+      title: 'Leads',
+      icon: 'tabler:users'
+    },
+    {
+      color: 'error',
+      stats: sales ? sales.toString() : '0',
+      title: 'Vendas',
+      icon: 'tabler:shopping-cart'
+    },
+    {
+      stats: ticket ? ticket?.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) : '0',
+      color: 'success',
+      title: 'Ticket Médio',
+      icon: 'tabler:currency-dollar'
+    }
+  ]
+
   return (
     <Card>
       <CardHeader
@@ -73,7 +80,7 @@ const ResumeHorizontal = () => {
       />
       <CardContent sx={{ pt: theme => `${theme.spacing(7)} !important` }}>
         <Grid container spacing={6}>
-          {renderStats()}
+          {renderStats(data)}
         </Grid>
       </CardContent>
     </Card>

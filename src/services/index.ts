@@ -10,6 +10,7 @@ import {userServices} from "@/services/user";
 import {campaignsServices} from "@/services/campaigns";
 import {autoPilotServices} from "@/services/auto-pilot";
 import {customerTagServices} from "@/services/customer-tag";
+import {DashboardServices} from "@/services/dashboard";
 
 export const apiServices = {
   auth: authService,
@@ -24,4 +25,5 @@ export const apiServices = {
   campaign: campaignsServices,
   autoPilot: autoPilotServices,
   customerTag: customerTagServices,
+  dashboard: DashboardServices,
 };
