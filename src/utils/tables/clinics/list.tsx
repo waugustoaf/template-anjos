@@ -1,5 +1,6 @@
 import { Icon } from '@/components/icon';
 import { IClinic } from '@/types/entities/IClinic';
+import CustomChip from '@/@core/components/mui/chip'
 
 import {
   beautifullyPhone,
@@ -23,6 +24,7 @@ import Link from 'next/link';
 import { SetStateAction } from 'react';
 import CustomAvatar from "@/@core/components/mui/avatar";
 import {useTheme} from "@mui/material/styles";
+import {ThemeColor} from "@/types/app/layout";
 
 interface CellType {
   row: IClinic;
@@ -43,7 +45,7 @@ function getPlanStatus(status: string) {
   }
 }
 
-function getStatus(status: IClinic['status']) {
+function getContractStatus(status: IClinic['status']) {
   switch (status) {
     case 'ACTIVE':
       return 'Ativo';
@@ -61,6 +63,22 @@ export function createClinicListTable({
   setClinicToDelete,
   handleDeleteClinic,
 }: CreateClinicListTableProps) {
+
+  interface UserStatusType {
+    [key: string]: ThemeColor;
+  }
+
+  const contractStatusObj: UserStatusType = {
+    ACTIVE: 'success',
+    INACTIVE: 'warning',
+    BLOCKED: 'error'
+  };
+
+  const planStatusObj: UserStatusType = {
+    PLAN: 'success',
+    NOPLAN: 'error'
+  };
+
   return [
     {
       flex: 0.3,
@@ -109,18 +127,15 @@ export function createClinicListTable({
       renderCell: ({ row }: CellType) => (
         <Typography noWrap sx={{ color: '#fff' }}>
 
-          <Box
-            padding='2px 8px'
-            bgcolor={row.planStatus === 'NOPLAN' ? 'error.main' : 'success.main'}
-            borderRadius='4px'
-            fontSize='13px'
-            fontWeight='700'
-            marginLeft={'2.5rem'}
-            alignItems={'center'}
-            alignContent={'center'}
-          >
-            {getPlanStatus(row.planStatus)}
-          </Box>
+
+          <CustomChip
+            rounded
+            skin='light'
+            size='small'
+            label={getPlanStatus(row.planStatus)}
+            color={planStatusObj[row.planStatus]}
+            sx={{ textTransform: 'capitalize' }}
+          />
         </Typography>
       ),
     },
@@ -128,11 +143,18 @@ export function createClinicListTable({
       flex: 0.1,
       field: 'status',
       headerName: 'Status',
-      renderCell: ({ row }: CellType) => (
-        <Typography noWrap sx={{ color: 'text.secondary' }}>
-          {getStatus(row.contractStatus)}
-        </Typography>
-      ),
+      renderCell: ({ row }: CellType) => {
+        return (
+          <CustomChip
+            rounded
+            skin='light'
+            size='small'
+            label={getContractStatus(row.contractStatus)}
+            color={contractStatusObj[row.contractStatus]}
+            sx={{ textTransform: 'capitalize' }}
+          />
+        )
+      }
     },
     {
       flex: 0.1,
