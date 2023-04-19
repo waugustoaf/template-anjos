@@ -64,7 +64,7 @@ export default function CategoryAddPage() {
       ..._data,
     }));
 
-    if (!isAutoPilot && !data?.data.length) {
+    if (!isAutoPilot && currentRoute === 'main') {
       return setCurrentRoute('strategy');
     }
 
@@ -120,27 +120,27 @@ export default function CategoryAddPage() {
             message: {
               goal: 10.8,
               count: 0,
-              isEnabled: true,
+              isEnable: true,
             },
             conversation: {
               goal: 8,
               count: 0,
-              isEnabled: true,
+              isEnable: true,
             },
             schedule: {
               goal: 4,
               count: 0,
-              isEnabled: true,
+              isEnable: true,
             },
             appointment: {
               goal: 2,
               count: 0,
-              isEnabled: true,
+              isEnable: true,
             },
             sale: {
               goal: 1,
               count: 0,
-              isEnabled: true,
+              isEnable: true,
             },
             salesSum: 0,
             averageTicket: 150000,
@@ -171,27 +171,27 @@ export default function CategoryAddPage() {
             message: {
               goal: 8,
               count: 0,
-              isEnabled: true,
+              isEnable: true,
             },
             conversation: {
               goal: 7,
               count: 0,
-              isEnabled: true,
+              isEnable: true,
             },
             schedule: {
               goal: 4,
               count: 0,
-              isEnabled: true,
+              isEnable: true,
             },
             appointment: {
               goal: 2,
               count: 0,
-              isEnabled: true,
+              isEnable: true,
             },
             sale: {
               goal: 1,
               count: 0,
-              isEnabled: true,
+              isEnable: true,
             },
             salesSum: 0,
             averageTicket: 150000,
