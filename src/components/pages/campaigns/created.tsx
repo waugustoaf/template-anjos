@@ -116,10 +116,10 @@ export function CreatedCampaigns({ campaign }: CreatedCampaignsProps) {
         alignItems='center'
         gap='0.15rem'
       >
-        {fields.map((field) => (
+        {fields.map((field, index) => (
           <Box
             key={field}
-            width={`${getPercentage(field.goal)}%`}
+            width={`${100 - index * 20}%`}
             minWidth='fit-content'
             height='82px'
             bgcolor='white'
@@ -143,7 +143,7 @@ export function CreatedCampaigns({ campaign }: CreatedCampaignsProps) {
         padding='0 1.5rem 1.5rem 0'
       >
         <Link
-          href={`/campaigns/pipelines/${currentBoard.id}`}
+          href={`/campaigns/pipelines?board=${currentBoard.id}`}
           style={{ textDecoration: 'none' }}
         >
           <Button variant='contained'>Ir para a Pipeline</Button>

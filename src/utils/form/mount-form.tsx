@@ -25,6 +25,7 @@ import {
 } from 'react-hook-form';
 import { InputFile } from '@/components/form/input-file';
 import { AutocompleteSync } from '@/components/form/autocomplete-sync';
+import { TextArea } from '@/components/form/textarea';
 
 export interface FormFieldProps {
   rowSize: number;
@@ -264,6 +265,17 @@ function resolveField({
     case 'select':
       return (
         <Select
+          field={field}
+          errorMessage={errorMessage}
+          register={register}
+          setValue={setValue}
+          trigger={trigger}
+          defaultValue={defaultValue}
+        />
+      );
+    case 'textarea':
+      return (
+        <TextArea
           field={field}
           errorMessage={errorMessage}
           register={register}

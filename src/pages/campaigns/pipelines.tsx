@@ -1,5 +1,7 @@
 import { Breadcrumb } from '@/components/breadcrumb';
 import { Icon } from '@/components/icon';
+import { CampaignsPipelinesModal } from '@/components/pages/campaigns/pipelines/modal';
+import { CustomerModal } from '@/components/pages/customer/customer-modal';
 import { Spinner } from '@/components/spinner';
 import { TableHeader } from '@/components/table-header';
 import { useAuth } from '@/hooks/useAuth';
@@ -35,6 +37,11 @@ function translate(key: string) {
 }
 
 export default function Boards() {
+  const [selectedCustomer, setSelectedCustomer] = useState<{
+    customer: GetCustomerCBResponse['message'][0];
+    key: string;
+  } | null>(null);
+  const [isCreatingUser, setIsCreatingUser] = useState(false);
   const [selectedBoard, setSelectedBoard] = useState<IBoardCampaign | null>(
     null,
   );
@@ -42,12 +49,13 @@ export default function Boards() {
   const router = useRouter();
   const theme = useTheme();
 
-  const { data: boards, isLoading } = useQuery(
-    ['boards'],
-    apiServices.campaign.boards,
-  );
+  const {
+    data: boards,
+    isLoading,
+    isError: isBoardError,
+  } = useQuery(['boards'], apiServices.campaign.boards);
 
-  const { data } = useQuery(
+  const { data, isError, refetch } = useQuery(
     ['customer-cb', selectedBoard],
     async () =>
       apiServices.customer.getByCampaignAndBoard(
@@ -56,6 +64,16 @@ export default function Boards() {
       ),
     { enabled: !!selectedBoard },
   );
+
+  function handleSelectCustomer(
+    customer: GetCustomerCBResponse['message'][0],
+    key: string,
+  ) {
+    setSelectedCustomer({
+      customer,
+      key,
+    });
+  }
 
   useEffect(() => {
     if (!selectedBoard && boards?.data) {
@@ -74,6 +92,14 @@ export default function Boards() {
 
   if (isLoading) return <Spinner />;
 
+  if (isError || isBoardError) {
+    return (
+      <Typography align='center' margin='0 auto' color='error.light'>
+        Nenhuma campanha ativa
+      </Typography>
+    );
+  }
+
   return (
     <>
       <Box
@@ -90,18 +116,33 @@ export default function Boards() {
           ]}
         />
 
-        <Autocomplete
-          options={boards?.data || []}
-          getOptionLabel={(item) => item.name}
-          isOptionEqualToValue={(a, b) => a.id === b.id}
-          renderInput={(params: any) => (
-            <TextField {...params} label='Board' sx={{ width: '300px' }} />
-          )}
-          onChange={(_, value) => {
-            setSelectedBoard(value);
-          }}
-          value={selectedBoard}
-        />
+        <Box display='flex' alignItems='stretch' gap='0.5rem'>
+          <Autocomplete
+            options={boards?.data || []}
+            getOptionLabel={(item) => item.name}
+            isOptionEqualToValue={(a, b) => a.id === b.id}
+            renderInput={(params: any) => (
+              <TextField {...params} label='Board' sx={{ width: '300px' }} />
+            )}
+            onChange={(_, value) => {
+              setSelectedBoard(value);
+            }}
+            value={selectedBoard}
+          />
+
+          <Button
+            variant='contained'
+            sx={{ bgcolor: 'success.main' }}
+            onClick={() => setIsCreatingUser(true)}
+          >
+            <Icon
+              icon='tabler:star'
+              fontSize={14}
+              style={{ marginRight: '0.5rem' }}
+            />
+            Novo cliente
+          </Button>
+        </Box>
       </Box>
 
       <Box width='100%' sx={{ overflowX: 'auto' }} display='flex' gap='0.5rem'>
@@ -157,6 +198,7 @@ export default function Boards() {
                           color: 'white',
                         },
                       }}
+                      onClick={() => handleSelectCustomer(item, key)}
                     >
                       <Box display='flex' gap='0.5rem'>
                         <Avatar alt={item.name} src={item.avatar || undefined}>
@@ -185,6 +227,24 @@ export default function Boards() {
           },
         )}
       </Box>
+
+      <CustomerModal
+        notRedirect
+        isOpen={isCreatingUser}
+        onClose={() => setIsCreatingUser(false)}
+        refetch={refetch}
+        defaultCustomer={{
+          boardId: selectedBoard?.id,
+        }}
+      />
+
+      <CampaignsPipelinesModal
+        onClose={() => setSelectedCustomer(null)}
+        customer={selectedCustomer?.customer}
+        type={selectedCustomer?.key}
+        refetch={refetch}
+        boardId={selectedBoard?.id || ''}
+      />
     </>
   );
 }
