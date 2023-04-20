@@ -1,6 +1,6 @@
 export interface IProfile {
   id: string;
-  name: string;
+  fullName: string;
   email: string | undefined;
   currentPassword: string;
   newPassword: string;

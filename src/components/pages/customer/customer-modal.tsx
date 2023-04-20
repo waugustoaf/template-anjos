@@ -36,8 +36,6 @@ export function CustomerModal({
     resolver: yupResolver(customerFormSchema),
   });
 
-  //console.log({ errors, values: getValues() });
-
   const router = useRouter();
 
   useEffect(() => {

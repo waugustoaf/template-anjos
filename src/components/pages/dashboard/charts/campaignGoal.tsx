@@ -13,7 +13,12 @@ import ReactApexcharts from '@/@core/components/react-apexcharts'
 // ** Util Import
 import { hexToRGBA } from '@/@core/utils/hex-to-rgba'
 
-const CampaignGoal = () => {
+interface CampaignGoalProps {
+  goal: number | undefined
+  endMonthDays: number | undefined;
+}
+
+const CampaignGoal = ({goal, endMonthDays}: CampaignGoalProps) => {
   // ** Hook
   const theme = useTheme()
 
@@ -77,9 +82,9 @@ const CampaignGoal = () => {
     <Card>
       <CardContent>
         <Typography variant='h6'>Meta da campanha</Typography>
-        <ReactApexcharts type='radialBar' height={160} width="100%" series={[98]} options={options} />
+        <ReactApexcharts type='radialBar' height={160} width="100%" series={[goal ? goal : 0]} options={options} />
         <Typography variant='body2' sx={{ textAlign: 'center', color: 'text.disabled' }}>
-          Faltam 10 dias para o fim do mês
+          Faltam {endMonthDays ? endMonthDays : 0} dias para o fim do mês
         </Typography>
       </CardContent>
     </Card>

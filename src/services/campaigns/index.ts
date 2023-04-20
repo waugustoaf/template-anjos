@@ -4,6 +4,7 @@ import { mergePagination } from '@/utils/api/pagination';
 import {
   CreateCampaignResponse,
   GetCampaignResponse,
+  ListBoards,
   ListBoardsCompact,
   ListCampaignsResponse,
 } from './types';
@@ -29,6 +30,13 @@ export const campaignsServices = {
   compactBoards: async () => {
     const response = await api.get<ListBoardsCompact>(
       `/campaign/boardsCompact`,
+    );
+
+    return response.data;
+  },
+  boards: async () => {
+    const response = await api.get<ListBoards>(
+      `/campaign/boards`,
     );
 
     return response.data;

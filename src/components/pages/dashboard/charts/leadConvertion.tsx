@@ -28,13 +28,6 @@ import { useSettings } from '@/@core/hooks/useSettings'
 // ** Util Import
 import { hexToRGBA } from '@/@core/utils/hex-to-rgba'
 
-const yearOptions = [new Date().getFullYear() - 1, new Date().getFullYear() - 2, new Date().getFullYear() - 3]
-
-const barSeries = [
-  { name: 'Ganhos', data: [150, 203, 152, 173] },
-  { name: 'Perdas', data: [-2, -10, -40, -60] }
-]
-
 const StyledGrid = styled(Grid)<GridProps>(({ theme }) => ({
   [theme.breakpoints.down('sm')]: {
     borderBottom: `1px solid ${theme.palette.divider}`
@@ -44,11 +37,41 @@ const StyledGrid = styled(Grid)<GridProps>(({ theme }) => ({
   }
 }))
 
-const LeadConvert = () => {
+interface DataLeadStrategyProps {
+  data: LeadStrategyProps[] | undefined
+}
+
+interface LeadStrategyProps {
+  strategyId?: string;
+  name?: string;
+  gain?: number;
+  lost?: number;
+}
+
+const LeadConvert = ( { data }: DataLeadStrategyProps ) => {
+
+  const barSeries = [
+    { name: 'Ganhos', data: [] },
+    { name: 'Perdas', data: [] }
+  ]
+
+  const categories:string[] = [];
+
+
+  //ToDo: Refatorar DJ
+  if (data) {
+    data.map((item) => {
+      categories.push(item.name ? item.name : 'Sem nome');
+      // @ts-ignore
+      barSeries[1].data.push(item.lost ? item.lost  * -1 : 0);
+      // @ts-ignore
+      barSeries[0].data.push(item.gain ? item.gain : 0);
+    });
+  }
+
+
   // ** Hooks & Var
   const theme = useTheme()
-  const { settings } = useSettings()
-  const { direction } = settings
 
   const barOptions: ApexOptions = {
     chart: {
@@ -114,7 +137,7 @@ const LeadConvert = () => {
       axisTicks: { show: false },
       crosshairs: { opacity: 0 },
       axisBorder: { show: false },
-      categories: ['Traf. Pago', 'Indicação', 'Traf. Alheio', 'Lista quente'],
+      categories: categories,
       labels: {
         style: {
           fontSize: '14px',

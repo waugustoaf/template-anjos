@@ -32,41 +32,41 @@ const DefaultDashboard = () => {
           <CongratulationsPerson value={53000} percentage={103.3} />
         </Grid>
         <Grid item xs={12} md={8}>
-          <ResumeHorizontal />
+          {/* <ResumeHorizontal /> */}
         </Grid>
         <Grid item xs={12} lg={4}>
           <Grid container spacing={6}>
             <Grid item xs={6} md={3} lg={6}>
-              <CampaignTime />
+              {/* <CampaignTime /> */}
             </Grid>
             <Grid item xs={6} md={3} lg={6}>
-              <CampaignGoal />
+              {/* <CampaignGoal /> */}
             </Grid>
             <Grid item xs={12} md={6} lg={12}>
-              <LeadCapture />
+              {/* <LeadCapture /> */}
             </Grid>
           </Grid>
         </Grid>
         <Grid item xs={12} lg={8}>
-          <LeadConvert />
+          {/* <LeadConvert /> */}
         </Grid>
         <Grid item xs={12} md={12} lg={12}>
-          <AccomplishedExpected />
+          {/* <AccomplishedExpected /> */}
         </Grid>
         <Grid item xs={12} md={12} lg={12}>
-          <SalesByStrategy />
+          {/* <SalesByStrategy /> */}
         </Grid>
         <Grid item xs={6} md={6} lg={6}>
-          <ProductsByInvoicing />
+          {/* <ProductsByInvoicing /> */}
         </Grid>
         <Grid item xs={6} md={6} lg={6}>
-          <ProductsBySalesQuantity />
+          {/* <ProductsBySalesQuantity /> */}
         </Grid>
         <Grid item xs={6} md={6} lg={6}>
-          <StrategyConversionValue />
+          {/* <StrategyConversionValue /> */}
         </Grid>
         <Grid item xs={6} lg={6}>
-          <StrategyConversionQuantity />
+          {/* <StrategyConversionQuantity /> */}
         </Grid>
       </Grid>
     </ApexChartWrapper>

@@ -110,7 +110,7 @@ const AuthProvider = ({ children }: Props) => {
 
     api
       .post<LoginResponseProps>(authConfig.loginEndpoint, params)
-      .then(async (response) => {
+      .then(async (response: any) => {
         params.rememberMe
           ? window.localStorage.setItem(
               authConfig.storageTokenKeyName,

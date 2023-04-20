@@ -22,25 +22,42 @@ import ReactApexcharts from '@/@core/components/react-apexcharts'
 import Typography from "@mui/material/Typography";
 import {hexToRGBA} from "@/@core/utils/hex-to-rgba";
 
-interface PickerProps {
-  start: Date | number
-  end: Date | number
+interface DataGoalAccomplishedProps {
+  data: AccomplishedExpectedProps[] | undefined
 }
 
-const series = [
-  {
-    name: 'Realizado',
-    data: [90, 120, 55, 100, 80]
-  },
-  {
-    name: 'Esperado',
-    data: [85, 180, 30, 40, 95]
-  }
-]
+interface AccomplishedExpectedProps {
+  name: string | undefined
+  goal: number | undefined;
+  quantity: number | undefined;
+}
 
-const AccomplishedExpected = () => {
+const AccomplishedExpected = ({data}: DataGoalAccomplishedProps) => {
   // ** Hook
   const theme = useTheme()
+
+  const series = [
+    {
+      name: 'Realizado',
+      data: []
+    },
+    {
+      name: 'Esperado',
+      data: []
+    }
+  ]
+
+  const categories: string[] = []
+
+  data?.map((item) => {
+    // @ts-ignore
+    series[0].data.push(item.quantity ? item.quantity : 0);
+    // @ts-ignore
+    series[1].data.push(item.goal ? item.goal : 0);
+    categories.push(item.name ? item.name : '');
+  });
+
+
 
   const columnColors = {
     bg: hexToRGBA(theme.palette.primary.main, 0.2),
@@ -98,7 +115,7 @@ const AccomplishedExpected = () => {
     xaxis: {
       axisBorder: { show: false },
       axisTicks: { color: theme.palette.divider },
-      categories: ['Mensagens', 'Conversas', 'Agendamentos', 'Consultas', 'Vendas'],
+      categories: categories,
       crosshairs: {
         stroke: { color: theme.palette.divider }
       },

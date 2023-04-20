@@ -21,7 +21,7 @@ export function CreatedCampaigns({ campaign }: CreatedCampaignsProps) {
     ].reduce((prevState, currValue) => {
       const currentItem = (currentBoard as any)[currValue as any] as any;
 
-      if (currentItem.isEnabled) {
+      if (currentItem.isEnable) {
         return [...prevState, { ...currentItem, name: currValue }];
       }
 
@@ -143,7 +143,7 @@ export function CreatedCampaigns({ campaign }: CreatedCampaignsProps) {
         padding='0 1.5rem 1.5rem 0'
       >
         <Link
-          href={`/campaigns/${campaign.id}/boards/${currentBoard.id}`}
+          href={`/campaigns/pipelines/${currentBoard.id}`}
           style={{ textDecoration: 'none' }}
         >
           <Button variant='contained'>Ir para a Pipeline</Button>
