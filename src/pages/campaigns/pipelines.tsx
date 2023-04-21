@@ -128,13 +128,12 @@ export default function Boards() {
             getOptionLabel={(item) => item.name}
             isOptionEqualToValue={(a, b) => a.id === b.id}
             renderInput={(params: any) => (
-              <TextField {...params} label='Quadro' sx={{ width: '300px' }} />
+              <TextField {...params} label='Quadro' sx={{ width: {sx: 'auto', lg: '500px'} }} />
             )}
             onChange={(_, value) => {
               setSelectedBoard(value);
             }}
             value={selectedBoard}
-            style={{ width: '300px' }}
           />
 
           <Button
@@ -174,7 +173,7 @@ export default function Boards() {
                   gap='0.25rem'
                 >
                   <Icon
-                    icon={`tabler:${icons[key]}`}
+                    icon={`tabler:${icons[key as keyof IIcons]}`}
                     color={theme.palette.primary.main}
                   />
                   {translate(key)}

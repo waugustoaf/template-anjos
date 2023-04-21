@@ -22,6 +22,7 @@ const getChildren = (
     onClose={onClose}
     refetch={refetch}
     boardId={boardId}
+    type={type}
   />
 };
 

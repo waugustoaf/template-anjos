@@ -9,10 +9,11 @@ import {apiServices} from "@/services";
 
 interface SendActionSaleProps {
   handleSaveSale: (data: any) => void;
+  onClose: () => void;
   isLoading: boolean;
 }
 
-export function SendActionSale({handleSaveSale,isLoading}: SendActionSaleProps) {
+export function SendActionSale({handleSaveSale,isLoading, onClose}: SendActionSaleProps) {
   const router = useRouter();
 
   const {
@@ -75,7 +76,7 @@ export function SendActionSale({handleSaveSale,isLoading}: SendActionSaleProps) 
                 marginTop='2rem'
                 gap='0.5rem'
               >
-                <Button onClick={router.back}>Cancelar</Button>
+                <Button onClick={onClose}>Cancelar</Button>
                 <SubmitButton
                   hideCustomSpace
                   isLoading={isLoading}

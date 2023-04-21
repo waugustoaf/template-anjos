@@ -2,7 +2,7 @@ import {apiServices} from '@/services';
 import {GetCustomerCBResponse} from '@/services/customer/types';
 import {Button, Link, Typography} from '@mui/material';
 import {Box} from '@mui/system';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {useForm} from 'react-hook-form';
 import {toast} from 'react-hot-toast';
 import {Icon} from "@/components/icon";
@@ -15,6 +15,7 @@ import {SendActionAppointment} from "@/components/pages/campaigns/pipelines/tabs
 interface PipelineCustomerMessageProps {
   customer: GetCustomerCBResponse['message'][0];
   boardId: string;
+  type: string;
   onClose: () => void;
   refetch: () => void;
 }
@@ -52,12 +53,17 @@ export function PipelineCustomerActions({
   boardId,
   onClose,
   refetch,
+  type,
 }: PipelineCustomerMessageProps) {
   const [isLoading, setIsLoading] = useState(false);
   const defaultValues: any = { message: '' };
   const [currentTab, setCurrentTab] = useState<
     'message' | 'conversation' | 'schedule' | 'appointment' | 'sale'
   >('message');
+
+  useEffect(() => {
+    setCurrentTab(type as any);
+  }, [type]);
 
   const {
     register,
@@ -89,6 +95,7 @@ export function PipelineCustomerActions({
   }
 
   async function handleSaveConversation(data: any) {
+    console.log('data - cheguei', data);
     try {
       setIsLoading(true);
 
@@ -243,6 +250,7 @@ export function PipelineCustomerActions({
         <SendActionConversation
           handleSaveConversation={handleSaveConversation}
           isLoading={isLoading}
+          onClose={onClose}
         />
       )}
 
@@ -250,6 +258,7 @@ export function PipelineCustomerActions({
         <SendActionSchedule
           handleSaveSchedule={handleSaveSchedule}
           isLoading={isLoading}
+          onClose={onClose}
         />
       )}
 
@@ -264,6 +273,7 @@ export function PipelineCustomerActions({
         <SendActionSale
           handleSaveSale={handleSaveSale}
           isLoading={isLoading}
+          onClose={onClose}
         />
       )}
 

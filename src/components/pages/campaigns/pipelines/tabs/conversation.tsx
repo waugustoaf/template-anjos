@@ -8,10 +8,11 @@ import * as yup from "yup";
 
 interface SendActionConversationProps {
   handleSaveConversation: (data: any) => void;
+  onClose: () => void;
   isLoading: boolean;
 }
 
-export function SendActionConversation({handleSaveConversation,isLoading}: SendActionConversationProps) {
+export function SendActionConversation({handleSaveConversation,isLoading, onClose}: SendActionConversationProps) {
   const router = useRouter();
 
   const {
@@ -21,9 +22,10 @@ export function SendActionConversation({handleSaveConversation,isLoading}: SendA
     trigger,
     formState: { errors },
   } = useForm({
-    resolver: yupResolver({
-      message: yup.string().min(5).required('Resumo da conversa'),
-    }),
+    resolver: yupResolver(yup.object().shape({
+        message: yup.string().required('Resumo da conversa'),
+      })
+    ),
     defaultValues: {},
   });
 
@@ -56,7 +58,7 @@ export function SendActionConversation({handleSaveConversation,isLoading}: SendA
                 marginTop='2rem'
                 gap='0.5rem'
               >
-                <Button onClick={router.back}>Cancelar</Button>
+                <Button onClick={onClose}>Cancelar</Button>
                 <SubmitButton
                   hideCustomSpace
                   isLoading={isLoading}

@@ -9,6 +9,7 @@ import * as yup from "yup";
 interface SendActionScheduleProps {
   handleSaveSchedule: (data: any) => void;
   isLoading: boolean;
+  onClose: () => void;
 }
 
 export function SendActionSchedule({handleSaveSchedule,isLoading}: SendActionScheduleProps) {
