@@ -1,10 +1,12 @@
-import {SubmitButton} from '@/components/form/submit-button';
-import {mountForm} from '@/utils/form/mount-form';
-import {yupResolver} from '@hookform/resolvers/yup';
-import {Box, Button, Card, CardContent, Grid,} from '@mui/material';
-import {useRouter} from 'next/router';
-import {useForm} from 'react-hook-form';
-import * as yup from "yup";
+import { SubmitButton } from '@/components/form/submit-button';
+import { DatePickerWrapper } from '@/styles/libs/react-datepicker';
+import { mountForm } from '@/utils/form/mount-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { Box, Button, Card, CardContent, Grid } from '@mui/material';
+import { useRouter } from 'next/router';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import * as yup from 'yup';
 
 interface SendActionScheduleProps {
   handleSaveSchedule: (data: any) => void;
@@ -12,7 +14,11 @@ interface SendActionScheduleProps {
   onClose: () => void;
 }
 
-export function SendActionSchedule({handleSaveSchedule,isLoading}: SendActionScheduleProps) {
+export function SendActionSchedule({
+  handleSaveSchedule,
+  isLoading,
+}: SendActionScheduleProps) {
+  const [date, setDate] = useState(new Date());
   const router = useRouter();
 
   const {
@@ -22,34 +28,44 @@ export function SendActionSchedule({handleSaveSchedule,isLoading}: SendActionSch
     trigger,
     formState: { errors },
   } = useForm({
-    resolver: yupResolver({
-      date: yup.date().required('Data do agendamento é obrigatória'),
-    }),
+    resolver: yupResolver(
+      yup.object().shape({
+        date: yup.date().required('Data do agendamento é obrigatória'),
+      }),
+    ),
     defaultValues: {},
   });
+
+  function onSubmit() {
+    handleSaveSchedule({
+      date,
+    });
+  }
 
   return (
     <Grid container spacing={6}>
       <Grid item xs={12} className='page-card-mui'>
         <Card>
-          <form onSubmit={handleSubmit(handleSaveSchedule)}>
-            <CardContent style={{ marginTop: '-1rem'}} >
-              {mountForm({
-                errors,
-                fields: [
-                  {
-                    type: 'input-date',
-                    name: 'date',
-                    title: 'Início do Contrato',
-                    placeholder: 'Informe a data de início do contrato',
-                    dateFormat: 'dd/MM/yyyy',
-                    rowSize: 6,
-                  },
-                ],
-                register,
-                setValue,
-                trigger,
-              })}
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <CardContent style={{ marginTop: '-1rem' }}>
+              <DatePickerWrapper sx={{ minHeight: '350px' }}>
+                {mountForm({
+                  errors,
+                  fields: [
+                    {
+                      type: 'input-date',
+                      name: 'date',
+                      title: 'Início do Contrato',
+                      placeholder: 'Informe a data de início do contrato',
+                      dateFormat: 'dd/MM/yyyy',
+                      rowSize: 6,
+                    },
+                  ],
+                  register,
+                  setValue,
+                  trigger,
+                })}
+              </DatePickerWrapper>
 
               <Box
                 display='flex'

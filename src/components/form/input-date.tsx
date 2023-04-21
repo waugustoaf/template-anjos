@@ -3,6 +3,7 @@ import { ResolveFieldProps } from '@/utils/form/mount-form';
 import DatePicker from 'react-datepicker';
 import { FormControl, FormHelperText, Grid, TextField } from '@mui/material';
 import { useEffect, useState } from 'react';
+import { StaticDateTimePicker } from '@mui/lab';
 
 export function InputDate(props: ResolveFieldProps) {
   const { field, setValue, errorMessage, defaultValue, trigger } = props;

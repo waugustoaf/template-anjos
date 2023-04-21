@@ -1,4 +1,5 @@
 import { SubmitButton } from '@/components/form/submit-button';
+import { DatePickerWrapper } from '@/styles/libs/react-datepicker';
 import { mountForm } from '@/utils/form/mount-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Box, Button, Card, CardContent, Grid } from '@mui/material';
@@ -41,28 +42,30 @@ export function SendActionAppointment({
         <Card>
           <form onSubmit={handleSubmit(handleSaveAppointment)}>
             <CardContent style={{ marginTop: '-1rem' }}>
-              {mountForm({
-                errors,
-                fields: [
-                  {
-                    name: 'resume',
-                    rowSize: 12,
-                    title: 'Resumo da cosulta',
-                    type: 'textarea',
-                    placeholder: 'Descreva o resumo da consulta',
-                  },
-                  {
-                    name: 'date',
-                    rowSize: 12,
-                    title: 'Resumo da cosulta',
-                    type: 'input-date',
-                    placeholder: 'Seleciona a data da consulta',
-                  },
-                ],
-                register,
-                setValue,
-                trigger,
-              })}
+              <DatePickerWrapper sx={{ minHeight: '450px' }}>
+                {mountForm({
+                  errors,
+                  fields: [
+                    {
+                      name: 'resume',
+                      rowSize: 12,
+                      title: 'Resumo da cosulta',
+                      type: 'textarea',
+                      placeholder: 'Descreva o resumo da consulta',
+                    },
+                    {
+                      name: 'date',
+                      rowSize: 12,
+                      title: 'Resumo da cosulta',
+                      type: 'input-date',
+                      placeholder: 'Seleciona a data da consulta',
+                    },
+                  ],
+                  register,
+                  setValue,
+                  trigger,
+                })}
+              </DatePickerWrapper>
 
               <Box
                 display='flex'

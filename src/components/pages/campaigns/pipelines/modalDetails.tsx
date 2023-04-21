@@ -213,6 +213,7 @@ export function PipelineCustomerActions({
         alignItems='center'
         gap='0.5rem'
         mb='1rem'
+        mt='1rem'
         width='100%'
       >
         <TabButton
