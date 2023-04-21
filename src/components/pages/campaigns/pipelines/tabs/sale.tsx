@@ -23,9 +23,13 @@ export function SendActionSale({handleSaveSale,isLoading, onClose}: SendActionSa
     trigger,
     formState: { errors },
   } = useForm({
-    resolver: yupResolver({
-      message: yup.string().min(5).required('Mensagem é obrigatória'),
-    }),
+    resolver: yupResolver(
+      yup.object().shape({
+        productId: yup.string().required('Produto é obrigatório'),
+        strategyId: yup.string().min(5).required('Estratégia de venda é obrigatória'),
+        productValue: yup.string().min(5).required('Valor do produto é obrigatório'),
+      }),
+    ),
     defaultValues: {},
   });
 
