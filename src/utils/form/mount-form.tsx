@@ -20,6 +20,7 @@ import {FieldErrors, FieldValues, UseFormRegister, UseFormSetValue, UseFormTrigg
 import {InputFile} from '@/components/form/input-file';
 import {AutocompleteSync} from '@/components/form/autocomplete-sync';
 import {TextArea} from '@/components/form/textarea';
+import { InputDateTime } from '@/components/form/input-datetime';
 
 export interface FormFieldProps {
   rowSize: number;
@@ -53,6 +54,7 @@ export interface FormFieldProps {
     | 'input'
     | 'input-mask'
     | 'input-date'
+    | 'input-datetime'
     | 'input-number'
     | 'input-numeric'
     | 'input-document'
@@ -160,6 +162,17 @@ function resolveField({
     case 'input-date':
       return (
         <InputDate
+          field={field}
+          errorMessage={errorMessage}
+          register={register}
+          setValue={setValue}
+          trigger={trigger}
+          defaultValue={defaultValue}
+        />
+      );
+    case 'input-datetime':
+      return (
+        <InputDateTime
           field={field}
           errorMessage={errorMessage}
           register={register}

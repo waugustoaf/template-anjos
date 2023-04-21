@@ -53,12 +53,12 @@ export function SendActionSchedule({
                   errors,
                   fields: [
                     {
-                      type: 'input-date',
+                      type: 'input-datetime',
                       name: 'date',
                       title: 'Início do Contrato',
                       placeholder: 'Informe a data de início do contrato',
-                      dateFormat: 'dd/MM/yyyy',
-                      rowSize: 6,
+                      dateFormat: 'dd/MM/yyyy HH:mm',
+                      rowSize: 12,
                     },
                   ],
                   register,
