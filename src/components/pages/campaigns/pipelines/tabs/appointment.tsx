@@ -1,17 +1,20 @@
-import {SubmitButton} from '@/components/form/submit-button';
-import {mountForm} from '@/utils/form/mount-form';
-import {yupResolver} from '@hookform/resolvers/yup';
-import {Box, Button, Card, CardContent, Grid,} from '@mui/material';
-import {useRouter} from 'next/router';
-import {useForm} from 'react-hook-form';
-import * as yup from "yup";
+import { SubmitButton } from '@/components/form/submit-button';
+import { mountForm } from '@/utils/form/mount-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { Box, Button, Card, CardContent, Grid } from '@mui/material';
+import { useRouter } from 'next/router';
+import { useForm } from 'react-hook-form';
+import * as yup from 'yup';
 
 interface SendActionAppointmentProps {
   handleSaveAppointment: (data: any) => void;
   isLoading: boolean;
 }
 
-export function SendActionAppointment({handleSaveAppointment,isLoading}: SendActionAppointmentProps) {
+export function SendActionAppointment({
+  handleSaveAppointment,
+  isLoading,
+}: SendActionAppointmentProps) {
   const router = useRouter();
 
   const {
@@ -21,11 +24,15 @@ export function SendActionAppointment({handleSaveAppointment,isLoading}: SendAct
     trigger,
     formState: { errors },
   } = useForm({
-    resolver: yupResolver({
-      resume: yup.string().min(5).required('Resumo da consulta é obrigatório'),
-      date: yup.date().required('Data da consulta é obrigatória'),
-    }),
-    defaultValues: {},
+    resolver: yupResolver(
+      yup.object().shape({
+        resume: yup
+          .string()
+          .min(5)
+          .required('Resumo da consulta é obrigatório'),
+        date: yup.date().required('Data da consulta é obrigatória'),
+      }),
+    ),
   });
 
   return (
@@ -33,7 +40,7 @@ export function SendActionAppointment({handleSaveAppointment,isLoading}: SendAct
       <Grid item xs={12} className='page-card-mui'>
         <Card>
           <form onSubmit={handleSubmit(handleSaveAppointment)}>
-            <CardContent style={{ marginTop: '-1rem'}} >
+            <CardContent style={{ marginTop: '-1rem' }}>
               {mountForm({
                 errors,
                 fields: [
