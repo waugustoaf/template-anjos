@@ -1,28 +1,17 @@
-import { Breadcrumb } from '@/components/breadcrumb';
-import { Icon } from '@/components/icon';
-import { CampaignsPipelinesModal } from '@/components/pages/campaigns/pipelines/modal';
-import { CustomerModal } from '@/components/pages/customer/customer-modal';
-import { Spinner } from '@/components/spinner';
-import { TableHeader } from '@/components/table-header';
-import { useAuth } from '@/hooks/useAuth';
-import { apiServices } from '@/services';
-import { GetCustomerCBResponse } from '@/services/customer/types';
-import { IBoardCampaign } from '@/types/entities/IBoardCampaign';
-import { api } from '@/utils/api';
-import { beautifullyPhone } from '@/utils/text';
-import {
-  Autocomplete,
-  Avatar,
-  Box,
-  Button,
-  TextField,
-  Typography,
-  useTheme,
-} from '@mui/material';
-import { useQuery } from '@tanstack/react-query';
-import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
-import { useDebounce } from 'use-debounce';
+import {Breadcrumb} from '@/components/breadcrumb';
+import {Icon} from '@/components/icon';
+import {CampaignsPipelinesModal} from '@/components/pages/campaigns/pipelines/modal';
+import {CustomerModal} from '@/components/pages/customer/customer-modal';
+import {Spinner} from '@/components/spinner';
+import {apiServices} from '@/services';
+import {GetCustomerCBResponse} from '@/services/customer/types';
+import {IBoardCampaign} from '@/types/entities/IBoardCampaign';
+import {beautifullyPhone} from '@/utils/text';
+import {Autocomplete, Avatar, Box, Button, TextField, Typography, useTheme,} from '@mui/material';
+import {useQuery} from '@tanstack/react-query';
+import {useRouter} from 'next/router';
+import {useEffect, useState} from 'react';
+import CustomChip from '@/@core/components/mui/chip'
 
 function translate(key: string) {
   const translations: Record<string, string> = {
@@ -34,6 +23,14 @@ function translate(key: string) {
   };
 
   return translations[key];
+}
+
+interface IIcons {
+  message: string;
+  conversation: string;
+  schedule: string;
+  appointment: string;
+  sale: string;
 }
 
 export default function Boards() {
@@ -54,6 +51,15 @@ export default function Boards() {
     isLoading,
     isError: isBoardError,
   } = useQuery(['boards'], apiServices.campaign.boards);
+
+  const icons: IIcons = {
+    message: 'message',
+    conversation: 'message-plus',
+    schedule: 'calendar-time',
+    appointment: 'clipboard-check',
+    sale: 'currency-dollar',
+  }
+
 
   const { data, isError, refetch } = useQuery(
     ['customer-cb', selectedBoard],
@@ -122,12 +128,13 @@ export default function Boards() {
             getOptionLabel={(item) => item.name}
             isOptionEqualToValue={(a, b) => a.id === b.id}
             renderInput={(params: any) => (
-              <TextField {...params} label='Board' sx={{ width: '300px' }} />
+              <TextField {...params} label='Quadro' sx={{ width: '300px' }} />
             )}
             onChange={(_, value) => {
               setSelectedBoard(value);
             }}
             value={selectedBoard}
+            style={{ width: '300px' }}
           />
 
           <Button
@@ -151,6 +158,8 @@ export default function Boards() {
             // @ts-ignore
             if (!selectedBoard || !selectedBoard[key].isEnable) return null;
 
+            // @ts-ignore
+            // @ts-ignore
             return (
               <Box key={key} width='80%' maxWidth='280px'>
                 <Typography
@@ -165,7 +174,7 @@ export default function Boards() {
                   gap='0.25rem'
                 >
                   <Icon
-                    icon='tabler:clipboard-check'
+                    icon={`tabler:${icons[key]}`}
                     color={theme.palette.primary.main}
                   />
                   {translate(key)}
@@ -212,11 +221,25 @@ export default function Boards() {
                           flexDirection='column'
                           alignItems='flex-start'
                         >
-                          <Typography color='inherit'>{item.name}</Typography>
                           <Typography color='inherit'>
-                            {beautifullyPhone(item.whatsApp)}
+                            <Icon fontSize='1.2rem' icon='tabler:user' />{item.name}</Typography>
+                          <Typography color='inherit'>
+                            <Icon fontSize='1.2rem' icon='tabler:brand-whatsapp' /> {beautifullyPhone(item.whatsApp)}
                           </Typography>
-                          <Typography color='inherit'>{item.email}</Typography>
+                          <Typography color='inherit'>
+                            <Icon fontSize='1.2rem' icon='tabler:mail' /> {item.email}
+                          </Typography>
+                          <Typography color='inherit'>
+                            <Icon fontSize='1.2rem' icon='tabler:tags' />
+                            <CustomChip
+                              rounded
+                              skin='light'
+                              size='small'
+                              label='Ligar depois'
+                              color={'info'}
+                              sx={{ textTransform: 'capitalize' }}
+                            />
+                          </Typography>
                         </Box>
                       </Box>
                     </Button>

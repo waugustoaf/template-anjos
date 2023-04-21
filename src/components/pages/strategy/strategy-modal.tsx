@@ -52,6 +52,7 @@ export function StrategyModal({
   async function onSubmit(data: Partial<IStrategy>) {
     try {
       if (defaultStrategy) {
+        data.funnel = undefined;
         await apiServices.strategy.update(defaultStrategy.id, {
           ...data,
           qtdMessages: formatNumberToBase100(data.qtdMessages),
