@@ -1,31 +1,26 @@
-import { Autocomplete } from '@/components/form/autocomplete';
-import { AutocompleteMultiple } from '@/components/form/autocomplete-multiple';
-import { Checkbox } from '@/components/form/checkbox';
-import { CustomChildren } from '@/components/form/custom-children';
-import { Label } from '@/components/form/label';
-import { Input } from '@/components/form/input';
-import { InputCurrency } from '@/components/form/input-currency';
-import { InputDate } from '@/components/form/input-date';
-import { InputDocument } from '@/components/form/input-document';
-import { InputMask } from '@/components/form/input-mask';
-import { InputNumber } from '@/components/form/input-number';
-import { InputNumeric } from '@/components/form/input-numberic';
-import { InputPassword } from '@/components/form/input-password';
-import { Select } from '@/components/form/select';
-import { Switch } from '@/components/form/switch';
-import { PaginationProps } from '@/types/app/pagination';
-import { Grid } from '@mui/material';
+import {Autocomplete} from '@/components/form/autocomplete';
+import {AutocompleteMultiple} from '@/components/form/autocomplete-multiple';
+import {Checkbox} from '@/components/form/checkbox';
+import {CustomChildren} from '@/components/form/custom-children';
+import {Label} from '@/components/form/label';
+import {Input} from '@/components/form/input';
+import {InputCurrency} from '@/components/form/input-currency';
+import {InputDate} from '@/components/form/input-date';
+import {InputDocument} from '@/components/form/input-document';
+import {InputMask} from '@/components/form/input-mask';
+import {InputNumber} from '@/components/form/input-number';
+import {InputNumeric} from '@/components/form/input-numberic';
+import {InputPassword} from '@/components/form/input-password';
+import {Select} from '@/components/form/select';
+import {Switch} from '@/components/form/switch';
+import {PaginationProps} from '@/types/app/pagination';
+import {Grid} from '@mui/material';
 import React from 'react';
-import {
-  FieldErrors,
-  FieldValues,
-  UseFormRegister,
-  UseFormSetValue,
-  UseFormTrigger,
-} from 'react-hook-form';
-import { InputFile } from '@/components/form/input-file';
-import { AutocompleteSync } from '@/components/form/autocomplete-sync';
-import { TextArea } from '@/components/form/textarea';
+import {FieldErrors, FieldValues, UseFormRegister, UseFormSetValue, UseFormTrigger,} from 'react-hook-form';
+import {InputFile} from '@/components/form/input-file';
+import {AutocompleteSync} from '@/components/form/autocomplete-sync';
+import {TextArea} from '@/components/form/textarea';
+import { InputDateTime } from '@/components/form/input-datetime';
 
 export interface FormFieldProps {
   rowSize: number;
@@ -59,6 +54,7 @@ export interface FormFieldProps {
     | 'input'
     | 'input-mask'
     | 'input-date'
+    | 'input-datetime'
     | 'input-number'
     | 'input-numeric'
     | 'input-document'
@@ -174,6 +170,17 @@ function resolveField({
           defaultValue={defaultValue}
         />
       );
+    case 'input-datetime':
+      return (
+        <InputDateTime
+          field={field}
+          errorMessage={errorMessage}
+          register={register}
+          setValue={setValue}
+          trigger={trigger}
+          defaultValue={defaultValue}
+        />
+      );
     case 'input-number':
       return (
         <InputNumber
@@ -274,6 +281,17 @@ function resolveField({
         />
       );
     case 'textarea':
+      return (
+        <TextArea
+          field={field}
+          errorMessage={errorMessage}
+          register={register}
+          setValue={setValue}
+          trigger={trigger}
+          defaultValue={defaultValue}
+        />
+      );
+    case 'date':
       return (
         <TextArea
           field={field}

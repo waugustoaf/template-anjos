@@ -1,12 +1,8 @@
-import { Icon } from '@/components/icon';
-import { IClinic } from '@/types/entities/IClinic';
+import {Icon} from '@/components/icon';
+import {IClinic} from '@/types/entities/IClinic';
 import CustomChip from '@/@core/components/mui/chip'
 
-import {
-  beautifullyPhone,
-  beautifullySimplePhone,
-  TextEllipsis,
-} from '@/utils/text';
+import {beautifullyPhone, TextEllipsis,} from '@/utils/text';
 import {
   Avatar,
   Button,
@@ -21,9 +17,7 @@ import {
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Link from 'next/link';
-import { SetStateAction } from 'react';
-import CustomAvatar from "@/@core/components/mui/avatar";
-import {useTheme} from "@mui/material/styles";
+import {SetStateAction} from 'react';
 import {ThemeColor} from "@/types/app/layout";
 
 interface CellType {
@@ -126,8 +120,6 @@ export function createClinicListTable({
       headerName: 'Campanha Ativa',
       renderCell: ({ row }: CellType) => (
         <Typography noWrap sx={{ color: '#fff' }}>
-
-
           <CustomChip
             rounded
             skin='light'
