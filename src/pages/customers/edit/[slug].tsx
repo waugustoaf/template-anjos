@@ -1,15 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useQuery } from '@tanstack/react-query';
-import { useState } from 'react';
+import {useQuery} from '@tanstack/react-query';
+import {useState} from 'react';
 
 import Grid from '@mui/material/Grid';
 
-import { Breadcrumb } from '@/components/breadcrumb';
-import { Spinner } from '@/components/spinner';
-import { apiServices } from '@/services';
-import { useRouter } from 'next/router';
-import { CustomerEditCustomer } from '@/components/pages/customer/edit/customer';
-import { CustomerEditTimeline } from '@/components/pages/customer/edit/timeline';
+import {Breadcrumb} from '@/components/breadcrumb';
+import {Spinner} from '@/components/spinner';
+import {apiServices} from '@/services';
+import {useRouter} from 'next/router';
+import {CustomerEditCustomer} from '@/components/pages/customer/edit/customer';
+import {CustomerEditTimeline} from '@/components/pages/customer/edit/timeline';
 
 export default function CustomerEditPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -30,7 +30,7 @@ export default function CustomerEditPage() {
       <Breadcrumb
         items={[
           { label: 'Anjos', link: '/' },
-          { label: 'Clientes', link: '/customer/list' },
+          { label: 'Clientes', link: '/customers/list' },
           { label: 'Visualizar' },
         ]}
       />
