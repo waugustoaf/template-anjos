@@ -1,16 +1,18 @@
-import { apiServices } from '@/services';
-import { GetCustomerCBResponse } from '@/services/customer/types';
-import { Button, Link, Typography } from '@mui/material';
-import { Box } from '@mui/system';
-import { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { toast } from 'react-hot-toast';
-import { Icon } from '@/components/icon';
-import { SendActionMessage } from '@/components/pages/campaigns/pipelines/tabs/message';
-import { SendActionConversation } from '@/components/pages/campaigns/pipelines/tabs/conversation';
-import { SendActionSchedule } from '@/components/pages/campaigns/pipelines/tabs/schedule';
-import { SendActionSale } from '@/components/pages/campaigns/pipelines/tabs/sale';
-import { SendActionAppointment } from '@/components/pages/campaigns/pipelines/tabs/appointment';
+import {apiServices} from '@/services';
+import {GetCustomerCBResponse} from '@/services/customer/types';
+import {Button, Link, Typography} from '@mui/material';
+import {Box} from '@mui/system';
+import {useEffect, useState} from 'react';
+import {useForm} from 'react-hook-form';
+import {toast} from 'react-hot-toast';
+import {Icon} from '@/components/icon';
+import {SendActionMessage} from '@/components/pages/campaigns/pipelines/tabs/message';
+import {SendActionConversation} from '@/components/pages/campaigns/pipelines/tabs/conversation';
+import {SendActionSchedule} from '@/components/pages/campaigns/pipelines/tabs/schedule';
+import {SendActionSale} from '@/components/pages/campaigns/pipelines/tabs/sale';
+import {SendActionAppointment} from '@/components/pages/campaigns/pipelines/tabs/appointment';
+import {formatDateToISO} from "@/utils/date";
+import {formatNumberToBase100} from "@/utils/currency";
 
 interface PipelineCustomerMessageProps {
   customer: GetCustomerCBResponse['message'][0];
@@ -118,10 +120,10 @@ export function PipelineCustomerActions({
     try {
       setIsLoading(true);
 
-      await apiServices.action.message({
-        message: data.message,
+      await apiServices.action.schedule({
         customerId: customer.id,
         boardId,
+        date: formatDateToISO(data.date)
       });
 
       refetch();
@@ -137,10 +139,11 @@ export function PipelineCustomerActions({
     try {
       setIsLoading(true);
 
-      await apiServices.action.message({
-        message: data.message,
+      await apiServices.action.appointment({
+        resume: data.message,
         customerId: customer.id,
         boardId,
+        date: formatDateToISO(data.date)
       });
 
       refetch();
@@ -156,8 +159,10 @@ export function PipelineCustomerActions({
     try {
       setIsLoading(true);
 
-      await apiServices.action.message({
-        message: data.message,
+      await apiServices.action.sale({
+        productId: data.productId,
+        strategySaleId: data.strategySaleId,
+        productValue: formatNumberToBase100(data.productValue),
         customerId: customer.id,
         boardId,
       });
@@ -257,6 +262,7 @@ export function PipelineCustomerActions({
         <SendActionMessage
           handleSaveNewMessage={handleSaveMessage}
           isLoading={isLoading}
+          onClose={onClose}
         />
       )}
 
@@ -278,8 +284,9 @@ export function PipelineCustomerActions({
 
       {currentTab === 'appointment' && (
         <SendActionAppointment
-          handleSaveAppointment={handleSaveSchedule}
+          handleSaveAppointment={handleSaveAppointment}
           isLoading={isLoading}
+          onClose={onClose}
         />
       )}
 

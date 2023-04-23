@@ -26,8 +26,8 @@ export function SendActionSale({handleSaveSale,isLoading, onClose}: SendActionSa
     resolver: yupResolver(
       yup.object().shape({
         productId: yup.string().required('Produto é obrigatório'),
-        strategyId: yup.string().min(5).required('Estratégia de venda é obrigatória'),
-        productValue: yup.string().min(5).required('Valor do produto é obrigatório'),
+        strategyId: yup.string().required('Estratégia de venda é obrigatória'),
+        productValue: yup.string().required('Valor do produto é obrigatório'),
       }),
     ),
     defaultValues: {},
@@ -53,7 +53,7 @@ export function SendActionSale({handleSaveSale,isLoading, onClose}: SendActionSa
                   },
                   {
                     type: 'autocomplete',
-                    name: 'strategyId',
+                    name: 'strategySaleId',
                     title: 'Estratégia de venda',
                     placeholder: 'Selecione a estratégia utilizada',
                     rowSize: 12,
