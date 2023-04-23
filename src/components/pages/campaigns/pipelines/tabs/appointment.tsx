@@ -1,20 +1,22 @@
-import { SubmitButton } from '@/components/form/submit-button';
-import { DatePickerWrapper } from '@/styles/libs/react-datepicker';
-import { mountForm } from '@/utils/form/mount-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { Box, Button, Card, CardContent, Grid } from '@mui/material';
-import { useRouter } from 'next/router';
-import { useForm } from 'react-hook-form';
+import {SubmitButton} from '@/components/form/submit-button';
+import {DatePickerWrapper} from '@/styles/libs/react-datepicker';
+import {mountForm} from '@/utils/form/mount-form';
+import {yupResolver} from '@hookform/resolvers/yup';
+import {Box, Button, Card, CardContent, Grid} from '@mui/material';
+import {useRouter} from 'next/router';
+import {useForm} from 'react-hook-form';
 import * as yup from 'yup';
 
 interface SendActionAppointmentProps {
   handleSaveAppointment: (data: any) => void;
   isLoading: boolean;
+  onClose: () => void;
 }
 
 export function SendActionAppointment({
   handleSaveAppointment,
   isLoading,
+  onClose,
 }: SendActionAppointmentProps) {
   const router = useRouter();
 
@@ -74,7 +76,7 @@ export function SendActionAppointment({
                 marginTop='2rem'
                 gap='0.5rem'
               >
-                <Button onClick={router.back}>Cancelar</Button>
+                <Button onClick={onClose}>Cancelar</Button>
                 <SubmitButton
                   hideCustomSpace
                   isLoading={isLoading}

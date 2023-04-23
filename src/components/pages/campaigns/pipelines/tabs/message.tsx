@@ -9,9 +9,10 @@ import * as yup from "yup";
 interface SendActionMessageProps {
   handleSaveNewMessage: (data: any) => void;
   isLoading: boolean;
+  onClose: () => void;
 }
 
-export function SendActionMessage({handleSaveNewMessage,isLoading}: SendActionMessageProps) {
+export function SendActionMessage({handleSaveNewMessage,isLoading, onClose}: SendActionMessageProps) {
   const router = useRouter();
 
   const {
@@ -56,7 +57,7 @@ export function SendActionMessage({handleSaveNewMessage,isLoading}: SendActionMe
                 marginTop='2rem'
                 gap='0.5rem'
               >
-                <Button onClick={router.back}>Cancelar</Button>
+                <Button onClick={onClose}>Cancelar</Button>
                 <SubmitButton
                   hideCustomSpace
                   isLoading={isLoading}
