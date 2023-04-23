@@ -13,7 +13,12 @@ import ReactApexcharts from '@/@core/components/react-apexcharts'
 // ** Util Import
 import { hexToRGBA } from '@/@core/utils/hex-to-rgba'
 
-const EcommerceExpenses = () => {
+interface CampaignTimeProps {
+  percent: number | undefined
+  daysOf: number | undefined;
+}
+
+const CampaignTime = ({percent, daysOf}: CampaignTimeProps) => {
   // ** Hook
   const theme = useTheme()
 
@@ -77,13 +82,13 @@ const EcommerceExpenses = () => {
     <Card>
       <CardContent>
         <Typography variant='h6'>Andamento da campanha</Typography>
-        <ReactApexcharts type='radialBar' height={160} width="100%" series={[78]} options={options} />
+        <ReactApexcharts type='radialBar' height={160} width="100%" series={[percent ? percent : 0]} options={options} />
         <Typography variant='body2' sx={{ textAlign: 'center', color: 'text.disabled' }}>
-          Faltam 10 dias para o fim da campanha
+          Faltam {daysOf ? daysOf : 0} dias para o fim da campanha
         </Typography>
       </CardContent>
     </Card>
   )
 }
 
-export default EcommerceExpenses
+export default CampaignTime

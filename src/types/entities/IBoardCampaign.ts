@@ -14,27 +14,27 @@ export interface IBoardCampaign {
   averageTicket: number;
   strategy: IStrategy;
   message: {
-    isEnabled: boolean;
+    isEnable: boolean;
     goal: number;
     count: number;
   };
   conversation: {
-    isEnabled: boolean;
+    isEnable: boolean;
     goal: number;
     count: number;
   };
   appointment: {
-    isEnabled: boolean;
+    isEnable: boolean;
     goal: number;
     count: number;
   };
   schedule: {
-    isEnabled: boolean;
+    isEnable: boolean;
     goal: number;
     count: number;
   };
   sale: {
-    isEnabled: boolean;
+    isEnable: boolean;
     goal: number;
     count: number;
   };

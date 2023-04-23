@@ -1,7 +1,7 @@
 import { Icon } from '@/components/icon';
 import { ISalesFunnel } from '@/types/entities/ISalesFunnel';
 
-import {beautifullyPhone, TextEllipsis} from '@/utils/text';
+import { beautifullyPhone, TextEllipsis } from '@/utils/text';
 import {
   Button,
   Dialog,
@@ -11,13 +11,13 @@ import {
   DialogTitle,
   IconButton,
   Link,
-  Tooltip
+  Tooltip,
 } from '@mui/material';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { SetStateAction } from 'react';
-import {IStrategy} from "@/types/entities/IStrategy";
-import {ICustomer} from "@/types/entities/ICustomer";
+import { IStrategy } from '@/types/entities/IStrategy';
+import { ICustomer } from '@/types/entities/ICustomer';
 
 interface CellType {
   row: ICustomer;
@@ -34,7 +34,7 @@ export function createCustomerListTable({
   customerToDelete,
   setCustomerToDelete,
   handleDeleteCustomer,
-  setCustomerToEdit
+  setCustomerToEdit,
 }: CreateListTableProps) {
   return [
     {
@@ -57,13 +57,16 @@ export function createCustomerListTable({
         <Box sx={{ display: 'flex', flexDirection: 'column' }}>
           <Typography noWrap sx={{ color: 'text.secondary' }}>
             <Box>
-              {
-                row.instagram ?
-                <Link href={'https://instagram.com/'+row.instagram} target='_blank'>
+              {row.instagram ? (
+                <Link
+                  href={'https://instagram.com/' + row.instagram}
+                  target='_blank'
+                >
                   @{row.instagram}
-                </Link> :
+                </Link>
+              ) : (
                 'Não informado'
-              }
+              )}
             </Box>
           </Typography>
         </Box>
@@ -77,13 +80,16 @@ export function createCustomerListTable({
         <Box sx={{ display: 'flex', flexDirection: 'column' }}>
           <Typography noWrap sx={{ color: 'text.secondary' }}>
             <Box>
-              {
-                row.whatsapp ?
-                  <Link href={'https://whatsa.me/55'+row.whatsapp} target='_blank'>
-                    {beautifullyPhone(row.whatsapp || '')}
-                  </Link> :
-                  'Não informado'
-              }
+              {row.whatsapp ? (
+                <Link
+                  href={'https://whatsa.me/55' + row.whatsapp}
+                  target='_blank'
+                >
+                  {beautifullyPhone(row.whatsapp || '')}
+                </Link>
+              ) : (
+                'Não informado'
+              )}
             </Box>
           </Typography>
         </Box>
@@ -108,13 +114,11 @@ export function createCustomerListTable({
               </IconButton>
             </Tooltip>
             <Tooltip title='Editar'>
-              <IconButton
-                size='small'
-                sx={{ color: 'text.secondary' }}
-                onClick={() => setCustomerToEdit(row)}
-              >
-                <Icon icon='tabler:edit' />
-              </IconButton>
+              <Link href={`/customers/edit/${row.id}`}>
+                <IconButton size='small' sx={{ color: 'text.secondary' }}>
+                  <Icon icon='tabler:edit' />
+                </IconButton>
+              </Link>
             </Tooltip>
           </Box>
           <Dialog

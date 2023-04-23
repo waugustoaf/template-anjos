@@ -35,8 +35,6 @@ export function UserModal({
     resolver: yupResolver(userFormSchema),
   });
 
-  //console.log({ errors, values: getValues() });
-
   const router = useRouter();
 
   useEffect(() => {

@@ -28,12 +28,6 @@ import { useSettings } from '@/@core/hooks/useSettings'
 // ** Util Import
 import { hexToRGBA } from '@/@core/utils/hex-to-rgba'
 
-const yearOptions = [new Date().getFullYear() - 1, new Date().getFullYear() - 2, new Date().getFullYear() - 3]
-
-const barSeries = [
-  { name: 'Estratégias', data: [250, 230, 200, 150, 100] },
-]
-
 const StyledGrid = styled(Grid)<GridProps>(({ theme }) => ({
   [theme.breakpoints.down('sm')]: {
     borderBottom: `1px solid ${theme.palette.divider}`
@@ -43,7 +37,27 @@ const StyledGrid = styled(Grid)<GridProps>(({ theme }) => ({
   }
 }))
 
-const StrategyConversionQuantity = () => {
+
+interface DataStrategyConversionQuantityProps {
+  data: StrategyConversionQuantityProps[] | undefined
+}
+
+interface StrategyConversionQuantityProps {
+  strategyId: string | undefined
+  icon: string | undefined
+  name: string | undefined
+  value: number | undefined;
+}
+
+const StrategyConversionQuantity = ({data}: DataStrategyConversionQuantityProps) => {
+
+  const strategies: string[] = [];
+  const dataValues: number[] = [];
+
+  const barSeries = [
+    { name: 'Estratégias', data: dataValues },
+  ]
+
   // ** Hooks & Var
   const theme = useTheme()
   const { settings } = useSettings()
@@ -113,7 +127,7 @@ const StrategyConversionQuantity = () => {
       axisTicks: { show: false },
       crosshairs: { opacity: 0 },
       axisBorder: { show: false },
-      categories: ['Digital Influencer', 'Ind. 3 etapas', 'Indicação Simples', 'Parcerias', 'Inj. Caixa Rapido'],
+      categories: strategies,
       labels: {
         style: {
           fontSize: '14px',

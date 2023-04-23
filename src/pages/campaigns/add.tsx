@@ -33,13 +33,11 @@ export default function CategoryAddPage() {
   const [selectedStrategies, setSelectedStrategies] = useState<string[]>([]);
   const [createdData, setCreatedData] = useState<ICampaignFull | null>(null);
 
-  const router = useRouter();
-
   const {
     register,
     handleSubmit,
     setValue,
-    getValues,
+    trigger,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(campaignFormSchema),
@@ -64,7 +62,7 @@ export default function CategoryAddPage() {
       ..._data,
     }));
 
-    if (!isAutoPilot && !data?.data.length) {
+    if (!isAutoPilot && currentRoute === 'main') {
       return setCurrentRoute('strategy');
     }
 
@@ -85,135 +83,7 @@ export default function CategoryAddPage() {
       });
 
       toast.success('Campanha criado com sucesso.');
-      setCreatedData({
-        id: '9de46756-e26a-411a-87b3-102333285ca0',
-        clinicId: '7f6bae13-026b-48f7-96e3-63d1c17d1143',
-        autoPilot: false,
-        name: 'Campanha de Páscoa',
-        month: 3,
-        year: 2023,
-        financialGoal: 1000000,
-        averageTicket: 150000,
-        paidTraffic: false,
-        strategies: [
-          {
-            id: 'd53d4443-4f1a-43c9-bdc9-512734c290c7',
-            name: 'Million2',
-            description: 'Estratégia',
-            icon: '360',
-          },
-          {
-            id: '0db249ce-3a06-403a-8c13-a59ad1d863cd',
-            name: 'Oferta Direta 2',
-            description: 'Estratégia',
-            icon: '',
-          },
-        ],
-        boards: [
-          {
-            id: 'd53d4443-4f1a-43c9-bdc9-512734c290c7',
-            name: '03-2023 - Million2 - Lista Quente',
-            campaignId: '9de46756-e26a-411a-87b3-102333285ca0',
-            strategyId: '39fa530d-2abd-444c-8791-d5841aa64453',
-            funnelId: '8d474d2f-5cda-4415-9218-fdd174c67bdb',
-            paidTraffic: false,
-            message: {
-              goal: 10.8,
-              count: 0,
-              isEnabled: true,
-            },
-            conversation: {
-              goal: 8,
-              count: 0,
-              isEnabled: true,
-            },
-            schedule: {
-              goal: 4,
-              count: 0,
-              isEnabled: true,
-            },
-            appointment: {
-              goal: 2,
-              count: 0,
-              isEnabled: true,
-            },
-            sale: {
-              goal: 1,
-              count: 0,
-              isEnabled: true,
-            },
-            salesSum: 0,
-            averageTicket: 150000,
-            financialGoal: 500000,
-            lostStep: true,
-            active: true,
-            strategy: {
-              id: '39fa530d-2abd-444c-8791-d5841aa64453',
-              funnelId: '8d474d2f-5cda-4415-9218-fdd174c67bdb',
-              name: 'Million2',
-              description: 'Estratégia',
-              link: 'https://www.googlessssss.com.br/',
-              icon: '360',
-              qtdMessages: 1000,
-              qtdConversations: 500,
-              qtdAppointments: 200,
-              qtdSchedules: 300,
-              active: true,
-            },
-          },
-          {
-            id: '0db249ce-3a06-403a-8c13-a59ad1d863cd',
-            name: '03-2023 - Oferta Direta 2 - Lista Quente',
-            campaignId: '9de46756-e26a-411a-87b3-102333285ca0',
-            strategyId: '212e226f-7ca3-4f1d-ab3e-f781aebe1d3d',
-            funnelId: '8d474d2f-5cda-4415-9218-fdd174c67bdb',
-            paidTraffic: false,
-            message: {
-              goal: 8,
-              count: 0,
-              isEnabled: true,
-            },
-            conversation: {
-              goal: 7,
-              count: 0,
-              isEnabled: true,
-            },
-            schedule: {
-              goal: 4,
-              count: 0,
-              isEnabled: true,
-            },
-            appointment: {
-              goal: 2,
-              count: 0,
-              isEnabled: true,
-            },
-            sale: {
-              goal: 1,
-              count: 0,
-              isEnabled: true,
-            },
-            salesSum: 0,
-            averageTicket: 150000,
-            financialGoal: 500000,
-            lostStep: true,
-            active: true,
-            strategy: {
-              id: '212e226f-7ca3-4f1d-ab3e-f781aebe1d3d',
-              funnelId: '8d474d2f-5cda-4415-9218-fdd174c67bdb',
-              name: 'Oferta Direta 2',
-              description: 'Estratégia',
-              link: 'https://www.google.com.br/',
-              icon: '',
-              qtdMessages: 1000,
-              qtdConversations: 500,
-              qtdAppointments: 200,
-              qtdSchedules: 300,
-              active: true,
-            },
-          },
-        ],
-      });
+      setCreatedData(response.data);
     } catch {
       toast.error('Erro ao criar a campanha.');
     } finally {
@@ -326,6 +196,7 @@ export default function CategoryAddPage() {
                         }),
                         register,
                         setValue,
+                        trigger,
                       })}
 
                       <SubmitButton
@@ -375,7 +246,7 @@ export default function CategoryAddPage() {
                               <Icon icon={`tabler:${strategy.icon}`} />
                               <Typography fontSize='15px' fontWeight='600'>
                                 USAR - {"'"}
-                                {strategy.name.toUpperCase()}
+                                {(strategy.name || '').toUpperCase()}
                                 {"'"}
                               </Typography>
                               <Typography fontSize='13px'>
@@ -413,7 +284,7 @@ export default function CategoryAddPage() {
                               <Icon icon={`tabler:${strategy.icon}`} />
                               <Typography fontSize='15px' fontWeight='600'>
                                 NÃO USAR - {"'"}
-                                {strategy.name.toUpperCase()}
+                                {(strategy.name || '').toUpperCase()}
                                 {"'"}
                               </Typography>
                               <Typography fontSize='13px'>

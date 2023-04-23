@@ -32,74 +32,10 @@ type TabCategory = 'Tráfego Pago' | 'Indicação' | 'Tráfego Alheio' | 'Lista 
 
 type TabType = {
   type: TabCategory
-  avatarIcon: string
   series: ApexChartSeries
 }
 
-const tabData: TabType[] = [
-  {
-    type: 'Tráfego Pago',
-    avatarIcon: 'tabler:shopping-cart',
-    series: [{ data: [28, 10, 45, 38] }]
-  },
-  {
-    type: 'Indicação',
-    avatarIcon: 'tabler:chart-bar',
-    series: [{ data: [35, 25, 15, 40] }]
-  },
-  {
-    type: 'Tráfego Alheio',
-    avatarIcon: 'tabler:currency-dollar',
-    series: [{ data: [10, 22, 27, 33] }]
-  },
-  {
-    type: 'Lista Quente',
-    avatarIcon: 'tabler:chart-pie-2',
-    series: [{ data: [5, 9, 12, 18] }]
-  }
-]
-
-const renderTabs = (value: TabCategory, theme: Theme) => {
-  return tabData.map((item, index) => {
-    const RenderAvatar = item.type === value ? CustomAvatar : Avatar
-
-    return (
-      <Tab
-        key={index}
-        value={item.type}
-        label={
-          <Box
-            sx={{
-              width: 110,
-              height: 94,
-              borderWidth: 1,
-              display: 'flex',
-              alignItems: 'center',
-              borderRadius: '10px',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              borderStyle: item.type === value ? 'solid' : 'dashed',
-              borderColor: item.type === value ? theme.palette.primary.main : theme.palette.divider
-            }}
-          >
-            <RenderAvatar
-              variant='rounded'
-              {...(item.type === value && { skin: 'light' })}
-              sx={{ mb: 2, width: 34, height: 34, ...(item.type !== value && { backgroundColor: 'action.selected' }) }}
-            >
-              <Icon icon={item.avatarIcon} />
-            </RenderAvatar>
-            <Typography sx={{ fontWeight: 500, color: 'text.secondary', textTransform: 'capitalize' }}>
-              {item.type}
-            </Typography>
-          </Box>
-        }
-      />
-    )
-  })
-}
-
-const renderTabPanels = (value: TabCategory, theme: Theme, options: ApexOptions, colors: string[]) => {
+const renderTabPanels = (tabData:TabType[],  value: TabCategory, theme: Theme, options: ApexOptions, colors: string[]) => {
   return tabData.map((item, index) => {
     const max = Math.max(...((item.series[0] as ApexChartSeriesData).data as number[]))
     const seriesIndex = ((item.series[0] as ApexChartSeriesData).data as number[]).indexOf(max)
@@ -117,7 +53,40 @@ const renderTabPanels = (value: TabCategory, theme: Theme, options: ApexOptions,
   })
 }
 
-const SalesByStrategy = () => {
+interface DataSalesByStrategiesProps {
+  data: SalesByStrategiesProps[] | undefined
+}
+
+interface SalesByStrategiesProps {
+  strategyId: string | undefined
+  icon: string | undefined
+  name: string | undefined
+  value: number | undefined;
+}
+
+const SalesByStrategy = ({data}: DataSalesByStrategiesProps) => {
+
+  const strategies: string[] = ['Estratégia2222', 'Estratégia 2', 'Estratégia 3', 'Estratégia 4']
+
+  const tabData: TabType[] = [
+    {
+      type: 'Tráfego Pago',
+      series: [{ data: [28, 10, 45, 38] }]
+    },
+    {
+      type: 'Indicação',
+      series: [{ data: [35.3, 25, 15, 40] }]
+    },
+    {
+      type: 'Tráfego Alheio',
+      series: [{ data: [10, 22, 27, 33] }]
+    },
+    {
+      type: 'Lista Quente',
+      series: [{ data: [5, 9, 12, 18] }]
+    }
+  ]
+
   // ** State
   const [value, setValue] = useState<TabCategory>('Indicação')
 
@@ -176,7 +145,7 @@ const SalesByStrategy = () => {
     xaxis: {
       axisTicks: { show: false },
       axisBorder: { color: theme.palette.divider },
-      categories: ['Estratégia 1', 'Estratégia 2', 'Estratégia 3', 'Estratégia 4'],
+      categories: strategies,
       labels: {
         style: {
           fontSize: '14px',
@@ -220,7 +189,7 @@ const SalesByStrategy = () => {
       />
       <CardContent sx={{ '& .MuiTabPanel-root': { p: 0 } }}>
         <TabContext value={value}>
-          {renderTabPanels(value, theme, options, colors)}
+          {renderTabPanels(tabData, value, theme, options, colors)}
         </TabContext>
       </CardContent>
     </Card>

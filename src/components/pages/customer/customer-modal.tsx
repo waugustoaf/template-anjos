@@ -1,6 +1,5 @@
 import { customerFormSchema } from '@/forms/customer/schema';
 import { apiServices } from '@/services';
-import { IProduct } from '@/types/entities/IProduct';
 import { mountForm } from '@/utils/form/mount-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Box, Button, Dialog, DialogContent, DialogTitle } from '@mui/material';
@@ -14,8 +13,9 @@ import { customerFormFields } from '@/forms/customer';
 interface CustomerModalProps {
   isOpen: boolean;
   onClose: () => void;
-  defaultCustomer?: ICustomer | null;
+  defaultCustomer?: Partial<ICustomer> | null;
   refetch?: () => void;
+  notRedirect?: boolean;
 }
 
 export function CustomerModal({
@@ -23,20 +23,18 @@ export function CustomerModal({
   onClose,
   isOpen,
   refetch,
+  notRedirect,
 }: CustomerModalProps) {
   const {
     register,
     setValue,
     reset,
-    getValues,
     handleSubmit,
     trigger,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(customerFormSchema),
   });
-
-  //console.log({ errors, values: getValues() });
 
   const router = useRouter();
 
@@ -57,16 +55,26 @@ export function CustomerModal({
 
   async function onSubmit(data: Partial<ICustomer>) {
     try {
-      if (defaultCustomer) {
-        await apiServices.customer.update(defaultCustomer.id, data);
+      if (defaultCustomer?.id) {
+        await apiServices.customer.update(defaultCustomer?.id || '', {
+          ...data,
+          instagram: data.instagram?.replace('@', ''),
+        });
         toast.success('Cliente salvo com sucesso.');
       } else {
-        await apiServices.customer.create(data);
+        await apiServices.customer.create({
+          ...data,
+          instagram: data.instagram?.replace('@', ''),
+        });
         toast.success('Cliente adicionado com sucesso.');
       }
 
       refetch && refetch();
-      router.push('/customers/list');
+
+      if (!notRedirect) {
+        router.push('/customers/list');
+      }
+
       handleClose();
     } catch {
       toast.error(
@@ -83,7 +91,7 @@ export function CustomerModal({
       aria-describedby='alert-dialog-description'
     >
       <DialogTitle id='alert-dialog-title'>
-        {defaultCustomer ? 'Salvar' : 'Adicionar'}&nbsp; Produto
+        {defaultCustomer ? 'Salvar' : 'Adicionar'}&nbsp;Cliente
       </DialogTitle>
       <DialogContent>
         <form onSubmit={handleSubmit(onSubmit)}>

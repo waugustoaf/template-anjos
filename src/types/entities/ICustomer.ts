@@ -16,4 +16,5 @@ export interface ICustomer {
   observation: string;
   city: string;
   state: string;
+  boardId?: string;
 }

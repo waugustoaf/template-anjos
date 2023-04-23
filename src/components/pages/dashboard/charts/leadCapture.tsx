@@ -18,11 +18,17 @@ import ReactApexcharts from '@/@core/components/react-apexcharts'
 // ** Util Import
 import { hexToRGBA } from '@/@core/utils/hex-to-rgba'
 
-const series = [100, 84]
+interface LeadCaptureProps {
+  quantity: number | undefined
+  convert: number | undefined;
+  noConverted: number | undefined;
+}
 
-const LeadCapture = () => {
+const LeadCapture = ({ quantity, convert, noConverted }: LeadCaptureProps) => {
   // ** Hook
   const theme = useTheme()
+
+  const series = [convert ? convert : 0, noConverted ? noConverted : 0]
 
   const options: ApexOptions = {
     colors: [
@@ -71,7 +77,7 @@ const LeadCapture = () => {
             },
             total: {
               show: true,
-              label: 'Total',
+              label: 'Leads',
               fontSize: '1.1rem',
               color: theme.palette.text.secondary,
               fontFamily: theme.typography.fontFamily
@@ -103,13 +109,13 @@ const LeadCapture = () => {
           <Box sx={{ gap: 3, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
             <div>
               <Typography variant='h6' sx={{ mb: 0.5 }}>
-                Captação de Leads
+                Captação / Conversão
               </Typography>
-              <Typography variant='body2'>Monthly Report</Typography>
             </div>
             <div>
               <Typography variant='h5' sx={{ mb: 0.5 }}>
-                4.350
+                {quantity ? quantity.toLocaleString('pt-BR') : "0"}
+                <Typography variant='body2'>Leads cadastrados</Typography>
               </Typography>
             </div>
           </Box>

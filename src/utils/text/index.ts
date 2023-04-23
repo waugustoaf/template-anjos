@@ -9,6 +9,8 @@ export function TextEllipsis(text?: string, size = 30) {
 }
 
 export function beautifullyPhone(brutePhoneWithCountryCode: string) {
+  if(!brutePhoneWithCountryCode) return '';
+
   const phone = brutePhoneWithCountryCode.replace(/\D/g, '');
   const areaCode = phone.substring(0, 2);
   const firstPart = phone.substring(2, 7);
