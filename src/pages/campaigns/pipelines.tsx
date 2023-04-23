@@ -1,12 +1,11 @@
 import { Breadcrumb } from '@/components/breadcrumb';
 import { Icon } from '@/components/icon';
+import { CampaignsPipelinesModal } from '@/components/pages/campaigns/pipelines/modal';
+import { CustomerModal } from '@/components/pages/customer/customer-modal';
 import { Spinner } from '@/components/spinner';
-import { TableHeader } from '@/components/table-header';
-import { useAuth } from '@/hooks/useAuth';
 import { apiServices } from '@/services';
 import { GetCustomerCBResponse } from '@/services/customer/types';
 import { IBoardCampaign } from '@/types/entities/IBoardCampaign';
-import { api } from '@/utils/api';
 import { beautifullyPhone } from '@/utils/text';
 import {
   Autocomplete,
@@ -20,7 +19,7 @@ import {
 import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { useDebounce } from 'use-debounce';
+import CustomChip from '@/@core/components/mui/chip';
 
 function translate(key: string) {
   const translations: Record<string, string> = {
@@ -34,7 +33,20 @@ function translate(key: string) {
   return translations[key];
 }
 
+interface IIcons {
+  message: string;
+  conversation: string;
+  schedule: string;
+  appointment: string;
+  sale: string;
+}
+
 export default function Boards() {
+  const [selectedCustomer, setSelectedCustomer] = useState<{
+    customer: GetCustomerCBResponse['message'][0];
+    key: string;
+  } | null>(null);
+  const [isCreatingUser, setIsCreatingUser] = useState(false);
   const [selectedBoard, setSelectedBoard] = useState<IBoardCampaign | null>(
     null,
   );
@@ -42,12 +54,21 @@ export default function Boards() {
   const router = useRouter();
   const theme = useTheme();
 
-  const { data: boards, isLoading } = useQuery(
-    ['boards'],
-    apiServices.campaign.boards,
-  );
+  const {
+    data: boards,
+    isLoading,
+    isError: isBoardError,
+  } = useQuery(['boards'], apiServices.campaign.boards);
 
-  const { data } = useQuery(
+  const icons: IIcons = {
+    message: 'message',
+    conversation: 'message-plus',
+    schedule: 'calendar-time',
+    appointment: 'clipboard-check',
+    sale: 'currency-dollar',
+  };
+
+  const { data, isError, refetch } = useQuery(
     ['customer-cb', selectedBoard],
     async () =>
       apiServices.customer.getByCampaignAndBoard(
@@ -56,6 +77,16 @@ export default function Boards() {
       ),
     { enabled: !!selectedBoard },
   );
+
+  function handleSelectCustomer(
+    customer: GetCustomerCBResponse['message'][0],
+    key: string,
+  ) {
+    setSelectedCustomer({
+      customer,
+      key,
+    });
+  }
 
   useEffect(() => {
     if (!selectedBoard && boards?.data) {
@@ -74,6 +105,14 @@ export default function Boards() {
 
   if (isLoading) return <Spinner />;
 
+  if (isError || isBoardError) {
+    return (
+      <Typography align='center' margin='0 auto' color='error.light'>
+        Nenhuma campanha ativa
+      </Typography>
+    );
+  }
+
   return (
     <>
       <Box
@@ -90,18 +129,37 @@ export default function Boards() {
           ]}
         />
 
-        <Autocomplete
-          options={boards?.data || []}
-          getOptionLabel={(item) => item.name}
-          isOptionEqualToValue={(a, b) => a.id === b.id}
-          renderInput={(params: any) => (
-            <TextField {...params} label='Board' sx={{ width: '300px' }} />
-          )}
-          onChange={(_, value) => {
-            setSelectedBoard(value);
-          }}
-          value={selectedBoard}
-        />
+        <Box display='flex' alignItems='stretch' gap='0.5rem'>
+          <Autocomplete
+            options={boards?.data || []}
+            getOptionLabel={(item) => item.name}
+            isOptionEqualToValue={(a, b) => a.id === b.id}
+            renderInput={(params: any) => (
+              <TextField
+                {...params}
+                label='Quadro'
+                sx={{ width: { sx: 'auto', lg: '500px' } }}
+              />
+            )}
+            onChange={(_, value) => {
+              setSelectedBoard(value);
+            }}
+            value={selectedBoard}
+          />
+
+          <Button
+            variant='contained'
+            sx={{ bgcolor: 'success.main' }}
+            onClick={() => setIsCreatingUser(true)}
+          >
+            <Icon
+              icon='tabler:star'
+              fontSize={14}
+              style={{ marginRight: '0.5rem' }}
+            />
+            Novo cliente
+          </Button>
+        </Box>
       </Box>
 
       <Box width='100%' sx={{ overflowX: 'auto' }} display='flex' gap='0.5rem'>
@@ -110,6 +168,8 @@ export default function Boards() {
             // @ts-ignore
             if (!selectedBoard || !selectedBoard[key].isEnable) return null;
 
+            // @ts-ignore
+            // @ts-ignore
             return (
               <Box key={key} width='80%' maxWidth='280px'>
                 <Typography
@@ -124,7 +184,7 @@ export default function Boards() {
                   gap='0.25rem'
                 >
                   <Icon
-                    icon='tabler:clipboard-check'
+                    icon={`tabler:${icons[key as keyof IIcons]}`}
                     color={theme.palette.primary.main}
                   />
                   {translate(key)}
@@ -157,6 +217,7 @@ export default function Boards() {
                           color: 'white',
                         },
                       }}
+                      onClick={() => handleSelectCustomer(item, key)}
                     >
                       <Box display='flex' gap='0.5rem'>
                         <Avatar alt={item.name} src={item.avatar || undefined}>
@@ -170,11 +231,54 @@ export default function Boards() {
                           flexDirection='column'
                           alignItems='flex-start'
                         >
-                          <Typography color='inherit'>{item.name}</Typography>
-                          <Typography color='inherit'>
+                          <Box
+                            color='inherit'
+                            display='flex'
+                            alignItems='center'
+                            gap='0.25rem'
+                          >
+                            <Icon fontSize='1.2rem' icon='tabler:user' />
+                            {item.name}
+                          </Box>
+                          <Box
+                            color='inherit'
+                            display='flex'
+                            alignItems='center'
+                            gap='0.25rem'
+                          >
+                            <Icon
+                              fontSize='1.2rem'
+                              icon='tabler:brand-whatsapp'
+                            />{' '}
                             {beautifullyPhone(item.whatsApp)}
-                          </Typography>
-                          <Typography color='inherit'>{item.email}</Typography>
+                          </Box>
+                          <Box
+                            color='inherit'
+                            display='flex'
+                            alignItems='center'
+                            gap='0.25rem'
+                          >
+                            <Icon fontSize='1.2rem' icon='tabler:mail' />{' '}
+                            {item.email}
+                          </Box>
+                          <Box
+                            color='inherit'
+                            display='flex'
+                            alignItems='center'
+                            gap='0.25rem'
+                          >
+                            <Icon fontSize='1.2rem' icon='tabler:tags' />
+                            <Box display='flex' gap='0.15rem' flexWrap='wrap'>
+                              <CustomChip
+                                rounded
+                                skin='light'
+                                size='small'
+                                label='Ligar depois'
+                                color={'info'}
+                                sx={{ textTransform: 'capitalize' }}
+                              />
+                            </Box>
+                          </Box>
                         </Box>
                       </Box>
                     </Button>
@@ -185,6 +289,24 @@ export default function Boards() {
           },
         )}
       </Box>
+
+      <CustomerModal
+        notRedirect
+        isOpen={isCreatingUser}
+        onClose={() => setIsCreatingUser(false)}
+        refetch={refetch}
+        defaultCustomer={{
+          boardId: selectedBoard?.id,
+        }}
+      />
+
+      <CampaignsPipelinesModal
+        onClose={() => setSelectedCustomer(null)}
+        customer={selectedCustomer?.customer}
+        type={selectedCustomer?.key}
+        refetch={refetch}
+        boardId={selectedBoard?.id || ''}
+      />
     </>
   );
 }

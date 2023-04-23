@@ -6,12 +6,13 @@ import Grid from '@mui/material/Grid';
 import { DataGrid, ptBR } from '@mui/x-data-grid';
 
 import { Breadcrumb } from '@/components/breadcrumb';
+import { Icon } from '@/components/icon';
 import { Spinner } from '@/components/spinner';
 import { TableHeader } from '@/components/table-header';
 import { apiServices } from '@/services';
 import { DatePickerWrapper } from '@/styles/libs/react-datepicker';
 import { createCampaignListTable } from '@/utils/tables/campaigns/list';
-import { Pagination } from '@mui/material';
+import { Button, Pagination } from '@mui/material';
 import { useDebounce } from 'use-debounce';
 
 export default function SalesListPage() {

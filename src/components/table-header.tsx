@@ -12,10 +12,18 @@ interface TableHeaderProps {
   inputPlaceholder: string;
   addLink?: string;
   addOnClick?: () => void;
+  rightChildren?: React.ReactNode;
 }
 
 export const TableHeader = (props: TableHeaderProps) => {
-  const { search, onSearch, inputPlaceholder, addLink, addOnClick } = props;
+  const {
+    search,
+    onSearch,
+    inputPlaceholder,
+    addLink,
+    addOnClick,
+    rightChildren,
+  } = props;
 
   const addProps = addLink ? { component: Link, href: addLink } : {};
 
@@ -39,13 +47,16 @@ export const TableHeader = (props: TableHeaderProps) => {
         onChange={(e) => onSearch(e.target.value)}
       />
 
-      <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
-        <Button
-          sx={{ mb: 2 }}
-          variant='contained'
-          onClick={addOnClick}
-          {...addProps}
-        >
+      <Box
+        sx={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          alignItems: 'center',
+          gap: '0.5rem',
+          mb: 2,
+        }}
+      >
+        <Button variant='contained' onClick={addOnClick} {...addProps}>
           <Icon
             icon='tabler:plus'
             fontSize={18}
@@ -53,6 +64,8 @@ export const TableHeader = (props: TableHeaderProps) => {
           />
           Adicionar
         </Button>
+
+        {rightChildren ? rightChildren : null}
       </Box>
     </Box>
   );
