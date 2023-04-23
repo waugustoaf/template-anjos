@@ -1,6 +1,6 @@
-import { GetCustomerCBResponse } from '@/services/customer/types';
-import { Dialog, DialogContent } from '@mui/material';
-import { PipelineCustomerMessage } from './mesage';
+import {GetCustomerCBResponse} from '@/services/customer/types';
+import {Dialog, DialogContent} from '@mui/material';
+import {PipelineCustomerActions} from "@/components/pages/campaigns/pipelines/modalDetails";
 
 interface CampaignsPipelinesModalProps {
   customer?: GetCustomerCBResponse['message'][0];
@@ -17,20 +17,13 @@ const getChildren = (
   onClose: () => void,
   refetch: () => void,
 ) => {
-  switch (type) {
-    case 'message':
-      return (
-        <PipelineCustomerMessage
-          customer={customer}
-          onClose={onClose}
-          refetch={refetch}
-          boardId={boardId}
-        />
-      );
-
-    default:
-      return <></>;
-  }
+  return <PipelineCustomerActions
+    customer={customer}
+    onClose={onClose}
+    refetch={refetch}
+    boardId={boardId}
+    type={type}
+  />
 };
 
 export function CampaignsPipelinesModal({

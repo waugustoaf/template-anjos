@@ -5,7 +5,7 @@ import { FormControl, FormHelperText, Grid, TextField } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { StaticDateTimePicker } from '@mui/lab';
 
-export function InputDate(props: ResolveFieldProps) {
+export function InputDateTime(props: ResolveFieldProps) {
   const { field, setValue, errorMessage, defaultValue, trigger } = props;
 
   const [date, setDate] = useState(
@@ -36,10 +36,12 @@ export function InputDate(props: ResolveFieldProps) {
       <FormControl fullWidth>
         <DatePicker
           selected={date}
+          timeFormat='HH:mm'
+          showTimeSelect
           onChange={(date: Date) => setDate(date)}
           placeholderText={field.placeholder}
           customInput={<TextField label={field.title} fullWidth />}
-          dateFormat={field.dateFormat || undefined}
+          dateFormat={field.dateFormat || 'dd/MM/yyyy HH:mm'}
         />
 
         {errorMessage && (
