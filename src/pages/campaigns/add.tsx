@@ -12,18 +12,16 @@ import { useForm } from 'react-hook-form';
 import { Breadcrumb } from '@/components/breadcrumb';
 import { SubmitButton } from '@/components/form/submit-button';
 import { Icon } from '@/components/icon';
+import { CreatedCampaigns } from '@/components/pages/campaigns/created';
 import { campaignFormFields } from '@/forms/campaigns';
 import { campaignFormSchema } from '@/forms/campaigns/schema';
 import { apiServices } from '@/services';
-import { ICategory } from '@/types/entities/ICategory';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { Box, Button, Typography } from '@mui/material';
-import { useRouter } from 'next/router';
-import { toast } from 'react-hot-toast';
-import { formatNumberToBase100 } from '@/utils/currency';
 import { ICampaign, ICampaignFull } from '@/types/entities/ICampaign';
+import { formatNumberToBase100 } from '@/utils/currency';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { Button, Typography } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
-import { CreatedCampaigns } from '@/components/pages/campaigns/created';
+import { toast } from 'react-hot-toast';
 
 export default function CategoryAddPage() {
   const [currentRoute, setCurrentRoute] = useState('main');
@@ -57,6 +55,11 @@ export default function CategoryAddPage() {
   }, [data]);
 
   async function onSubmit(_data: Partial<ICampaign>) {
+    let newData: any = {
+      ...currentData,
+      ..._data,
+    };
+
     setCurrentData((prevState: any) => ({
       ...prevState,
       ..._data,
@@ -69,15 +72,15 @@ export default function CategoryAddPage() {
     try {
       setIsLoading(true);
       const response = await apiServices.campaign.create({
-        ...currentData,
-        financialGoal: currentData.financialGoal
-          ? formatNumberToBase100(currentData.financialGoal)
+        ...newData,
+        financialGoal: newData.financialGoal
+          ? formatNumberToBase100(newData.financialGoal)
           : undefined,
-        averageTicket: currentData.averageTicket
-          ? formatNumberToBase100(currentData.averageTicket)
+        averageTicket: newData.averageTicket
+          ? formatNumberToBase100(newData.averageTicket)
           : undefined,
-        year: parseInt(currentData.year) || new Date().getFullYear(),
-        month: parseInt(currentData.month) || new Date().getMonth(),
+        year: parseInt(newData.year) || new Date().getFullYear(),
+        month: parseInt(newData.month) || new Date().getMonth(),
         strategies: isAutoPilot ? [] : selectedStrategies,
         autoPilot: isAutoPilot,
       });

@@ -9,6 +9,7 @@ import {
   ListCampaignsResponse,
 } from './types';
 import { ICreateCampaign } from '@/types/entities/ICampaign';
+import qs from 'qs';
 
 export const campaignsServices = {
   list: async (props?: PaginationProps) => {
@@ -35,9 +36,7 @@ export const campaignsServices = {
     return response.data;
   },
   boards: async () => {
-    const response = await api.get<ListBoards>(
-      `/campaign/boards`,
-    );
+    const response = await api.get<ListBoards>(`/campaign/boards`);
 
     return response.data;
   },

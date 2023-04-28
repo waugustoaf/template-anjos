@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { Breadcrumb } from '@/components/breadcrumb';
 import { Icon } from '@/components/icon';
@@ -58,8 +58,17 @@ export default function ProfileAddPage() {
   const [profileData, setProfileData] = useState<Partial<IProfile>>({
     email: user?.user?.email || '',
     fullName: user?.user?.fullName || '',
+    avatar: user?.user?.avatar || '',
   });
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => { 
+    setProfileData({
+      email: user?.user?.email || '',
+      fullName: user?.user?.fullName || '',
+      avatar: user?.user?.avatar || '',
+    })
+  }, [user]);
 
   async function handleSaveProfile(data: Partial<IProfile>) {
     const formattedData = truthyObject({

@@ -10,8 +10,8 @@ const Img = styled('img')(({ theme }) => ({
 }));
 
 export function InputFile(props: ResolveFieldProps) {
+  const { field, setValue, defaultValue } = props;
   const [file, setFile] = useState<File | null>(null);
-  const { field, setValue, errorMessage, defaultValue } = props;
 
   const { getRootProps, getInputProps } = useDropzone({
     multiple: Boolean(field.multipleFiles),
@@ -69,10 +69,14 @@ export function InputFile(props: ResolveFieldProps) {
             <Img
               alt='Arquivo para upload'
               src={
-                file ? URL.createObjectURL(file) : `/images/pages/upload.png`
+                file
+                  ? URL.createObjectURL(file)
+                  : defaultValue || `/images/pages/upload.png`
               }
             />
-            <Typography variant='h5'>Upload de arquivos.</Typography>
+            <Typography variant='h5'>
+              {field.fileFieldTitle ?? 'Upload de arquivos.'}
+            </Typography>
             <Typography sx={{ color: 'text.secondary' }}>
               Arraste e solte um arquivo aqui ou clique para selecionar um
               arquivo.

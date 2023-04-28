@@ -115,6 +115,8 @@ export function CreatedCampaigns({ campaign }: CreatedCampaignsProps) {
         flexDirection='column'
         alignItems='center'
         gap='0.15rem'
+        padding='1.5rem'
+        paddingTop='0'
       >
         {fields.map((field, index) => (
           <Box

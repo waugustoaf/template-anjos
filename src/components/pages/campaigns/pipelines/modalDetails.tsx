@@ -97,7 +97,6 @@ export function PipelineCustomerActions({
   }
 
   async function handleSaveConversation(data: any) {
-    console.log('data - cheguei', data);
     try {
       setIsLoading(true);
 

@@ -5,4 +5,5 @@ export interface IProfile {
   currentPassword: string;
   newPassword: string;
   confirmPassword: string;
+  avatar?: string;
 }

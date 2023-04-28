@@ -8,6 +8,7 @@ import {
   ListCustomerResponse,
   UpdateCustomerResponse,
 } from './types';
+import qs from 'qs';
 
 const baseUrl = '/customer';
 
@@ -24,18 +25,24 @@ export const customerServices = {
 
     return response.data;
   },
-  getByCampaignAndBoard: async (campaignId: string, boardId: string) => { 
+  getByCampaignAndBoard: async (
+    campaignId: string,
+    boardId: string,
+    name: string = '',
+    strategyId: string[] = [],
+  ) => {
     const response = await api.get<GetCustomerCBResponse>(
-      `${baseUrl}/campaign/${campaignId}/board/${boardId}`,
+      `${baseUrl}/campaign/${campaignId}/board/${boardId}?name=${name}${qs.stringify(
+        {
+          strategyId,
+        },
+      )}`,
     );
 
     return response.data;
   },
   create: async (data: any) => {
-    const response = await api.post<CreateCustomerResponse>(
-      baseUrl,
-      data,
-    );
+    const response = await api.post<CreateCustomerResponse>(baseUrl, data);
 
     return response.data;
   },

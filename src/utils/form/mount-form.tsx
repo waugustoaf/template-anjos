@@ -45,6 +45,7 @@ export interface FormFieldProps {
     value: string;
     label: string;
   }[];
+  fileFieldTitle: string;
   children?: React.ReactNode;
   dateFormat?: string;
   multipleFiles?: boolean;
