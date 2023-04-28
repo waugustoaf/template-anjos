@@ -1,9 +1,9 @@
-import { Icon } from '@/components/icon';
-import { apiServices } from '@/services';
-import { FormFieldProps } from '@/utils/form/mount-form';
-import { tablerIcons } from '@/utils/icons/tabler-icons';
-import { Typography } from '@mui/material';
-import { Box } from '@mui/system';
+import {Icon} from '@/components/icon';
+import {apiServices} from '@/services';
+import {FormFieldProps} from '@/utils/form/mount-form';
+import {tablerIcons} from '@/utils/icons/tabler-icons';
+import {Typography} from '@mui/material';
+import {Box} from '@mui/system';
 
 export const strategyFormFields: FormFieldProps[] = [
   {
@@ -65,7 +65,7 @@ export const strategyFormFields: FormFieldProps[] = [
     type: 'label',
     name: 'configFunil',
     title:
-      'Configurações do Funil - Informa os valores necessários para 1 venda',
+      'Configurações do Funil - Informar os valores de conversão por etapa',
     rowSize: 12,
   },
   {

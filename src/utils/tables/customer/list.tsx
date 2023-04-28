@@ -1,7 +1,6 @@
-import { Icon } from '@/components/icon';
-import { ISalesFunnel } from '@/types/entities/ISalesFunnel';
+import {Icon} from '@/components/icon';
 
-import { beautifullyPhone, TextEllipsis } from '@/utils/text';
+import {beautifullyPhone} from '@/utils/text';
 import {
   Button,
   Dialog,
@@ -15,9 +14,11 @@ import {
 } from '@mui/material';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import { SetStateAction } from 'react';
-import { IStrategy } from '@/types/entities/IStrategy';
-import { ICustomer } from '@/types/entities/ICustomer';
+import {SetStateAction} from 'react';
+import {ICustomer} from '@/types/entities/ICustomer';
+import CustomAvatar from "@/@core/components/mui/avatar";
+import CustomChip from "@/@core/components/mui/chip";
+import {ThemeColor} from "@/types/app/layout";
 
 interface CellType {
   row: ICustomer;
@@ -30,6 +31,94 @@ interface CreateListTableProps {
   setCustomerToEdit: (value: SetStateAction<ICustomer | null>) => void;
 }
 
+interface UserStatusType {
+  [key: string]: ThemeColor;
+}
+
+function getLeadStatus(status: ICustomer['status']) {
+  switch (status) {
+    case 'CLOSED':
+      return 'Fechado';
+    case 'OPEN':
+      return 'Aberto';
+    case 'LOST':
+      return 'Perdido';
+    default:
+      return status;
+  }
+}
+
+const statusObj: UserStatusType = {
+  CLOSED: 'success',
+  OPEN: 'warning',
+  LOST: 'error'
+};
+
+function getLastAction(lastAction?: string) {
+  if (!lastAction) return 'Nenhuma ação realizada';
+  switch (lastAction) {
+    case 'CREATE':
+      return 'Criação';
+    case 'MESSAGE':
+      return 'Mensagem';
+    case 'CONVERSATION':
+      return 'Conversa';
+    case 'SCHEDULE':
+      return 'Agendamento';
+    case 'SALE':
+      return 'Venda';
+    case 'LOST':
+      return 'Perdido';
+    default:
+      return lastAction;
+  }
+}
+
+function getCurrentStep(currentStep?: string) {
+  if (!currentStep) return 'Não informado';
+  switch (currentStep) {
+    case 'CREATE':
+      return 'Criação';
+    case 'MESSAGE':
+      return 'Mensagem';
+    case 'CONVERSATION':
+      return 'Conversa';
+    case 'SCHEDULE':
+      return 'Agendamento';
+    case 'APPPOINTMENT':
+      return 'Consulta';
+    case 'SALE':
+      return 'Venda';
+    case 'LOST':
+      return 'Perdido';
+    default:
+      return currentStep;
+  }
+}
+
+function getIconStep(currentStep?: string) {
+  if (!currentStep) return 'Não informado';
+  switch (currentStep) {
+    case 'CREATE':
+      return 'Criação';
+    case 'MESSAGE':
+      return 'message';
+    case 'CONVERSATION':
+      return 'message-plus';
+    case 'SCHEDULE':
+      return 'calendar-time';
+    case 'APPPOINTMENT':
+      return 'clipboard-check'
+    case 'SALE':
+      return 'currency-dollar';
+    case 'LOST':
+      return 'Perdido';
+    default:
+      return currentStep;
+  }
+}
+
+
 export function createCustomerListTable({
   customerToDelete,
   setCustomerToDelete,
@@ -40,45 +129,12 @@ export function createCustomerListTable({
     {
       flex: 0.2,
       field: 'name',
+      sortable: false,
       headerName: 'Nome',
       renderCell: ({ row }: CellType) => (
         <Box sx={{ display: 'flex', flexDirection: 'column' }}>
           <Typography noWrap sx={{ color: 'text.secondary' }}>
             {row.name}
-          </Typography>
-        </Box>
-      ),
-    },
-    {
-      flex: 0.2,
-      field: 'instagram',
-      headerName: 'Instagram',
-      renderCell: ({ row }: CellType) => (
-        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-          <Typography noWrap sx={{ color: 'text.secondary' }}>
-            <Box>
-              {row.instagram ? (
-                <Link
-                  href={'https://instagram.com/' + row.instagram}
-                  target='_blank'
-                >
-                  @{row.instagram}
-                </Link>
-              ) : (
-                'Não informado'
-              )}
-            </Box>
-          </Typography>
-        </Box>
-      ),
-    },
-    {
-      flex: 0.2,
-      field: 'whatsapp',
-      headerName: 'Whatsapp',
-      renderCell: ({ row }: CellType) => (
-        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-          <Typography noWrap sx={{ color: 'text.secondary' }}>
             <Box>
               {row.whatsapp ? (
                 <Link
@@ -88,9 +144,103 @@ export function createCustomerListTable({
                   {beautifullyPhone(row.whatsapp || '')}
                 </Link>
               ) : (
-                'Não informado'
+                'WhatsApp Não informado'
+              )} &nbsp;
+              {row.instagram ? (
+                <Link
+                  href={'https://instagram.com/' + row.instagram}
+                  target='_blank'
+                >
+                  @{row.instagram}
+                </Link>
+              ) : (
+                'Instagram não informado'
               )}
             </Box>
+          </Typography>
+        </Box>
+      ),
+    },
+    {
+      flex: 0.2,
+      field: 'strategy.id',
+      sortable: false,
+      headerName: 'Estratégia',
+      renderCell: ({ row }: CellType) => (
+        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+          <Typography noWrap sx={{ color: 'text.secondary' }}>
+            <Box display='flex' alignItems='center' gap='0.25rem'>
+
+              {row.strategy?.icon ? (
+                <CustomAvatar skin='light' sx={{ mr: 4, width: 42, height: 42 }}>
+                  <Icon icon={'tabler:'+ row.strategy.icon} />
+                </CustomAvatar>
+              ) : (
+                ''
+              )}
+              {row.strategy?.name}
+            </Box>
+          </Typography>
+        </Box>
+      ),
+    },
+    {
+      flex: 0.1,
+      field: 'lastAction',
+      sortable: false,
+      headerName: 'Última Ação',
+      renderCell: ({ row }: CellType) => (
+        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+          <Typography noWrap sx={{ color: 'text.secondary' }}>
+              { getLastAction(row.lastAction) }
+          </Typography>
+        </Box>
+      ),
+    },
+    {
+      flex: 0.1,
+      field: 'lastStep',
+      sortable: false,
+      headerName: 'Etapa Atual',
+      renderCell: ({ row }: CellType) => (
+        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+          <Box display='flex' alignItems='center' gap='0.1rem'>
+            {row.strategy?.icon ? (
+              <CustomAvatar skin='light' sx={{ mr: 4, width: 42, height: 42 }}>
+                <Icon icon={ 'tabler:' + getIconStep(row.lastStep) } />
+              </CustomAvatar>
+            ) : (
+              ''
+            )}
+
+            <Typography noWrap sx={{ color: 'text.secondary' }}>
+              { getCurrentStep(row.lastStep) }
+            </Typography>
+          </Box>
+
+        </Box>
+      ),
+    },
+    {
+      flex: 0.1,
+      field: 'status',
+      sortable: false,
+      headerName: 'Status',
+      renderCell: ({ row }: CellType) => (
+        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+          <Typography noWrap sx={{ color: 'text.secondary' }}>
+            {row.status ? (
+              <CustomChip
+                rounded
+                skin='light'
+                size='small'
+                label={getLeadStatus(row.status.toUpperCase())}
+                color={statusObj[row.status.toUpperCase()]}
+                sx={{ textTransform: 'capitalize' }}
+              />
+            ) : (
+              ''
+            )}
           </Typography>
         </Box>
       ),
