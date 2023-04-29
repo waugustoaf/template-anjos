@@ -18,9 +18,9 @@ import moment from 'moment';
 import type { NextPage } from 'next';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
-import { Router } from 'next/router';
+import { Router, useRouter } from 'next/router';
 import NProgress from 'nprogress';
-import { ReactNode } from 'react';
+import { ReactNode, useEffect } from 'react';
 import { Toaster } from 'react-hot-toast';
 import {
   QueryClient,
@@ -31,6 +31,7 @@ import { Provider } from 'react-redux';
 import '@/styles/global.css';
 import { DatePickerWrapper } from '@/styles/libs/react-datepicker';
 import { Box } from '@mui/material';
+import { VerticalNavItems } from '@/navigation';
 
 interface ExtendedAppProps extends AppProps {
   Component: NextPage;

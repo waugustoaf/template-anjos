@@ -23,8 +23,6 @@ export default function CustomerEditPage() {
 
   if (isLoading) return <Spinner />;
 
-  console.log({ data });
-
   return (
     <>
       <Breadcrumb

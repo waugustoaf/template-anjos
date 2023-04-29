@@ -1,4 +1,4 @@
-import { ReactNode, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 
 import { useRouter } from 'next/router';
 import { AbilityContext } from '@/context/ability';
@@ -7,6 +7,7 @@ import { ACLObj, AppAbility } from '@/types/app/guard';
 import { useAuth } from '@/hooks/useAuth';
 import { BlankLayout } from '../layout/blank';
 import { buildAbilityFor } from '@/config/acl';
+import { VerticalNavItems } from '@/navigation';
 
 interface AclGuardProps {
   children: ReactNode;
@@ -21,6 +22,23 @@ export const AclGuard = (props: AclGuardProps) => {
 
   const auth = useAuth();
   const router = useRouter();
+  const tabs = VerticalNavItems();
+
+  useEffect(() => {
+    if (router.pathname === '/') return;
+
+    const currentRouteInTab = tabs.find((tab) => {
+      if (!('path' in tab)) return false;
+
+      return tab.path === router.pathname;
+    });
+
+    const currentGrantType = currentRouteInTab?.grantType || 10;
+
+    if ((auth.user?.user?.grantType || 10) < currentGrantType) {
+      router.push('/401');
+    }
+  }, [router.pathname]);
 
   if (guestGuard || router.route === '/404' || router.route === '/500') {
     return <>{children}</>;

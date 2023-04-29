@@ -14,9 +14,14 @@ import {
 } from '@mui/material';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
-import {IProfile} from "@/types/entities/IProfile";
-import {profileFormFields} from "@/forms/profile";
-import {profileFormSchema} from "@/forms/profile/schema";
+import { IProfile } from '@/types/entities/IProfile';
+import { profileFormFields } from '@/forms/profile';
+import { profileFormSchema } from '@/forms/profile/schema';
+import { InputFile } from '@/components/form/input-file';
+import { useEffect, useState } from 'react';
+import { useAuth } from '@/hooks/useAuth';
+import { toast } from 'react-hot-toast';
+import { apiServices } from '@/services';
 
 interface ProfileTabPersonalDataProps {
   handleSaveProfile: (data: Partial<IProfile>) => void;
@@ -29,7 +34,29 @@ export function ProfilePersonalData({
   defaultValues,
   isLoading,
 }: ProfileTabPersonalDataProps) {
+  const [file, setFile] = useState<File | null>(null);
+  const { refetchUser } = useAuth();
   const router = useRouter();
+
+  async function handleUploadAvatar() {
+    try {
+      if (!file) return;
+
+      await apiServices.auth.uploadAvatar(file);
+
+      await refetchUser();
+
+      toast.success('Foto de perfil atualizada com sucesso!');
+    } catch {
+      toast.error('Erro ao atualizar foto de perfil!');
+    }
+  }
+
+  useEffect(() => {
+    if (file) {
+      handleUploadAvatar();
+    }
+  }, [file]);
 
   const {
     register,
@@ -47,6 +74,22 @@ export function ProfilePersonalData({
       <Grid item xs={12} className='page-card-mui'>
         <Card>
           <CardHeader title='Dados' />
+
+          <Box margin='1.5rem' marginTop='0'>
+            <InputFile
+              field={{
+                name: 'avatar',
+                rowSize: 12,
+                title: 'Foto de perfil',
+                type: 'file',
+                fileFieldTitle: 'Enviar foto de usuário',
+              }}
+              defaultValue={defaultValues?.avatar}
+              setValue={(_, value) => {
+                setFile(value);
+              }}
+            />
+          </Box>
 
           <form onSubmit={handleSubmit(handleSaveProfile)}>
             <CardContent style={{ marginTop: '-1rem' }}>

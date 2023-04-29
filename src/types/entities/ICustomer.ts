@@ -1,4 +1,3 @@
-import { ICustomerCategory } from './ICustomerCategory';
 import {ISalesFunnel} from "@/types/entities/ISalesFunnel";
 import {IStrategy} from "@/types/entities/IStrategy";
 
@@ -17,4 +16,7 @@ export interface ICustomer {
   city: string;
   state: string;
   boardId?: string;
+  lastAction?: string;
+  lastStep?: string;
+  status: string;
 }

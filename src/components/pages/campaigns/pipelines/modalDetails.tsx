@@ -97,7 +97,6 @@ export function PipelineCustomerActions({
   }
 
   async function handleSaveConversation(data: any) {
-    console.log('data - cheguei', data);
     try {
       setIsLoading(true);
 
@@ -123,7 +122,7 @@ export function PipelineCustomerActions({
       await apiServices.action.schedule({
         customerId: customer.id,
         boardId,
-        date: formatDateToISO(data.date)
+        date: formatDateToISO(data.date),
       });
 
       refetch();
@@ -140,7 +139,7 @@ export function PipelineCustomerActions({
       setIsLoading(true);
 
       await apiServices.action.appointment({
-        resume: data.message,
+        resume: data.resume,
         customerId: customer.id,
         boardId,
         date: formatDateToISO(data.date)

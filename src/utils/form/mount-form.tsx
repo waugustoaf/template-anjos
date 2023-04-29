@@ -20,7 +20,7 @@ import {FieldErrors, FieldValues, UseFormRegister, UseFormSetValue, UseFormTrigg
 import {InputFile} from '@/components/form/input-file';
 import {AutocompleteSync} from '@/components/form/autocomplete-sync';
 import {TextArea} from '@/components/form/textarea';
-import { InputDateTime } from '@/components/form/input-datetime';
+import {InputDateTime} from '@/components/form/input-datetime';
 
 export interface FormFieldProps {
   rowSize: number;
@@ -45,6 +45,7 @@ export interface FormFieldProps {
     value: string;
     label: string;
   }[];
+  fileFieldTitle?: string;
   children?: React.ReactNode;
   dateFormat?: string;
   multipleFiles?: boolean;

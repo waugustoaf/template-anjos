@@ -1,6 +1,6 @@
-import { FormFieldProps } from '@/utils/form/mount-form';
-import { apiServices } from '@/services';
-import { states } from '@/utils/mocks/states';
+import {FormFieldProps} from '@/utils/form/mount-form';
+import {apiServices} from '@/services';
+import {states} from '@/utils/mocks/states';
 
 export const customerFormFields: FormFieldProps[] = [
   {
@@ -19,11 +19,11 @@ export const customerFormFields: FormFieldProps[] = [
   },
   {
     type: 'autocomplete',
-    name: 'boardId',
-    title: 'Campanha / Estratégia / Quadro',
-    placeholder: 'Selecione o Quadro de entrada',
+    name: 'startStrategyId',
+    title: 'Estratégia / Quadro',
+    placeholder: 'Selecione a estratégia de aquisição',
     rowSize: 12,
-    autocompleteFn: apiServices.campaign.compactBoards,
+    autocompleteFn: apiServices.campaign.strategiesCurrentCampaign,
     autocompleteLabel: 'name',
   },
   {

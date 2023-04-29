@@ -1,5 +1,6 @@
 import {IStrategyCompact} from "@/types/entities/IStrategy";
 import {IBoardCampaign} from "@/types/entities/IBoardCampaign";
+import {IStrategyCampaigns} from "@/types/entities/IStrategyCampaigns";
 
 export interface ICampaign {
   month: string;
@@ -29,6 +30,7 @@ export interface ICampaignFull {
   paidTraffic: boolean;
   strategies: IStrategyCompact[];
   boards: IBoardCampaign[];
+  strategiesCampaign: IStrategyCampaigns[];
 }
 
 export interface ICreateCampaign {

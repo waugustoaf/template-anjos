@@ -1,6 +1,7 @@
 import { authConfig } from '@/config/auth';
 import axios from 'axios';
 import { ApiType } from './types';
+import qs from 'qs';
 
 export const api = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
