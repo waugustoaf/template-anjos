@@ -58,8 +58,9 @@ export function SendActionAppointment({
                     {
                       name: 'date',
                       rowSize: 12,
-                      title: 'Resumo da cosulta',
+                      title: 'Data da consulta',
                       type: 'input-date',
+                      dateFormat: 'dd/MM/yyyy',
                       placeholder: 'Seleciona a data da consulta',
                     },
                   ],

@@ -1,15 +1,15 @@
-import { PaginationProps } from '@/types/app/pagination';
-import { api } from '@/utils/api';
-import { mergePagination } from '@/utils/api/pagination';
+import {PaginationProps} from '@/types/app/pagination';
+import {api} from '@/utils/api';
+import {mergePagination} from '@/utils/api/pagination';
 import {
   CreateCampaignResponse,
   GetCampaignResponse,
   ListBoards,
   ListBoardsCompact,
   ListCampaignsResponse,
+  ListStrategiesCompact,
 } from './types';
-import { ICreateCampaign } from '@/types/entities/ICampaign';
-import qs from 'qs';
+import {ICreateCampaign} from '@/types/entities/ICampaign';
 
 export const campaignsServices = {
   list: async (props?: PaginationProps) => {
@@ -31,6 +31,13 @@ export const campaignsServices = {
   compactBoards: async () => {
     const response = await api.get<ListBoardsCompact>(
       `/campaign/boardsCompact`,
+    );
+
+    return response.data;
+  },
+  strategiesCurrentCampaign: async () => {
+    const response = await api.get<ListStrategiesCompact>(
+      `/campaign/strategiesCampaign`,
     );
 
     return response.data;
