@@ -19,7 +19,6 @@ import {
   RegisterParams,
   UserDataType,
 } from './types';
-import { IUser } from '@/types/entities/IUsers';
 
 const defaultProvider: AuthValuesType = {
   user: {
@@ -34,6 +33,7 @@ const defaultProvider: AuthValuesType = {
   register: () => Promise.resolve(),
   handleUpdateToken: () => Promise.resolve(),
   handleUpdateUser: () => Promise.resolve(),
+  refetchUser: () => Promise.resolve(),
 };
 
 const AuthContext = createContext(defaultProvider);
@@ -48,13 +48,16 @@ const AuthProvider = ({ children }: Props) => {
 
   const router = useRouter();
 
-  const initAuth = async (): Promise<void> => {
+  const initAuth = async (withoutLoading?: boolean): Promise<void> => {
     const storedToken = window.localStorage.getItem(
       authConfig.storageTokenKeyName,
     )!;
 
     if (storedToken) {
-      setLoading(true);
+      if (!withoutLoading) {
+        setLoading(true);
+      }
+
       await api
         .get<MeResponseProps>(authConfig.meEndpoint, {
           headers: {
@@ -64,7 +67,9 @@ const AuthProvider = ({ children }: Props) => {
         .then(async (response) => {
           const { clinic, user } = response.data.data;
 
-          setLoading(false);
+          if (!withoutLoading) {
+            setLoading(false);
+          }
           setUser({ user, clinic: clinic });
         })
         .catch(() => {
@@ -72,7 +77,9 @@ const AuthProvider = ({ children }: Props) => {
           localStorage.removeItem('refreshToken');
           localStorage.removeItem('accessToken');
           setUser(null);
-          setLoading(false);
+          if (!withoutLoading) {
+            setLoading(false);
+          }
           if (
             authConfig.onTokenExpiration === 'logout' &&
             !router.pathname.includes('login')
@@ -81,7 +88,9 @@ const AuthProvider = ({ children }: Props) => {
           }
         });
     } else {
-      setLoading(false);
+      if (!withoutLoading) {
+        setLoading(false);
+      }
     }
   };
 
@@ -183,6 +192,7 @@ const AuthProvider = ({ children }: Props) => {
     register: handleRegister,
     handleUpdateToken,
     handleUpdateUser,
+    refetchUser: initAuth,
   };
 
   return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>;

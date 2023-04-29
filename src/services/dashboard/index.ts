@@ -43,9 +43,6 @@ export const DashboardServices = {
         value: formatNumberFromBase100(product.value),
       }
     });
-
-    console.log(data.data.statistics);
-
     return data.data;
   },
   admin: async (id: string) => {

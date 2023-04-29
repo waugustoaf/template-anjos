@@ -1,11 +1,14 @@
+import CustomChip from '@/@core/components/mui/chip';
 import { Breadcrumb } from '@/components/breadcrumb';
 import { Icon } from '@/components/icon';
 import { CampaignsPipelinesModal } from '@/components/pages/campaigns/pipelines/modal';
+import { PipelineFilterModal } from '@/components/pages/campaigns/pipelines/modalFilters';
 import { CustomerModal } from '@/components/pages/customer/customer-modal';
 import { Spinner } from '@/components/spinner';
 import { apiServices } from '@/services';
 import { GetCustomerCBResponse } from '@/services/customer/types';
 import { IBoardCampaign } from '@/types/entities/IBoardCampaign';
+import { IStrategy } from '@/types/entities/IStrategy';
 import { beautifullyPhone } from '@/utils/text';
 import {
   Autocomplete,
@@ -19,7 +22,6 @@ import {
 import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import CustomChip from '@/@core/components/mui/chip';
 
 function translate(key: string) {
   const translations: Record<string, string> = {
@@ -42,6 +44,11 @@ interface IIcons {
 }
 
 export default function Boards() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [filters, setFilters] = useState({
+    name: '',
+    strategyId: [] as IStrategy[],
+  });
   const [selectedCustomer, setSelectedCustomer] = useState<{
     customer: GetCustomerCBResponse['message'][0];
     key: string;
@@ -69,11 +76,13 @@ export default function Boards() {
   };
 
   const { data, isError, refetch } = useQuery(
-    ['customer-cb', selectedBoard],
+    ['customer-cb', selectedBoard, filters],
     async () =>
       apiServices.customer.getByCampaignAndBoard(
         selectedBoard?.campaignId || '',
         selectedBoard?.id || '',
+        filters.name,
+        filters.strategyId.map(s => s.id),
       ),
     { enabled: !!selectedBoard },
   );
@@ -130,6 +139,16 @@ export default function Boards() {
         />
 
         <Box display='flex' alignItems='stretch' gap='0.5rem'>
+          <Button
+            variant='contained'
+            sx={{
+              bgcolor: 'success.main',
+              ':hover': { bgcolor: 'success.dark' },
+            }}
+            onClick={() => setIsModalOpen(true)}
+          >
+            <Icon icon='tabler:filter' fontSize={14} />
+          </Button>
           <Autocomplete
             options={boards?.data || []}
             getOptionLabel={(item) => item.name}
@@ -149,7 +168,10 @@ export default function Boards() {
 
           <Button
             variant='contained'
-            sx={{ bgcolor: 'success.main' }}
+            sx={{
+              bgcolor: 'success.main',
+              ':hover': { bgcolor: 'success.dark' },
+            }}
             onClick={() => setIsCreatingUser(true)}
           >
             <Icon
@@ -306,6 +328,17 @@ export default function Boards() {
         type={selectedCustomer?.key}
         refetch={refetch}
         boardId={selectedBoard?.id || ''}
+      />
+
+      <PipelineFilterModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSubmit={(data) => {
+          console.log({ data });
+          setFilters(data);
+          setIsModalOpen(false);
+        }}
+        defaultValues={filters}
       />
     </>
   );

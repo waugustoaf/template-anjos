@@ -38,6 +38,7 @@ export type AuthValuesType = {
   register: (params: RegisterParams, errorCallback?: ErrCallbackType) => void;
   handleUpdateToken: (token: string) => void;
   handleUpdateUser: (user: UserDataType) => void;
+  refetchUser: (withoutLoading?: boolean) => Promise<void>;
 };
 
 export interface LoginResponseProps {

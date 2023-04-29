@@ -1,15 +1,16 @@
-import { Icon } from '@/components/icon';
-import { ICampaignFull } from '@/types/entities/ICampaign';
-import { Box, Button, Typography } from '@mui/material';
+import {Icon} from '@/components/icon';
+import {ICampaignFull} from '@/types/entities/ICampaign';
+import {Box, Button, Typography} from '@mui/material';
 import Link from 'next/link';
-import { useMemo, useState } from 'react';
+import {useMemo, useState} from 'react';
+import CustomAvatar from '@/@core/components/mui/avatar'
 
 interface CreatedCampaignsProps {
   campaign: ICampaignFull;
 }
 
 export function CreatedCampaigns({ campaign }: CreatedCampaignsProps) {
-  const [currentBoard, setCurrentBoard] = useState(campaign.boards[0]);
+  const [currentStrategyCampaign, setCurrentStrategyCampaign] = useState(campaign.strategiesCampaign[0]);
 
   const fields = useMemo(() => {
     return [
@@ -19,7 +20,7 @@ export function CreatedCampaigns({ campaign }: CreatedCampaignsProps) {
       'appointment',
       'sale',
     ].reduce((prevState, currValue) => {
-      const currentItem = (currentBoard as any)[currValue as any] as any;
+      const currentItem = (currentStrategyCampaign as any)[currValue as any] as any;
 
       if (currentItem.isEnable) {
         return [...prevState, { ...currentItem, name: currValue }];
@@ -27,7 +28,7 @@ export function CreatedCampaigns({ campaign }: CreatedCampaignsProps) {
 
       return prevState;
     }, [] as any[]);
-  }, [currentBoard]);
+  }, [currentStrategyCampaign]);
 
   const maxValue = useMemo(() => {
     let maxValue = 0;
@@ -74,11 +75,11 @@ export function CreatedCampaigns({ campaign }: CreatedCampaignsProps) {
           xl: '1fr 1fr 1fr 1fr',
         }}
       >
-        {campaign.boards.map((board) => (
+        {campaign.strategiesCampaign.map((strategyCampaign) => (
           <Button
-            key={board.id}
+            key={strategyCampaign.id}
             variant='outlined'
-            onClick={() => setCurrentBoard(board)}
+            onClick={() => setCurrentStrategyCampaign(strategyCampaign)}
             sx={{
               height: '100%',
               display: 'flex',
@@ -89,21 +90,25 @@ export function CreatedCampaigns({ campaign }: CreatedCampaignsProps) {
               borderRadius: '6px',
               width: '100%',
               color:
-                board.id === currentBoard.id
+                strategyCampaign.id === currentStrategyCampaign.id
                   ? 'text.disabled'
                   : 'text.disabled',
               borderColor:
-                board.id === currentBoard.id ? 'primary.main' : 'text.disabled',
+                strategyCampaign.id === currentStrategyCampaign.id ? 'primary.main' : 'text.disabled',
               backgroundColor:
-                board.id === currentBoard.id ? 'primary.main' : '',
+                strategyCampaign.id === currentStrategyCampaign.id ? 'primary.main' : '',
             }}
           >
-            <Icon icon={`tabler:${board.strategy.icon}`} />
-            <Typography fontSize='15px' fontWeight='600'>
-              {board.strategy.name}
-            </Typography>
+            <Box display='flex' alignItems='center' justifyContent='center'>
+              <CustomAvatar  sx={{ mr: 4, width: 42, height: 42 }}>
+                <Icon icon={`tabler:${strategyCampaign.strategy.icon}`} />
+              </CustomAvatar>
+              <Typography fontSize='15px' fontWeight='600'>
+                {strategyCampaign.strategy.name}
+              </Typography>
+            </Box>
             <Typography fontSize='13px'>
-              {board.strategy.description}
+              {strategyCampaign.strategy.description}
             </Typography>
           </Button>
         ))}
@@ -115,6 +120,8 @@ export function CreatedCampaigns({ campaign }: CreatedCampaignsProps) {
         flexDirection='column'
         alignItems='center'
         gap='0.15rem'
+        padding='1.5rem'
+        paddingTop='0'
       >
         {fields.map((field, index) => (
           <Box
@@ -143,7 +150,7 @@ export function CreatedCampaigns({ campaign }: CreatedCampaignsProps) {
         padding='0 1.5rem 1.5rem 0'
       >
         <Link
-          href={`/campaigns/pipelines?board=${currentBoard.id}`}
+          href={`/campaigns/pipelines?board=${currentStrategyCampaign.id}`}
           style={{ textDecoration: 'none' }}
         >
           <Button variant='contained'>Ir para a Pipeline</Button>
