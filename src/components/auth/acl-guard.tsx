@@ -47,7 +47,7 @@ export const AclGuard = (props: AclGuardProps) => {
   if (
     auth.user &&
     auth.user.user &&
-    auth.user.user.grantType >= 90 &&
+    auth.user.user.grantType >= 10 &&
     !ability
   ) {
     setAbility(
@@ -57,6 +57,8 @@ export const AclGuard = (props: AclGuardProps) => {
       ),
     );
   }
+
+  console.log({ ability, aclAbilities, can: ability?.can('manage', 'all') });
 
   if (ability && ability.can(aclAbilities.action, aclAbilities.subject)) {
     return (
