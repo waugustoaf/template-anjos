@@ -1,29 +1,22 @@
 // ** React Imports
-import { SyntheticEvent, useState } from 'react'
+import {SyntheticEvent, useState} from 'react'
 
 // ** MUI Imports
-import Tab from '@mui/material/Tab'
-import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
-import TabList from '@mui/lab/TabList'
 import TabPanel from '@mui/lab/TabPanel'
-import Avatar from '@mui/material/Avatar'
 import TabContext from '@mui/lab/TabContext'
 import CardHeader from '@mui/material/CardHeader'
-import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
-import { Theme, useTheme } from '@mui/material/styles'
+import {Theme, useTheme} from '@mui/material/styles'
 
 // ** Third Party Imports
-import { ApexOptions } from 'apexcharts'
+import {ApexOptions} from 'apexcharts'
 
 // ** Custom Components Import
-import { Icon } from '@/components/icon';
-import CustomAvatar from '@/@core/components/mui/avatar'
 import ReactApexcharts from '@/@core/components/react-apexcharts'
 
 // ** Util Import
-import { hexToRGBA } from '@/@core/utils/hex-to-rgba'
+import {hexToRGBA} from '@/@core/utils/hex-to-rgba'
 
 type ApexChartSeries = NonNullable<ApexOptions['series']>
 type ApexChartSeriesData = Exclude<ApexChartSeries[0], number>
@@ -58,37 +51,40 @@ interface DataSalesByStrategiesProps {
 }
 
 interface SalesByStrategiesProps {
-  strategyId: string | undefined
-  icon: string | undefined
-  name: string | undefined
-  value: number | undefined;
+  strategyId: string
+  icon: string
+  name: string
+  value: number;
 }
 
 const SalesByStrategy = ({data}: DataSalesByStrategiesProps) => {
 
-  const strategies: string[] = ['Estratégia2222', 'Estratégia 2', 'Estratégia 3', 'Estratégia 4']
+  if (!data) return (<></>);
+
+  const strategies: string[] = []
+
 
   const tabData: TabType[] = [
     {
       type: 'Tráfego Pago',
-      series: [{ data: [28, 10, 45, 38] }]
+      series: [{ data: [] }]
     },
-    {
-      type: 'Indicação',
-      series: [{ data: [35.3, 25, 15, 40] }]
-    },
-    {
-      type: 'Tráfego Alheio',
-      series: [{ data: [10, 22, 27, 33] }]
-    },
-    {
-      type: 'Lista Quente',
-      series: [{ data: [5, 9, 12, 18] }]
-    }
   ]
 
+  for (let i = 0; i < data.length; i++) {
+    strategies.push(data[i].name as string)
+    // @ts-ignore
+    if (!(tabData[0].series[0] && tabData[0].series[0].data)) {
+      continue;
+    }
+    // @ts-ignore
+    tabData[0].series[0].data?.push(data[i].value / 100000)
+  }
+
+
+
   // ** State
-  const [value, setValue] = useState<TabCategory>('Indicação')
+  const [value, setValue] = useState<TabCategory>('Tráfego Pago')
 
   // ** Hook
   const theme = useTheme()
@@ -157,7 +153,7 @@ const SalesByStrategy = ({data}: DataSalesByStrategiesProps) => {
     yaxis: {
       labels: {
         offsetX: -15,
-        formatter: val => `$${val}k`,
+        formatter: val => `R$ ${val.toFixed(1)}k`,
         style: {
           fontSize: '14px',
           colors: theme.palette.text.disabled,

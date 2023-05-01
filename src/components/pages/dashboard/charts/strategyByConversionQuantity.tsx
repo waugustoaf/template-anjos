@@ -1,32 +1,23 @@
 // ** React Imports
-import { MouseEvent, useState } from 'react'
-
 // ** MUI Imports
-import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
-import Menu from '@mui/material/Menu'
-import Button from '@mui/material/Button'
-import MenuItem from '@mui/material/MenuItem'
 import CardHeader from '@mui/material/CardHeader'
-import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
-import Grid, { GridProps } from '@mui/material/Grid'
-import { styled, useTheme } from '@mui/material/styles'
+import Grid, {GridProps} from '@mui/material/Grid'
+import {styled, useTheme} from '@mui/material/styles'
 
 // ** Icons Imports
-import { Icon } from '@/components/icon';
-
 // ** Third Party Imports
-import { ApexOptions } from 'apexcharts'
+import {ApexOptions} from 'apexcharts'
 
 // ** Custom Components Imports
 import ReactApexcharts from '@/@core/components/react-apexcharts'
 
 // ** Hook Import
-import { useSettings } from '@/@core/hooks/useSettings'
+import {useSettings} from '@/@core/hooks/useSettings'
 
 // ** Util Import
-import { hexToRGBA } from '@/@core/utils/hex-to-rgba'
+import {hexToRGBA} from '@/@core/utils/hex-to-rgba'
 
 const StyledGrid = styled(Grid)<GridProps>(({ theme }) => ({
   [theme.breakpoints.down('sm')]: {
@@ -43,10 +34,10 @@ interface DataStrategyConversionQuantityProps {
 }
 
 interface StrategyConversionQuantityProps {
-  strategyId: string | undefined
-  icon: string | undefined
-  name: string | undefined
-  value: number | undefined;
+  name: string
+  quantity: number
+  strategyId: string
+  value: number
 }
 
 const StrategyConversionQuantity = ({data}: DataStrategyConversionQuantityProps) => {
@@ -57,6 +48,11 @@ const StrategyConversionQuantity = ({data}: DataStrategyConversionQuantityProps)
   const barSeries = [
     { name: 'Estratégias', data: dataValues },
   ]
+
+  data?.map((item) => {
+    strategies.push(item.name!)
+    dataValues.push(item.quantity!)
+  });
 
   // ** Hooks & Var
   const theme = useTheme()

@@ -9,7 +9,7 @@ export interface IDashboard {
   productBySales: IDashProduct[];
   salesByStrategies: IDashSalesStrategies[];
   strategyConversionValue:IDashStrategyConversion[];
-  strategyConversionSales:IDashStrategyConversion[];
+  strategyConversionQuantity:IDashStrategyConversion[];
 }
 
 
