@@ -37,4 +37,11 @@ export const actionServices = {
 
     return response.data;
   },
+  saveOwner(ownerId: string, customerId: string, boardId: string) {
+    return api.post('/action/changeOwner', {
+      customerId,
+      boardId,
+      userId: ownerId,
+    });
+  }
 };

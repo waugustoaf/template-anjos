@@ -1,27 +1,19 @@
 import CustomChip from '@/@core/components/mui/chip';
-import { Breadcrumb } from '@/components/breadcrumb';
-import { Icon } from '@/components/icon';
-import { CampaignsPipelinesModal } from '@/components/pages/campaigns/pipelines/modal';
-import { PipelineFilterModal } from '@/components/pages/campaigns/pipelines/modalFilters';
-import { CustomerModal } from '@/components/pages/customer/customer-modal';
-import { Spinner } from '@/components/spinner';
-import { apiServices } from '@/services';
-import { GetCustomerCBResponse } from '@/services/customer/types';
-import { IBoardCampaign } from '@/types/entities/IBoardCampaign';
-import { IStrategy } from '@/types/entities/IStrategy';
-import { beautifullyPhone } from '@/utils/text';
-import {
-  Autocomplete,
-  Avatar,
-  Box,
-  Button,
-  TextField,
-  Typography,
-  useTheme,
-} from '@mui/material';
-import { useQuery } from '@tanstack/react-query';
-import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import {Breadcrumb} from '@/components/breadcrumb';
+import {Icon} from '@/components/icon';
+import {CampaignsPipelinesModal} from '@/components/pages/campaigns/pipelines/modal';
+import {PipelineFilterModal} from '@/components/pages/campaigns/pipelines/modalFilters';
+import {CustomerModal} from '@/components/pages/customer/customer-modal';
+import {Spinner} from '@/components/spinner';
+import {apiServices} from '@/services';
+import {GetCustomerCBResponse} from '@/services/customer/types';
+import {IBoardCampaign} from '@/types/entities/IBoardCampaign';
+import {IStrategy} from '@/types/entities/IStrategy';
+import {beautifullyPhone} from '@/utils/text';
+import {Autocomplete, Avatar, Box, Button, TextField, Typography, useTheme,} from '@mui/material';
+import {useQuery} from '@tanstack/react-query';
+import {useRouter} from 'next/router';
+import {useEffect, useState} from 'react';
 
 function translate(key: string) {
   const translations: Record<string, string> = {
@@ -299,6 +291,21 @@ export default function Boards() {
                                 color={'info'}
                                 sx={{ textTransform: 'capitalize' }}
                               />
+                            </Box>
+                          </Box>
+                          <Box
+                            color='inherit'
+                            display='flex'
+                            alignItems='center'
+                            gap='0.25rem'
+                          >
+                            <Avatar alt={item.owner.name} src={item.owner.avatar || undefined} sx={{ width: '1.3rem', height: '1.3rem' }} >
+                              <Typography fontSize={12}>
+                                {item.owner.name.split(' ').map((word) => word[0])}
+                              </Typography>
+                            </Avatar>
+                            <Box display='flex' gap='0.15rem' flexWrap='wrap'>
+                              {item.owner.name}
                             </Box>
                           </Box>
                         </Box>
