@@ -4,15 +4,16 @@ import {yupResolver} from '@hookform/resolvers/yup';
 import {Box, Button, Card, CardContent, Grid,} from '@mui/material';
 import {useRouter} from 'next/router';
 import {useForm} from 'react-hook-form';
-import * as yup from "yup";
 import {apiServices} from "@/services";
+import * as yup from "yup";
 
-interface SendActionMessageProps {
-  handleSaveNewMessage: (data: any) => void;
+interface SendSetTagProps {
+  handleSetTag: (data: any) => void;
   isLoading: boolean;
+  onClose: () => void;
 }
 
-export function SendActionMessage({handleSaveNewMessage,isLoading}: SendActionMessageProps) {
+export function SetCustomerTag({handleSetTag,isLoading, onClose}: SendSetTagProps) {
   const router = useRouter();
 
   const {
@@ -22,9 +23,10 @@ export function SendActionMessage({handleSaveNewMessage,isLoading}: SendActionMe
     trigger,
     formState: { errors },
   } = useForm({
-    resolver: yupResolver({
-      message: yup.string().min(5).required('Mensagem é obrigatória'),
-    }),
+    resolver: yupResolver(yup.object().shape({
+      tagsId: yup.array().required('Selecione as tags correspondente'),
+      })
+    ),
     defaultValues: {},
   });
 
@@ -32,8 +34,8 @@ export function SendActionMessage({handleSaveNewMessage,isLoading}: SendActionMe
     <Grid container spacing={6}>
       <Grid item xs={12} className='page-card-mui'>
         <Card>
-          <form onSubmit={handleSubmit(handleSaveNewMessage)}>
-            <CardContent style={{ marginTop: '-1rem'}} >
+          <form onSubmit={handleSubmit(handleSetTag)}>
+            <CardContent style={{ marginTop: '-1rem', minHeight: '450px', maxHeight: '450px' }}>
               {mountForm({
                 errors,
                 fields: [
@@ -41,10 +43,10 @@ export function SendActionMessage({handleSaveNewMessage,isLoading}: SendActionMe
                     type: 'autocomplete-multiple',
                     name: 'tagsId',
                     title: 'Tags',
-                    placeholder: 'Selecione a tag correspondente',
+                    placeholder: 'Selecione as tags correspondente',
                     rowSize: 12,
                     autocompleteFn: apiServices.customerTag.list,
-                    autocompleteLabel: 'name',
+                    autocompleteLabel: 'tag',
                   },
                 ],
                 register,
@@ -59,7 +61,7 @@ export function SendActionMessage({handleSaveNewMessage,isLoading}: SendActionMe
                 marginTop='2rem'
                 gap='0.5rem'
               >
-                <Button onClick={router.back}>Cancelar</Button>
+                <Button onClick={onClose}>Cancelar</Button>
                 <SubmitButton
                   hideCustomSpace
                   isLoading={isLoading}

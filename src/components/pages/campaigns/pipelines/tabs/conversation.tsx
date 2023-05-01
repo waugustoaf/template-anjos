@@ -34,15 +34,16 @@ export function SendActionConversation({handleSaveConversation,isLoading, onClos
       <Grid item xs={12} className='page-card-mui'>
         <Card>
           <form onSubmit={handleSubmit(handleSaveConversation)}>
-            <CardContent style={{ marginTop: '-1rem'}} >
+            <CardContent style={{ marginTop: '-1rem', minHeight: '450px'}} >
               {mountForm({
                 errors,
                 fields: [
                   {
                     name: 'message',
-                    rowSize: 12,
+                    rowSize: 24,
                     title: 'Resumo da conversa',
                     type: 'textarea',
+                    rowsTextArea: 13,
                     placeholder: 'Resumo da conversa',
                   },
                 ],

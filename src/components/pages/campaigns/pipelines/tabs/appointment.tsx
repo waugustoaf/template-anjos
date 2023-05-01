@@ -43,18 +43,11 @@ export function SendActionAppointment({
       <Grid item xs={12} className='page-card-mui'>
         <Card>
           <form onSubmit={handleSubmit(handleSaveAppointment)}>
-            <CardContent style={{ marginTop: '-1rem' }}>
-              <DatePickerWrapper sx={{ minHeight: '450px' }}>
+            <CardContent style={{ marginTop: '-1rem', minHeight: '450px', maxHeight: '450px' }}>
+              <DatePickerWrapper>
                 {mountForm({
                   errors,
                   fields: [
-                    {
-                      name: 'resume',
-                      rowSize: 12,
-                      title: 'Resumo da cosulta',
-                      type: 'textarea',
-                      placeholder: 'Descreva o resumo da consulta',
-                    },
                     {
                       name: 'date',
                       rowSize: 12,
@@ -62,6 +55,14 @@ export function SendActionAppointment({
                       type: 'input-date',
                       dateFormat: 'dd/MM/yyyy',
                       placeholder: 'Seleciona a data da consulta',
+                    },
+                    {
+                      name: 'resume',
+                      rowSize: 12,
+                      title: 'Resumo da cosulta',
+                      type: 'textarea',
+                      rowsTextArea: 10,
+                      placeholder: 'Descreva o resumo da consulta',
                     },
                   ],
                   register,

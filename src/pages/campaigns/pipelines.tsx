@@ -283,14 +283,17 @@ export default function Boards() {
                           >
                             <Icon fontSize='1.2rem' icon='tabler:tags' />
                             <Box display='flex' gap='0.15rem' flexWrap='wrap'>
-                              <CustomChip
-                                rounded
-                                skin='light'
-                                size='small'
-                                label='Ligar depois'
-                                color={'info'}
-                                sx={{ textTransform: 'capitalize' }}
-                              />
+
+                              {item.tags.map((tag) => (
+                                <CustomChip
+                                  rounded
+                                  skin='light'
+                                  size='small'
+                                  label={tag}
+                                  color={'warning'}
+                                  sx={{ textTransform: 'capitalize' }}
+                                />
+                              ))}
                             </Box>
                           </Box>
                           <Box

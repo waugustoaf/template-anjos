@@ -34,7 +34,7 @@ export function SendActionMessage({handleSaveNewMessage,isLoading, onClose}: Sen
       <Grid item xs={12} className='page-card-mui'>
         <Card>
           <form onSubmit={handleSubmit(handleSaveNewMessage)}>
-            <CardContent style={{ marginTop: '-1rem'}} >
+            <CardContent style={{ marginTop: '-1rem', minHeight: '450px'}} >
               {mountForm({
                 errors,
                 fields: [
@@ -43,6 +43,7 @@ export function SendActionMessage({handleSaveNewMessage,isLoading, onClose}: Sen
                     rowSize: 12,
                     title: 'Mensagem',
                     type: 'textarea',
+                    rowsTextArea: 13,
                     placeholder: 'Mensagem que foi enviada',
                   },
                 ],

@@ -14,6 +14,7 @@ import {SendActionAppointment} from '@/components/pages/campaigns/pipelines/tabs
 import {formatDateToISO} from "@/utils/date";
 import {formatNumberToBase100} from "@/utils/currency";
 import {ChangeOwner} from "@/components/pages/campaigns/pipelines/tabs/owner";
+import {SetCustomerTag} from "@/components/pages/campaigns/pipelines/tabs/tags";
 
 interface PipelineCustomerMessageProps {
   customer: GetCustomerCBResponse['message'][0];
@@ -24,12 +25,12 @@ interface PipelineCustomerMessageProps {
 }
 
 interface TabButtonProps {
-  tab: 'owner' | 'message' | 'conversation' | 'schedule' | 'appointment' | 'sale';
-  activeTab: 'owner' | 'message' | 'conversation' | 'schedule' | 'appointment' | 'sale';
+  tab: 'owner' | 'tags' | 'message' | 'conversation' | 'schedule' | 'appointment' | 'sale';
+  activeTab: 'owner' | 'tags' | 'message' | 'conversation' | 'schedule' | 'appointment' | 'sale';
   icon: string;
   title: string;
   onChange: (
-    tab: 'owner' |  'message' | 'conversation' | 'schedule' | 'appointment' | 'sale',
+    tab: 'owner' | 'tags' | 'message' | 'conversation' | 'schedule' | 'appointment' | 'sale',
   ) => void;
 }
 
@@ -61,7 +62,7 @@ export function PipelineCustomerActions({
   const [isLoading, setIsLoading] = useState(false);
   const defaultValues: any = { message: '' };
   const [currentTab, setCurrentTab] = useState<
-    'owner' | 'message' | 'conversation' | 'schedule' | 'appointment' | 'sale'
+    'owner' | 'tags' | 'message' | 'conversation' | 'schedule' | 'appointment' | 'sale'
   >('message');
 
   useEffect(() => {
@@ -102,6 +103,25 @@ export function PipelineCustomerActions({
 
       await apiServices.action.conversation({
         resume: data.message,
+        customerId: customer.id,
+        boardId,
+      });
+
+      refetch();
+      onClose();
+    } catch {
+      toast.error('Erro ao prosseguir essa etapa');
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  async function handleSetCustomerTag(data: any) {
+    try {
+      setIsLoading(true);
+
+      await apiServices.action.tag({
+        tagIds: data.tagsId,
         customerId: customer.id,
         boardId,
       });
@@ -244,6 +264,14 @@ export function PipelineCustomerActions({
 
         <TabButton
           activeTab={currentTab}
+          icon='tabler:tag'
+          onChange={setCurrentTab}
+          tab='tags'
+          title='Tags'
+        />
+
+        <TabButton
+          activeTab={currentTab}
           icon='tabler:message'
           onChange={setCurrentTab}
           tab='message'
@@ -283,6 +311,14 @@ export function PipelineCustomerActions({
       {currentTab === 'owner' && (
         <ChangeOwner
           handleChangeOwner={handleChangeOwner}
+          isLoading={isLoading}
+          onClose={onClose}
+        />
+      )}
+
+      {currentTab === 'tags' && (
+        <SetCustomerTag
+          handleSetTag={handleSetCustomerTag}
           isLoading={isLoading}
           onClose={onClose}
         />

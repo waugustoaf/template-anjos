@@ -4,7 +4,8 @@ import {
   ActionConversationRequest,
   ActionMessageRequest,
   ActionSaleRequest,
-  ActionScheduleRequest
+  ActionScheduleRequest,
+  ActionSetTagRequest
 } from './types';
 
 export const actionServices = {
@@ -43,5 +44,11 @@ export const actionServices = {
       boardId,
       userId: ownerId,
     });
-  }
+  },
+
+  tag: async (data: ActionSetTagRequest) => {
+    const response = await api.post('/action/tag', data);
+
+    return response.data;
+  },
 };

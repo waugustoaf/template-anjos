@@ -38,7 +38,7 @@ export function SendActionSale({handleSaveSale,isLoading, onClose}: SendActionSa
       <Grid item xs={12} className='page-card-mui'>
         <Card>
           <form onSubmit={handleSubmit(handleSaveSale)}>
-            <CardContent style={{ marginTop: '-1rem'}} >
+            <CardContent style={{ marginTop: '-1rem', minHeight: '450px', maxHeight: '450px' }}>
               {mountForm({
                 errors,
                 fields: [

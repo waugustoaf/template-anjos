@@ -1,5 +1,5 @@
-import { ResolveFieldProps } from '@/utils/form/mount-form';
-import { FormControl, FormHelperText, Grid, TextField } from '@mui/material';
+import {ResolveFieldProps} from '@/utils/form/mount-form';
+import {FormControl, FormHelperText, Grid, TextField} from '@mui/material';
 
 export function TextArea(props: ResolveFieldProps) {
   const { field, register, errorMessage, defaultValue } = props;
@@ -16,6 +16,7 @@ export function TextArea(props: ResolveFieldProps) {
           disabled={field.readonly || false}
           multiline
           minRows={3}
+          rows={field.rowsTextArea || 5}
           {...(register ? register(field.name) : { name: field.name })}
         />
 
