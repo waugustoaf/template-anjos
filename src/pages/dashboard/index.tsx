@@ -74,7 +74,7 @@ const DefaultDashboard = () => {
           <StrategyConversionValue data={data?.strategyConversionValue} />
         </Grid>
         <Grid item xs={6} lg={6}>
-          <StrategyConversionQuantity data={data?.strategyConversionSales} />
+          <StrategyConversionQuantity data={data?.strategyConversionQuantity} />
         </Grid>
       </Grid>
     </ApexChartWrapper>

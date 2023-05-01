@@ -1,22 +1,20 @@
 // ** MUI Imports
 import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
-import { useTheme } from '@mui/material/styles'
+import {useTheme} from '@mui/material/styles'
 import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
 
 // ** Icons Imports
-import { Icon } from '@/components/icon';
-
 // ** Third Party Imports
 // @ts-ignore
-import { ApexOptions } from 'apexcharts'
+import {ApexOptions} from 'apexcharts'
 
 // ** Custom Components Imports
 import ReactApexcharts from '@/@core/components/react-apexcharts'
 
 // ** Util Import
-import { hexToRGBA } from '@/@core/utils/hex-to-rgba'
+import {hexToRGBA} from '@/@core/utils/hex-to-rgba'
 
 interface LeadCaptureProps {
   quantity: number | undefined
@@ -39,7 +37,7 @@ const LeadCapture = ({ quantity, convert, noConverted }: LeadCaptureProps) => {
     legend: { show: false },
     tooltip: { enabled: false },
     dataLabels: { enabled: false },
-    labels: ['Clientes', 'Leads'],
+    labels: ['Convertidos', 'Leads'],
     states: {
       hover: {
         filter: { type: 'none' }
