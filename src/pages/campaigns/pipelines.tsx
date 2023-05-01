@@ -286,6 +286,7 @@ export default function Boards() {
 
                               {item.tags.map((tag) => (
                                 <CustomChip
+                                  key={tag}
                                   rounded
                                   skin='light'
                                   size='small'
