@@ -1,12 +1,7 @@
-import { PaginationProps } from '@/types/app/pagination';
-import { api } from '@/utils/api';
-import { mergePagination } from '@/utils/api/pagination';
-import {
-  CreateUserResponse,
-  GetUserResponse,
-  ListUsersResponse, MeResponse,
-  UpdateUserResponse,
-} from './types';
+import {PaginationProps} from '@/types/app/pagination';
+import {api} from '@/utils/api';
+import {mergePagination} from '@/utils/api/pagination';
+import {CreateUserResponse, GetUserResponse, ListUsersResponse, MeResponse, UpdateUserResponse,} from './types';
 
 export const userServices = {
   list: async (props?: PaginationProps) => {
@@ -62,6 +57,13 @@ export const userServices = {
     const response = await api.put<UpdateUserResponse>(
       `/user/me`,
       body,
+    );
+
+    return response.data;
+  },
+  getOwners: async() => {
+    const response = await api.get<UpdateUserResponse>(
+      `/user/owner`,
     );
 
     return response.data;

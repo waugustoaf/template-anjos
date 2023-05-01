@@ -4,16 +4,16 @@ import {yupResolver} from '@hookform/resolvers/yup';
 import {Box, Button, Card, CardContent, Grid,} from '@mui/material';
 import {useRouter} from 'next/router';
 import {useForm} from 'react-hook-form';
-import {apiServices} from "@/services";
 import * as yup from "yup";
+import {apiServices} from "@/services";
 
-interface SendSetTagProps {
-  handleSetTag: (data: any) => void;
-  isLoading: boolean;
+interface SendActionChangeOwnerProps {
+  handleChangeOwner: (data: any) => void;
   onClose: () => void;
+  isLoading: boolean;
 }
 
-export function SetCustomerTag({handleSetTag,isLoading, onClose}: SendSetTagProps) {
+export function ChangeOwner({handleChangeOwner, isLoading, onClose}: SendActionChangeOwnerProps) {
   const router = useRouter();
 
   const {
@@ -23,9 +23,10 @@ export function SetCustomerTag({handleSetTag,isLoading, onClose}: SendSetTagProp
     trigger,
     formState: { errors },
   } = useForm({
-    resolver: yupResolver(yup.object().shape({
-      tagsId: yup.array().required('Selecione as tags correspondente'),
-      })
+    resolver: yupResolver(
+      yup.object().shape({
+        ownerId: yup.string().required('Selecione o usuário para transferir o lead'),
+      }),
     ),
     defaultValues: {},
   });
@@ -34,19 +35,19 @@ export function SetCustomerTag({handleSetTag,isLoading, onClose}: SendSetTagProp
     <Grid container spacing={6}>
       <Grid item xs={12} className='page-card-mui'>
         <Card>
-          <form onSubmit={handleSubmit(handleSetTag)}>
+          <form onSubmit={handleSubmit(handleChangeOwner)}>
             <CardContent style={{ marginTop: '-1rem', minHeight: '450px', maxHeight: '450px' }}>
               {mountForm({
                 errors,
                 fields: [
                   {
-                    type: 'autocomplete-multiple',
-                    name: 'tagsId',
-                    title: 'Tags',
-                    placeholder: 'Selecione as tags correspondente',
+                    type: 'autocomplete',
+                    name: 'ownerId',
+                    title: 'Dono do lead',
+                    placeholder: 'Selecione o novo dono do lead',
                     rowSize: 12,
-                    autocompleteFn: apiServices.customerTag.list,
-                    autocompleteLabel: 'tag',
+                    autocompleteFn: apiServices.user.getOwners,
+                    autocompleteLabel: 'name',
                   },
                 ],
                 register,

@@ -13,6 +13,8 @@ import {SendActionSale} from '@/components/pages/campaigns/pipelines/tabs/sale';
 import {SendActionAppointment} from '@/components/pages/campaigns/pipelines/tabs/appointment';
 import {formatDateToISO} from "@/utils/date";
 import {formatNumberToBase100} from "@/utils/currency";
+import {ChangeOwner} from "@/components/pages/campaigns/pipelines/tabs/owner";
+import {SetCustomerTag} from "@/components/pages/campaigns/pipelines/tabs/tags";
 
 interface PipelineCustomerMessageProps {
   customer: GetCustomerCBResponse['message'][0];
@@ -23,12 +25,12 @@ interface PipelineCustomerMessageProps {
 }
 
 interface TabButtonProps {
-  tab: 'message' | 'conversation' | 'schedule' | 'appointment' | 'sale';
-  activeTab: 'message' | 'conversation' | 'schedule' | 'appointment' | 'sale';
+  tab: 'owner' | 'tags' | 'message' | 'conversation' | 'schedule' | 'appointment' | 'sale';
+  activeTab: 'owner' | 'tags' | 'message' | 'conversation' | 'schedule' | 'appointment' | 'sale';
   icon: string;
   title: string;
   onChange: (
-    tab: 'message' | 'conversation' | 'schedule' | 'appointment' | 'sale',
+    tab: 'owner' | 'tags' | 'message' | 'conversation' | 'schedule' | 'appointment' | 'sale',
   ) => void;
 }
 
@@ -60,7 +62,7 @@ export function PipelineCustomerActions({
   const [isLoading, setIsLoading] = useState(false);
   const defaultValues: any = { message: '' };
   const [currentTab, setCurrentTab] = useState<
-    'message' | 'conversation' | 'schedule' | 'appointment' | 'sale'
+    'owner' | 'tags' | 'message' | 'conversation' | 'schedule' | 'appointment' | 'sale'
   >('message');
 
   useEffect(() => {
@@ -80,7 +82,6 @@ export function PipelineCustomerActions({
   async function handleSaveMessage(data: any) {
     try {
       setIsLoading(true);
-
       await apiServices.action.message({
         message: data.message,
         customerId: customer.id,
@@ -102,6 +103,25 @@ export function PipelineCustomerActions({
 
       await apiServices.action.conversation({
         resume: data.message,
+        customerId: customer.id,
+        boardId,
+      });
+
+      refetch();
+      onClose();
+    } catch {
+      toast.error('Erro ao prosseguir essa etapa');
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  async function handleSetCustomerTag(data: any) {
+    try {
+      setIsLoading(true);
+
+      await apiServices.action.tag({
+        tagIds: data.tagsId,
         customerId: customer.id,
         boardId,
       });
@@ -175,6 +195,20 @@ export function PipelineCustomerActions({
     }
   }
 
+  async function handleChangeOwner(data: any) {
+    try {
+      setIsLoading(true);
+      await apiServices.action.saveOwner(data.ownerId, customer.id, boardId);
+
+      refetch();
+      onClose();
+    } catch {
+      toast.error('Erro ao ');
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
   return (
     <Box
       padding='1rem'
@@ -222,6 +256,22 @@ export function PipelineCustomerActions({
       >
         <TabButton
           activeTab={currentTab}
+          icon='tabler:at'
+          onChange={setCurrentTab}
+          tab='owner'
+          title='Responsável'
+        />
+
+        <TabButton
+          activeTab={currentTab}
+          icon='tabler:tag'
+          onChange={setCurrentTab}
+          tab='tags'
+          title='Tags'
+        />
+
+        <TabButton
+          activeTab={currentTab}
           icon='tabler:message'
           onChange={setCurrentTab}
           tab='message'
@@ -256,6 +306,23 @@ export function PipelineCustomerActions({
           title='Venda'
         />
       </Box>
+
+
+      {currentTab === 'owner' && (
+        <ChangeOwner
+          handleChangeOwner={handleChangeOwner}
+          isLoading={isLoading}
+          onClose={onClose}
+        />
+      )}
+
+      {currentTab === 'tags' && (
+        <SetCustomerTag
+          handleSetTag={handleSetCustomerTag}
+          isLoading={isLoading}
+          onClose={onClose}
+        />
+      )}
 
       {currentTab === 'message' && (
         <SendActionMessage

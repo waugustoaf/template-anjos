@@ -1,4 +1,4 @@
-import { ICustomer } from '@/types/entities/ICustomer';
+import {ICustomer} from '@/types/entities/ICustomer';
 
 type CBArray = {
   id: string;
@@ -8,6 +8,11 @@ type CBArray = {
   email: string;
   avatar: string;
   tags: any[];
+  owner: {
+    id: string;
+    name: string;
+    avatar: string;
+  }
 };
 
 export type ListCustomerResponse = ICustomer[];
