@@ -21,7 +21,7 @@ import {hexToRGBA} from '@/@core/utils/hex-to-rgba'
 type ApexChartSeries = NonNullable<ApexOptions['series']>
 type ApexChartSeriesData = Exclude<ApexChartSeries[0], number>
 
-type TabCategory = 'Tráfego Pago' | 'Indicação' | 'Tráfego Alheio' | 'Lista Quente'
+type TabCategory = 'TrafegoPago' | 'Indicacao' | 'TrafegoAlheio' | 'ListaQuente'
 
 type TabType = {
   type: TabCategory
@@ -59,6 +59,11 @@ interface SalesByStrategiesProps {
 
 const SalesByStrategy = ({data}: DataSalesByStrategiesProps) => {
 
+
+  const [value, setValue] = useState<TabCategory>('TrafegoPago')
+
+  const theme = useTheme()
+
   if (!data) return (<></>);
 
   const strategies: string[] = []
@@ -66,9 +71,21 @@ const SalesByStrategy = ({data}: DataSalesByStrategiesProps) => {
 
   const tabData: TabType[] = [
     {
-      type: 'Tráfego Pago',
+      type: 'TrafegoPago',
       series: [{ data: [] }]
     },
+    {
+      type: 'Indicacao',
+      series: [{ data: [] }]
+    },
+    {
+      type: 'TrafegoAlheio',
+      series: [{ data: [] }]
+    },
+    {
+      type: 'ListaQuente',
+      series: [{ data: [] }]
+    }
   ]
 
   for (let i = 0; i < data.length; i++) {
@@ -80,14 +97,6 @@ const SalesByStrategy = ({data}: DataSalesByStrategiesProps) => {
     // @ts-ignore
     tabData[0].series[0].data?.push(data[i].value / 100000)
   }
-
-
-
-  // ** State
-  const [value, setValue] = useState<TabCategory>('Tráfego Pago')
-
-  // ** Hook
-  const theme = useTheme()
 
   const handleChange = (event: SyntheticEvent, newValue: TabCategory) => {
     setValue(newValue)

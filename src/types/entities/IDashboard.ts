@@ -70,4 +70,5 @@ export interface IDashStrategyConversion {
   icon: string;
   name: string;
   value: number;
+  quantity: number;
 }

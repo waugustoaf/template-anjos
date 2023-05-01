@@ -34,10 +34,11 @@ interface DataStrategyConversionQuantityProps {
 }
 
 interface StrategyConversionQuantityProps {
-  name: string
-  quantity: number
   strategyId: string
+  icon: string
+  name: string
   value: number
+  quantity: number
 }
 
 const StrategyConversionQuantity = ({data}: DataStrategyConversionQuantityProps) => {
