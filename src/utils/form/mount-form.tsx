@@ -51,6 +51,7 @@ export interface FormFieldProps {
   multipleFiles?: boolean;
   fileAccept?: Record<string, any>;
   readonly?: boolean;
+  rowsTextArea?: number;
   type:
     | 'input'
     | 'input-mask'

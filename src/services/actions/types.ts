@@ -30,3 +30,10 @@ export type ActionSaleRequest = {
   strategySaleId: string;
   productValue: number;
 }
+
+
+export type ActionSetTagRequest = {
+  customerId: string;
+  boardId: string;
+  tagIds: string[];
+}

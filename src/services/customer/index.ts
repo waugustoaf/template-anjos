@@ -1,6 +1,6 @@
-import { PaginationProps } from '@/types/app/pagination';
-import { api } from '@/utils/api';
-import { mergePagination } from '@/utils/api/pagination';
+import {PaginationProps} from '@/types/app/pagination';
+import {api} from '@/utils/api';
+import {mergePagination} from '@/utils/api/pagination';
 import {
   CreateCustomerResponse,
   GetCustomerCBResponse,

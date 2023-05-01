@@ -1,11 +1,11 @@
-import { SubmitButton } from '@/components/form/submit-button';
-import { DatePickerWrapper } from '@/styles/libs/react-datepicker';
-import { mountForm } from '@/utils/form/mount-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { Box, Button, Card, CardContent, Grid } from '@mui/material';
-import { useRouter } from 'next/router';
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import {SubmitButton} from '@/components/form/submit-button';
+import {DatePickerWrapper} from '@/styles/libs/react-datepicker';
+import {mountForm} from '@/utils/form/mount-form';
+import {yupResolver} from '@hookform/resolvers/yup';
+import {Box, Button, Card, CardContent, Grid} from '@mui/material';
+import {useRouter} from 'next/router';
+import {useState} from 'react';
+import {useForm} from 'react-hook-form';
 import * as yup from 'yup';
 
 interface SendActionScheduleProps {
@@ -47,8 +47,8 @@ export function SendActionSchedule({
       <Grid item xs={12} className='page-card-mui'>
         <Card>
           <form onSubmit={handleSubmit(onSubmit)}>
-            <CardContent style={{ marginTop: '-1rem' }}>
-              <DatePickerWrapper sx={{ minHeight: '350px' }}>
+            <CardContent style={{ marginTop: '-1rem', minHeight: '450px' }}>
+              <DatePickerWrapper>
                 {mountForm({
                   errors,
                   fields: [
