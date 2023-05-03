@@ -1,32 +1,21 @@
 // ** React Imports
-import { MouseEvent, useState } from 'react'
-
 // ** MUI Imports
-import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
-import Menu from '@mui/material/Menu'
-import Button from '@mui/material/Button'
-import MenuItem from '@mui/material/MenuItem'
 import CardHeader from '@mui/material/CardHeader'
-import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
-import Grid, { GridProps } from '@mui/material/Grid'
-import { styled, useTheme } from '@mui/material/styles'
+import Grid, {GridProps} from '@mui/material/Grid'
+import {styled, useTheme} from '@mui/material/styles'
 
 // ** Icons Imports
-import { Icon } from '@/components/icon';
-
 // ** Third Party Imports
-import { ApexOptions } from 'apexcharts'
+import {ApexOptions} from 'apexcharts'
 
 // ** Custom Components Imports
 import ReactApexcharts from '@/@core/components/react-apexcharts'
 
 // ** Hook Import
-import { useSettings } from '@/@core/hooks/useSettings'
-
 // ** Util Import
-import { hexToRGBA } from '@/@core/utils/hex-to-rgba'
+import {hexToRGBA} from '@/@core/utils/hex-to-rgba'
 
 const StyledGrid = styled(Grid)<GridProps>(({ theme }) => ({
   [theme.breakpoints.down('sm')]: {
@@ -60,7 +49,7 @@ const StrategyConversionValue = ({data}: DataStrategyConversionValueProps) => {
 
   data?.map((item) => {
     strategies.push(item.name!)
-    dataValues.push(item.value!)
+    dataValues.push(item.value! / 100000)
   });
 
   // ** Hooks & Var
@@ -118,7 +107,9 @@ const StrategyConversionValue = ({data}: DataStrategyConversionValueProps) => {
     grid: {
       borderColor: theme.palette.divider,
       yaxis: {
-        lines: { show: false }
+        lines: {
+          show: false,
+        }
       },
       padding: {
         left: -15,
@@ -142,6 +133,7 @@ const StrategyConversionValue = ({data}: DataStrategyConversionValueProps) => {
     yaxis: {
       labels: {
         offsetX: -15,
+        formatter: val => `R$ ${val.toFixed(1)}k`,
         style: {
           fontSize: '14px',
           colors: theme.palette.text.disabled,
@@ -221,34 +213,6 @@ const StrategyConversionValue = ({data}: DataStrategyConversionValueProps) => {
         }
       }
     ]
-  }
-
-  const lineOptions: ApexOptions = {
-    chart: {
-      parentHeightOffset: 0,
-      toolbar: { show: false },
-      sparkline: { enabled: true }
-    },
-    stroke: {
-      width: [1, 2],
-      curve: 'smooth',
-      dashArray: [5, 0]
-    },
-    colors: [theme.palette.divider, hexToRGBA(theme.palette.primary.main, 1)],
-    grid: {
-      padding: { top: -5 },
-      yaxis: {
-        lines: { show: false }
-      }
-    },
-    xaxis: {
-      labels: { show: false },
-      axisTicks: { show: false },
-      axisBorder: { show: false }
-    },
-    yaxis: {
-      labels: { show: false }
-    }
   }
 
   return (

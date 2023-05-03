@@ -1,11 +1,6 @@
-import { PaginationProps } from '@/types/app/pagination';
 import { api } from '@/utils/api';
-import { mergePagination } from '@/utils/api/pagination';
+import { formatNumberFromBase100 } from '@/utils/currency';
 import { GetDashboard } from './types';
-import {
-  formatNumberFromBase100,
-  formatNumberToBase100,
-} from '@/utils/currency';
 
 const baseUrl = '/dashboard';
 
@@ -37,9 +32,8 @@ export const DashboardServices = {
       daysOf: data.data.campaign.daysOf,
       goal: formatNumberFromBase100(data.data.campaign.goal),
       endMonthDays: data.data.campaign.endMonthDays,
+      campaignStatus: data.data.campaign.campaignStatus,
     };
-
-    data.data.leads.noConverted = 20;
 
     data.data.productByFinancial = data.data.productByFinancial.map(
       (product) => {

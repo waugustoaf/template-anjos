@@ -45,6 +45,7 @@ const DefaultDashboard = () => {
           <CongratulationsPerson
             percentage={data?.financial?.percent}
             value={data?.financial.value}
+            campaignStatus={data?.campaign.campaignStatus}
           />
         </Grid>
         <Grid item xs={12} md={8}>
@@ -98,7 +99,7 @@ const DefaultDashboard = () => {
           <StrategyConversionValue data={data?.strategyConversionValue} />
         </Grid>
         <Grid item xs={6} lg={6}>
-          <StrategyConversionQuantity data={data?.strategyConversionSales} />
+          <StrategyConversionQuantity data={data?.strategyConversionQuantity} />
         </Grid>
       </Grid>
     </ApexChartWrapper>

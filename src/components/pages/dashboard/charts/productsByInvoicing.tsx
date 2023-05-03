@@ -6,7 +6,6 @@ import CardHeader from '@mui/material/CardHeader';
 import CardContent from '@mui/material/CardContent';
 
 // ** Icon Imports
-import { Icon } from '@/components/icon';
 
 interface DataType {
   title: string;
@@ -34,12 +33,12 @@ const ProductsByInvoicing = ({ data }: DataProductsByInvoicingProps) => {
     customData.push({
       title: item.name ? item.name : '',
       value: item.value
-        ? `R$ ${item.value.toLocaleString('pt-BR', {
+        ? ` ${item.value.toLocaleString('pt-BR', {
             style: 'currency',
             currency: 'BRL',
           })}`
         : '',
-      subtitle: `${item.quantity ? `R$ ${item.quantity}` : '0'} vendas`,
+      subtitle: `${item.quantity ? `${item.quantity}` : '0'} vendas`,
     });
   });
 

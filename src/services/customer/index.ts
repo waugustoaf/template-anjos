@@ -60,4 +60,9 @@ export const customerServices = {
 
     return response.data;
   },
+  timeline: async (id: string) => {
+    const response = await api.get(`${baseUrl}/${id}/timeline`);
+
+    return response.data;
+  }
 };
