@@ -25,7 +25,7 @@ interface ResumeHorizontalProps {
   leads?: number;
   sales?: number;
   ticket?: number;
-  currentCampaign: string | null;
+  currentCampaign?: string | null;
   setCurrentCampaign?: (campaign: string) => void;
 }
 
