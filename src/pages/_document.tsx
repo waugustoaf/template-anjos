@@ -14,7 +14,18 @@ class CustomDocument extends Document {
           <link rel='icon' href='/images/favicon.svg' />
           <link rel='apple-touch-icon-precomposed' href='/images/favicon.svg' />
           <link rel='apple-touch-icon' href='/images/favicon.svg' />
-          <link rel="manifest" href="/manifest.json" />    
+          <link rel="manifest" href="/manifest.json" />   
+          <meta name="apple-mobile-web-app-capable" content="yes" />
+          <meta name="apple-mobile-web-app-status-bar-style" content="green" />
+          <meta name="apple-mobile-web-app-title" content="FreeCodeCamp" />
+          <link rel="apple-touch-icon" href="/images/favicon.png" sizes="72x72" />
+          <link rel="apple-touch-icon" href="/images/favicon.png" sizes="96x96" />
+          <link rel="apple-touch-icon" href="/images/favicon.png" sizes="128x128" />
+          <link rel="apple-touch-icon" href="/images/favicon.png" sizes="144x144" />
+          <link rel="apple-touch-icon" href="/images/favicon.png" sizes="152x152" />
+          <link rel="apple-touch-icon" href="/images/favicon.png" sizes="192x192" />
+          <link rel="apple-touch-icon" href="/images/favicon.png" sizes="384x384" />
+          <link rel="apple-touch-icon" href="/images/favicon.png" sizes="512x512" />
           <link
             rel='stylesheet'
             href='https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap'
