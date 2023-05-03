@@ -1,17 +1,23 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import {
-  Timeline,
-  TimelineConnector,
-  TimelineContent,
-  TimelineDot,
-  TimelineItem,
-  TimelineSeparator,
-} from '@mui/lab';
-import { Box, Typography } from '@mui/material';
-import { useRef } from 'react';
-import { timelineItemClasses } from '@mui/lab/TimelineItem';
+import {Timeline, TimelineConnector, TimelineContent, TimelineDot, TimelineItem, TimelineSeparator,} from '@mui/lab';
+import {Box, Typography} from '@mui/material';
+import {useRef} from 'react';
+import {timelineItemClasses} from '@mui/lab/TimelineItem';
+import {formatDateToBRExtension} from "@/utils/date";
+import {useQuery} from "@tanstack/react-query";
+import {apiServices} from "@/services";
+import {Spinner} from "@/components/spinner";
 
 export function CustomerEditTimeline() {
+
+  const { data, isLoading } = useQuery({
+      queryKey: ['dashboard'],
+    queryFn: () => apiServices.customer.timeline('')
+  });
+
+  if (isLoading && !data) return <Spinner />;
+
+
   const timeline = useRef([
     {
       id: '1',
@@ -82,6 +88,7 @@ export function CustomerEditTimeline() {
                   <strong>{item.title}</strong>
                 </Typography>
                 <Typography fontSize='14px'>{item.description}</Typography>
+                <Typography fontSize='10px'>{formatDateToBRExtension(item.date)}</Typography>
               </Box>
             </TimelineContent>
           </TimelineItem>

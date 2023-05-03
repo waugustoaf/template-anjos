@@ -29,6 +29,7 @@ export interface IDashCampaign {
   daysOf: number;
   goal: number;
   endMonthDays: number;
+  campaignStatus: string;
 }
 
 export interface IDashLeads {

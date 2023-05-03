@@ -1,4 +1,5 @@
 import moment from 'moment';
+import 'moment/locale/pt-br'
 
 export function formatDateToBR(date: string | Date) {
   const dateFormatted = new Date(date);
@@ -6,6 +7,15 @@ export function formatDateToBR(date: string | Date) {
   const momentDate = moment(dateFormatted);
 
   return momentDate.format('DD/MM/YYYY');
+}
+
+export function formatDateToBRExtension(date: string | Date) {
+  const dateFormatted = new Date(date);
+
+  const momentDate = moment(dateFormatted);
+  momentDate.locale('pt-br');
+
+  return momentDate.format('LL');
 }
 
 export function formatDateToMonthAndYear(date: string | Date) {
