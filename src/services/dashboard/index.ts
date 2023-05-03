@@ -24,6 +24,7 @@ export const DashboardServices = {
       daysOf: data.data.campaign.daysOf,
       goal: formatNumberFromBase100(data.data.campaign.goal),
       endMonthDays: data.data.campaign.endMonthDays,
+      campaignStatus: data.data.campaign.campaignStatus,
     }
 
     data.data.productByFinancial = data.data.productByFinancial.map((product) => {

@@ -37,7 +37,7 @@ const DefaultDashboard = () => {
     <ApexChartWrapper>
       <Grid container spacing={6}>
         <Grid item xs={12} md={4}>
-          <CongratulationsPerson percentage={data?.financial?.percent} value={data?.financial.value} />
+          <CongratulationsPerson percentage={data?.financial?.percent} value={data?.financial.value} campaignStatus={data?.campaign.campaignStatus} />
         </Grid>
         <Grid item xs={12} md={8}>
           <ResumeHorizontal leads={data?.statistics?.leads} sales={data?.statistics?.sales} ticket={data?.statistics?.middleticket} />

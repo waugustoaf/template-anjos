@@ -1,6 +1,6 @@
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
-import { styled } from '@mui/material/styles';
+import {styled} from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 
 const Illustration = styled('img')(({ theme }) => ({
@@ -16,31 +16,40 @@ const Illustration = styled('img')(({ theme }) => ({
 interface CongratulationsPersonProps {
   value: number | undefined;
   percentage: number | undefined;
+  campaignStatus: string | undefined;
 }
 
 const CongratulationsPerson = ({
   percentage,
   value,
+  campaignStatus
 }: CongratulationsPersonProps) => {
   // @ts-ignore
   return (
     <Card sx={{ position: 'relative' }} style={{ minHeight: '100%' }}>
       <CardContent>
-        <Typography variant='h6' sx={{ fontWeight: 500 }}>
 
-          Parabéns Anjo! 🎉
-        </Typography>
-        <Typography sx={{ mb: 2, color: 'text.secondary' }}>
-          {percentage ?
-            percentage < 30 ? ('Você pode melhorar') :
-            percentage > 30 && percentage < 50 ? ('Quem trabalha sempre alcança') :
-              percentage > 50 && percentage < 80 ? ('Estamos no caminho  !') :
-                percentage > 80 && percentage < 100 ? ('quase lá !') :
-                  percentage == 100 ? ('Parabéns Conseguimos') :
-                    percentage > 100 ? ('Isso é fenomenal !') :
-              ('Vamos Vamos !') :
-            ''}
-        </Typography>
+        {campaignStatus === 'onTime' && (
+          <>
+            <Typography variant='h6' sx={{ fontWeight: 500 }}>
+              Parabéns !  🎉
+            </Typography>
+            <Typography sx={{ mb: 2, color: 'text.secondary' }}>
+              ESTAMOS VOANDO!!! 🚀
+            </Typography>
+          </>
+        )}
+        {campaignStatus === 'onLate' && (
+          <>
+            <Typography variant='h6' sx={{ fontWeight: 500 }}>
+             ️Estamos atrasados! 😱
+            </Typography>
+            <Typography sx={{ mb: 2, color: 'text.secondary' }} maxWidth={240}>
+              MULHER, VAMOS ANDAR COM A META PELO AMOR DE DEUS!
+            </Typography>
+          </>
+        )}
+
         <Typography
           variant='h5'
           sx={{ mb: 0.5, fontWeight: 500, color: 'primary.main' }}
@@ -49,11 +58,23 @@ const CongratulationsPerson = ({
           {percentage}%
         </Typography>
 
-        <Illustration
-          width={116}
-          alt='congratulations john'
-          src='/images/cards/congratulations.png'
-        />
+
+        {campaignStatus === 'onTime' && (
+          <Illustration
+            width={116}
+            alt='congratulations'
+            src='/images/cards/congratulations-OnTimeGain.png'
+          />
+        )}
+
+        {campaignStatus === 'onLate' && (
+          <Illustration
+            width={116}
+            alt='congratulations'
+            src='/images/cards/congratulations_OnLate.png'
+          />
+        )}
+
       </CardContent>
     </Card>
   );

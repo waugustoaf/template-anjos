@@ -67,6 +67,16 @@ function getLastAction(lastAction?: string) {
       return 'Agendamento';
     case 'SALE':
       return 'Venda';
+    case 'APPOINTMENT':
+      return 'Consulta';
+    case 'CHANGE_OWNER':
+      return 'Troca de dono';
+    case 'CHANGE_BOARD':
+      return 'Troca de campanha';
+    case 'REMOVE_TAG':
+      return 'Remoção de Tag';
+    case 'ADD_TAG':
+      return 'Adição de tag';
     case 'LOST':
       return 'Perdido';
     default:
@@ -118,6 +128,28 @@ function getIconStep(currentStep?: string) {
   }
 }
 
+function getIconAction(lastAction?: string) {
+  if (!lastAction) return 'Nenhuma';
+  switch (lastAction) {
+    case 'CREATE':
+      return 'user-plus';
+    case 'MESSAGE':
+      return 'message';
+    case 'CONVERSATION':
+      return 'message-plus';
+    case 'SCHEDULE':
+      return 'calendar-time';
+    case 'APPPOINTMENT':
+      return 'clipboard-check'
+    case 'SALE':
+      return 'currency-dollar';
+    case 'LOST':
+      return 'Perdido';
+    default:
+      return lastAction;
+  }
+}
+
 
 export function createCustomerListTable({
   customerToDelete,
@@ -162,67 +194,91 @@ export function createCustomerListTable({
       ),
     },
     {
-      flex: 0.2,
+      flex: 0.1,
       field: 'strategy.id',
       sortable: false,
       headerName: 'Estratégia',
       renderCell: ({ row }: CellType) => (
         <Box sx={{ display: 'flex', flexDirection: 'column' }}>
           <Typography noWrap sx={{ color: 'text.secondary' }}>
-            <Box display='flex' alignItems='center' gap='0.25rem'>
-
-              {row.strategy?.icon ? (
-                <CustomAvatar skin='light' sx={{ mr: 4, width: 42, height: 42 }}>
-                  <Icon icon={'tabler:'+ row.strategy.icon} />
-                </CustomAvatar>
-              ) : (
-                ''
-              )}
-              {row.strategy?.name}
-            </Box>
+            <Tooltip title={row.strategy?.name}>
+              <Box display='flex' alignItems='center' gap='0.01rem'>
+                {row.strategy?.icon ? (
+                  <CustomAvatar skin='light' sx={{ mr: 4, width: 28, height: 28 }}>
+                    <Icon icon={'tabler:'+ row.strategy.icon} />
+                  </CustomAvatar>
+                ) : (
+                  ''
+                )}
+                {row.strategy?.name}
+              </Box>
+            </Tooltip>
           </Typography>
         </Box>
       ),
     },
     {
-      flex: 0.1,
+      flex: 0.05,
+      field: 'owner.id',
+      sortable: false,
+      headerName: 'Dono',
+      renderCell: ({ row }: CellType) => (
+        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+          <Typography noWrap sx={{ color: 'text.secondary' }}>
+              <Box display='flex' alignItems='center' gap='0.01rem'>
+                <Tooltip title={row.owner?.name}>
+                  {row.owner?.avatar ? (
+                    <CustomAvatar skin='light' sx={{ mr: 4, width: 28, height: 28 }} src={row.owner?.avatar}>
+                      <Icon icon={'tabler:'+ row.strategy.icon} />
+                    </CustomAvatar>
+                  ) : (
+                    <CustomAvatar skin='light' sx={{ mr: 4, width: 28, height: 28 }} >
+                      {row.owner?.name.split(' ').map((word) => word[0])}
+                    </CustomAvatar>
+                  )}
+                </Tooltip>
+
+              </Box>
+          </Typography>
+        </Box>
+      ),
+    },
+    {
+      flex: 0.07,
       field: 'lastAction',
       sortable: false,
       headerName: 'Última Ação',
       renderCell: ({ row }: CellType) => (
-        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-          <Typography noWrap sx={{ color: 'text.secondary' }}>
-              { getLastAction(row.lastAction) }
-          </Typography>
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <Tooltip title={getCurrentStep(row.lastAction)}>
+            <CustomAvatar skin='light' sx={{ mr: 4, width: 28, height: 28 }} color={row.currentStep === 'SALE' ? 'success' : 'primary' }>
+              <Icon icon={ 'tabler:' + getIconAction(row.lastAction) } />
+            </CustomAvatar>
+          </Tooltip>
+          {getCurrentStep(row.lastAction)}
         </Box>
       ),
     },
     {
-      flex: 0.1,
-      field: 'lastStep',
+      flex: 0.08,
+      field: 'currentStep',
       sortable: false,
       headerName: 'Etapa Atual',
       renderCell: ({ row }: CellType) => (
         <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-          <Box display='flex' alignItems='center' gap='0.1rem'>
-            {row.strategy?.icon ? (
-              <CustomAvatar skin='light' sx={{ mr: 4, width: 42, height: 42 }}>
-                <Icon icon={ 'tabler:' + getIconStep(row.lastStep) } />
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <Tooltip title={getCurrentStep(row.currentStep)}>
+              <CustomAvatar skin='light' sx={{ mr: 4, width: 28, height: 28 }} color={row.currentStep === 'SALE' ? 'success' : 'primary' }>
+                <Icon icon={ 'tabler:' + getIconStep(row.currentStep) } />
               </CustomAvatar>
-            ) : (
-              ''
-            )}
-
-            <Typography noWrap sx={{ color: 'text.secondary' }}>
-              { getCurrentStep(row.lastStep) }
-            </Typography>
+            </Tooltip>
+            {getCurrentStep(row.currentStep)}
           </Box>
-
         </Box>
       ),
     },
     {
-      flex: 0.1,
+      flex: 0.05,
       field: 'status',
       sortable: false,
       headerName: 'Status',

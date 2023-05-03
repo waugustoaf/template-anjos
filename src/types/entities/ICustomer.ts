@@ -1,5 +1,6 @@
 import {ISalesFunnel} from "@/types/entities/ISalesFunnel";
 import {IStrategy} from "@/types/entities/IStrategy";
+import {IProfile} from "@/types/entities/IProfile";
 
 export interface ICustomer {
   id: string;
@@ -7,6 +8,7 @@ export interface ICustomer {
   email: string;
   funnel: ISalesFunnel;
   strategy: IStrategy;
+  owner: IProfile;
   whatsApp: string;
   origin: string;
   descOrigin: string;
@@ -17,6 +19,8 @@ export interface ICustomer {
   state: string;
   boardId?: string;
   lastAction?: string;
-  lastStep?: string;
+  currentStep?: string;
   status: string;
+  sumSales: number;
+  countSales: number;
 }
