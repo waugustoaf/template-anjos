@@ -4,18 +4,15 @@ import {Box, Typography} from '@mui/material';
 import {useRef} from 'react';
 import {timelineItemClasses} from '@mui/lab/TimelineItem';
 import {formatDateToBRExtension} from "@/utils/date";
-import {useQuery} from "@tanstack/react-query";
-import {apiServices} from "@/services";
-import {Spinner} from "@/components/spinner";
 
 export function CustomerEditTimeline() {
 
-  const { data, isLoading } = useQuery({
+  /*const { data, isLoading } = useQuery({
       queryKey: ['dashboard'],
     queryFn: () => apiServices.customer.timeline('')
   });
 
-  if (isLoading && !data) return <Spinner />;
+  if (isLoading && !data) return <Spinner />;*/
 
 
   const timeline = useRef([
