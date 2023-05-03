@@ -58,8 +58,6 @@ export const AclGuard = (props: AclGuardProps) => {
     );
   }
 
-  console.log({ ability, aclAbilities, can: ability?.can('manage', 'all') });
-
   if (ability && ability.can(aclAbilities.action, aclAbilities.subject)) {
     return (
       <AbilityContext.Provider value={ability}>

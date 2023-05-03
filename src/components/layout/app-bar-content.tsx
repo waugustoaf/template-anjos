@@ -7,10 +7,11 @@ import {
   DialogContent,
   DialogTitle,
   Input,
+  Typography,
 } from '@mui/material';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Icon } from '../icon';
 import { AppBarContentClinic } from './app-bar-content-clinic';
 import { ModeToggler } from './mode-toggler';
@@ -33,8 +34,25 @@ export const AppBarContent = (props: Props) => {
   }
 
   function onOpen() {
+    if ((user?.user?.grantType || 10) < 100) {
+      return;
+    }
+
     setIsModalOpen(true);
   }
+
+  const clinicShowName = useMemo(() => {  
+    if (!user?.clinic?.fantasyName) {
+      return '';
+    }
+
+    const words = user?.clinic?.fantasyName.split(' ');
+
+    const firstWordLetter = words[0].charAt(0);
+    const lastWordLetter = words[words.length - 1].charAt(0);
+
+    return `${firstWordLetter}${lastWordLetter}`;
+  }, [user?.clinic]);
 
   return (
     <Box
@@ -59,15 +77,23 @@ export const AppBarContent = (props: Props) => {
           </IconButton>
         ) : null}
 
-        <Button variant='text' onClick={onOpen} sx={{ padding: 0, minWidth: 0 }}>
+        <Button
+          variant='text'
+          onClick={onOpen}
+          sx={{ padding: 0, minWidth: 0 }}
+        >
           <Box display='flex' alignItems='center' gap='0.25rem'>
             <Avatar
               title='Alterar clínica'
               alt={user?.clinic?.fantasyName}
               src={user?.clinic?.avatar || undefined}
             >
-              {user?.clinic?.fantasyName.split(' ').map((word) => word[0])}
+              {clinicShowName}
             </Avatar>
+
+            <Typography sx={{ display: { xs: 'none', md: 'block' } }}>
+              {user?.clinic?.fantasyName}
+            </Typography>
           </Box>
         </Button>
       </Box>

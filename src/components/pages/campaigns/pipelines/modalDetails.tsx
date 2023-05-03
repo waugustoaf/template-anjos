@@ -321,6 +321,7 @@ export function PipelineCustomerActions({
           handleSetTag={handleSetCustomerTag}
           isLoading={isLoading}
           onClose={onClose}
+          defaultTags={customer.tags}
         />
       )}
 

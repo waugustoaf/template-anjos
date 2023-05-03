@@ -6,9 +6,11 @@ import {
   Autocomplete,
   Box,
   Button,
+  Checkbox,
   Dialog,
   DialogContent,
   DialogTitle,
+  FormControlLabel,
   TextField,
 } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
@@ -17,10 +19,15 @@ import { useState } from 'react';
 interface PipelineFilterModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSubmit: (props: { name: string; strategyId: IStrategy[] }) => void;
+  onSubmit: (props: {
+    name: string;
+    strategyId: IStrategy[];
+    onlyMy: boolean;
+  }) => void;
   defaultValues: {
     name: string;
     strategyId: IStrategy[];
+    onlyMy: boolean;
   };
 }
 
@@ -32,6 +39,7 @@ export function PipelineFilterModal({
 }: PipelineFilterModalProps) {
   const [name, setName] = useState(defaultValues.name);
   const [strategyId, setStrategyId] = useState(defaultValues.strategyId);
+  const [onlyMy, setOnlyMy] = useState(defaultValues.onlyMy);
 
   const { data } = useQuery(['strategies'], () => apiServices.strategy.full());
 
@@ -39,6 +47,7 @@ export function PipelineFilterModal({
     onSubmit({
       name,
       strategyId,
+      onlyMy,
     });
   }
 
@@ -83,6 +92,16 @@ export function PipelineFilterModal({
             sx={{ marginTop: '0.5rem' }}
             value={strategyId}
             onChange={(_, value) => setStrategyId(value)}
+          />
+
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={onlyMy}
+                onChange={(event) => setOnlyMy(event.target.checked)}
+              />
+            }
+            label='Somente meus clientes'
           />
 
           <Box

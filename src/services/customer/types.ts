@@ -7,7 +7,10 @@ type CBArray = {
   instagram: string;
   email: string;
   avatar: string;
-  tags: any[];
+  tags: {
+    id: string;
+    tag: string;
+  }[];
   owner: {
     id: string;
     name: string;
