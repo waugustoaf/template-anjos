@@ -1,14 +1,15 @@
-import {customerFormSchema} from '@/forms/customer/schema';
-import {apiServices} from '@/services';
-import {mountForm} from '@/utils/form/mount-form';
-import {yupResolver} from '@hookform/resolvers/yup';
-import {Box, Button, Dialog, DialogContent, DialogTitle} from '@mui/material';
-import {useRouter} from 'next/router';
-import {useEffect} from 'react';
-import {useForm} from 'react-hook-form';
-import {toast} from 'react-hot-toast';
-import {ICustomer} from '@/types/entities/ICustomer';
-import {customerFormFields} from '@/forms/customer';
+import { customerFormSchema } from '@/forms/customer/schema';
+import { apiServices } from '@/services';
+import { mountForm } from '@/utils/form/mount-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { Box, Button, Dialog, DialogContent, DialogTitle } from '@mui/material';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import { toast } from 'react-hot-toast';
+import { ICustomer } from '@/types/entities/ICustomer';
+import { customerFormFields } from '@/forms/customer';
+import { clearForms } from '@/utils/event/clear-form';
 
 interface CustomerModalProps {
   isOpen: boolean;
@@ -36,8 +37,6 @@ export function CustomerModal({
     resolver: yupResolver(customerFormSchema),
   });
 
-  console.log('Erros', errors)
-
   const router = useRouter();
 
   useEffect(() => {
@@ -51,7 +50,8 @@ export function CustomerModal({
   }, [defaultCustomer]);
 
   function handleClose() {
-    reset({});
+    reset();
+    clearForms();
     onClose();
   }
 
