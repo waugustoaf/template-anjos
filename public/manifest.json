@@ -4,42 +4,49 @@
   "theme_color": "#D2AE6D",
   "background_color": "#f0f0f0",
   "display": "standalone",
+  "Scope": "/",
+  "start_url": "/",
   "icons": [
-    {  
-      "src": "/images/favicon.png",
-      "sizes": "36x36",
-      "type": "image/png",
-      "density": "0.75"
-    },
-    {
-      "src": "/images/favicon.png",
-      "type": "image/png",
-      "sizes": "48x48"
-    },
     {
       "src": "/images/favicon.png",
       "sizes": "72x72",
-      "type": "image/png",
-      "density": "1.5"
+      "type": "image/png"
     },
     {
       "src": "/images/favicon.png",
       "sizes": "96x96",
-      "type": "image/png",
-      "density": "2.0"
+      "type": "image/png"
+    },
+    {
+      "src": "/images/favicon.png",
+      "sizes": "128x128",
+      "type": "image/png"
     },
     {
       "src": "/images/favicon.png",
       "sizes": "144x144",
-      "type": "image/png",
-      "density": "3.0"
+      "type": "image/png"
+    },
+    {
+      "src": "/images/favicon.png",
+      "sizes": "152x152",
+      "type": "image/png"
     },
     {
       "src": "/images/favicon.png",
       "sizes": "192x192",
-      "type": "image/png",
-      "density": "4.0"
+      "type": "image/png"
+    },
+    {
+      "src": "/images/favicon.png",
+      "sizes": "384x384",
+      "type": "image/png"
+    },
+    {
+      "src": "/images/favicon.png",
+      "sizes": "512x512",
+      "type": "image/png"
     }
   ],
-  "start_url": "/index.html"
+  "splash_pages": null
 }
