@@ -1,6 +1,6 @@
-import {PaginationProps} from '@/types/app/pagination';
-import {api} from '@/utils/api';
-import {mergePagination} from '@/utils/api/pagination';
+import { PaginationProps } from '@/types/app/pagination';
+import { api } from '@/utils/api';
+import { mergePagination } from '@/utils/api/pagination';
 import {
   CreateCustomerResponse,
   GetCustomerCBResponse,
@@ -30,13 +30,14 @@ export const customerServices = {
     boardId: string,
     name: string = '',
     strategyId: string[] = [],
+    onlyMy: boolean = false,
   ) => {
+    const strategies = strategyId.map((id) => `strategyId=${id}`).join('&');
+
     const response = await api.get<GetCustomerCBResponse>(
-      `${baseUrl}/campaign/${campaignId}/board/${boardId}?name=${name}${qs.stringify(
-        {
-          strategyId,
-        },
-      )}`,
+      `${baseUrl}/campaign/${campaignId}/board/${boardId}?search=${name}&onlyMy=${onlyMy}${
+        strategies ? '&' + strategies : ''
+      }`,
     );
 
     return response.data;
