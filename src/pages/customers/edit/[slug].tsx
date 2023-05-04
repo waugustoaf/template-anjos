@@ -9,7 +9,7 @@ import {Spinner} from '@/components/spinner';
 import {apiServices} from '@/services';
 import {useRouter} from 'next/router';
 import {CustomerEditCustomer} from '@/components/pages/customer/edit/customer';
-import {CustomerEditTimeline} from '@/components/pages/customer/edit/timeline';
+import {CustomerTimeline} from '@/components/pages/customer/edit/timeline';
 
 export default function CustomerEditPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -41,7 +41,7 @@ export default function CustomerEditPage() {
           width='100%'
         >
           <CustomerEditCustomer customer={data?.data} refetch={refetch} />
-          <CustomerEditTimeline />
+          <CustomerTimeline customerId={data?.data?.id} />
         </Grid>
       </Grid>
     </>
