@@ -1,21 +1,29 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import {Timeline, TimelineConnector, TimelineContent, TimelineDot, TimelineItem, TimelineSeparator,} from '@mui/lab';
 import {Box, Typography} from '@mui/material';
-import {useRef} from 'react';
 import {timelineItemClasses} from '@mui/lab/TimelineItem';
 import {formatDateToBRExtension} from "@/utils/date";
+import {apiServices} from "@/services";
+import {useQuery} from "@tanstack/react-query";
+import {Spinner} from "@/components/spinner";
 
-export function CustomerEditTimeline() {
+interface CustomerTimelineProps {
+  customerId?: string;
+}
 
-  /*const { data, isLoading } = useQuery({
+
+
+export function CustomerTimeline({customerId}: CustomerTimelineProps) {
+
+  const { data, isLoading } = useQuery({
       queryKey: ['dashboard'],
-    queryFn: () => apiServices.customer.timeline('')
+    queryFn: () => apiServices.customer.timeline(customerId),
   });
 
-  if (isLoading && !data) return <Spinner />;*/
+  if (isLoading && !data) return <Spinner />;
 
 
-  const timeline = useRef([
+ /* const timeline = useRef([
     {
       id: '1',
       title: 'Venda',
@@ -40,13 +48,45 @@ export function CustomerEditTimeline() {
       description: '',
       date: '2023-04-13',
     },
-  ]).current;
+  ]).current;*/
 
-  function getColorByNumber(index: number) {
-    const number = index + 1;
+  function getStepName(step: string): string{
+    switch (step) {
+      case 'CHANGE_STEP':
+        return 'Alteração de etapa';
+      case 'Troca de dono':
+        return 'Troca de dono';
+      case 'Adição de tag':
+        return 'Adição de tag';
+      case 'register':
+        return 'Cadastro';
+      default:
+        return 'Ação';
+    }
+  }
 
-    if (number % 3 === 0) return 'success';
-    if (number % 2 === 0) return 'secondary';
+  function getColorByNumber(point: number) {
+    switch (point) {
+      case 1: // Envio de mensagem
+      case 2: // Conversa
+      case 3: // Agendamento
+      case 4: // Consulta
+      case 5: // Negociação
+        return 'primary';
+      case 6: // Venda
+        return 'success';
+      case 7: // Perdeu Cliente
+        return 'error';
+      case 8: // Alteração de responsável
+        return 'warning';
+      case 9: // Alteração da campanha
+        return 'warning';
+      case 10: // Remoção de tags
+        return 'info';
+      case 11: // Remoção de tags
+        return 'info';
+    }
+
     return 'primary';
   }
 
@@ -72,12 +112,11 @@ export function CustomerEditTimeline() {
           width: '100%',
         }}
       >
-        {timeline.map((item, index) => (
+        {data?.data.map((item, index) => (
           <TimelineItem key={item.id}>
             <TimelineSeparator>
-              <TimelineDot color={getColorByNumber(index)} />
-
-              {index !== timeline.length - 1 && <TimelineConnector />}
+              <TimelineDot color={getColorByNumber(item.point)} />
+              {index !== data?.data.length - 1 && <TimelineConnector />}
             </TimelineSeparator>
             <TimelineContent>
               <Box>

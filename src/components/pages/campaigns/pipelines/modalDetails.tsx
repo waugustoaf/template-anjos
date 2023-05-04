@@ -15,6 +15,7 @@ import {formatDateToISO} from "@/utils/date";
 import {formatNumberToBase100} from "@/utils/currency";
 import {ChangeOwner} from "@/components/pages/campaigns/pipelines/tabs/owner";
 import {SetCustomerTag} from "@/components/pages/campaigns/pipelines/tabs/tags";
+import {CustomerTimeline} from "@/components/pages/customer/edit/timeline";
 
 interface PipelineCustomerMessageProps {
   customer: GetCustomerCBResponse['message'][0];
@@ -25,12 +26,12 @@ interface PipelineCustomerMessageProps {
 }
 
 interface TabButtonProps {
-  tab: 'owner' | 'tags' | 'message' | 'conversation' | 'schedule' | 'appointment' | 'sale';
-  activeTab: 'owner' | 'tags' | 'message' | 'conversation' | 'schedule' | 'appointment' | 'sale';
+  tab: 'owner' | 'tags' | 'message' | 'conversation' | 'schedule' | 'appointment' | 'sale' | 'timeline';
+  activeTab: 'owner' | 'tags' | 'message' | 'conversation' | 'schedule' | 'appointment' | 'sale'| 'timeline';
   icon: string;
   title: string;
   onChange: (
-    tab: 'owner' | 'tags' | 'message' | 'conversation' | 'schedule' | 'appointment' | 'sale',
+    tab: 'owner' | 'tags' | 'message' | 'conversation' | 'schedule' | 'appointment' | 'sale' | 'timeline',
   ) => void;
 }
 
@@ -62,7 +63,7 @@ export function PipelineCustomerActions({
   const [isLoading, setIsLoading] = useState(false);
   const defaultValues: any = { message: '' };
   const [currentTab, setCurrentTab] = useState<
-    'owner' | 'tags' | 'message' | 'conversation' | 'schedule' | 'appointment' | 'sale'
+    'owner' | 'tags' | 'message' | 'conversation' | 'schedule' | 'appointment' | 'sale' | 'timeline'
   >('message');
 
   useEffect(() => {
@@ -222,7 +223,12 @@ export function PipelineCustomerActions({
 
       <Typography>
         <Box gap={'0.9rem'} alignContent={'center'} alignItems={'center'}>
-          {customer.name}
+          <Link
+            href={'../customers/edit/' + customer.id}
+            target='_blank'
+          >
+            {customer.name}
+          </Link>
 
           {customer.whatsApp && (
             <Link
@@ -277,6 +283,7 @@ export function PipelineCustomerActions({
           tab='message'
           title='Mensagem'
         />
+
         <TabButton
           activeTab={currentTab}
           icon='tabler:brand-whatsapp'
@@ -284,6 +291,7 @@ export function PipelineCustomerActions({
           tab='conversation'
           title='Conversa'
         />
+
         <TabButton
           activeTab={currentTab}
           icon='tabler:calendar-plus'
@@ -291,6 +299,7 @@ export function PipelineCustomerActions({
           tab='schedule'
           title='Agendamento'
         />
+
         <TabButton
           activeTab={currentTab}
           icon='tabler:calendar-check'
@@ -298,6 +307,7 @@ export function PipelineCustomerActions({
           tab='appointment'
           title='Consulta'
         />
+
         <TabButton
           activeTab={currentTab}
           icon='tabler:coin'
@@ -305,6 +315,7 @@ export function PipelineCustomerActions({
           tab='sale'
           title='Venda'
         />
+
       </Box>
 
 
@@ -364,6 +375,11 @@ export function PipelineCustomerActions({
           onClose={onClose}
         />
       )}
+
+      {currentTab === 'timeline' && (
+        <CustomerTimeline customerId={customer.id} />
+      )}
+
     </Box>
   );
 }
