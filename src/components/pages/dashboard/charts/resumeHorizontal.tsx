@@ -88,7 +88,7 @@ const ResumeHorizontal = ({
         title='Estatísticas'
         sx={{ '& .MuiCardHeader-action': { m: 0, alignSelf: 'center' } }}
         action={
-          <Box sx={{ minWidth: '280px' }}>
+          <Box sx={{ minWidth: '160px' }}>
             <Autocomplete
               field={{
                 name: 'campaign',

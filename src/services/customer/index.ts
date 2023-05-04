@@ -6,6 +6,7 @@ import {
   GetCustomerCBResponse,
   GetCustomerResponse,
   ListCustomerResponse,
+  ListTimelineResponse,
   UpdateCustomerResponse,
 } from './types';
 import qs from 'qs';
@@ -60,8 +61,9 @@ export const customerServices = {
 
     return response.data;
   },
-  timeline: async (id: string) => {
-    const response = await api.get(`${baseUrl}/${id}/timeline`);
+  timeline: async (id?: string) => {
+
+    const response = await api.get<ListTimelineResponse>(`${baseUrl}/timeline/${id}`);
 
     return response.data;
   }

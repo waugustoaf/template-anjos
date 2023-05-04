@@ -1,4 +1,5 @@
 import {ICustomer} from '@/types/entities/ICustomer';
+import {ICustomerTimeline} from "@/types/entities/ICustomerTimeline";
 
 type CBArray = {
   id: string;
@@ -19,6 +20,7 @@ type CBArray = {
 };
 
 export type ListCustomerResponse = ICustomer[];
+export type ListTimelineResponse = ICustomerTimeline[];
 export type CreateCustomerResponse = ICustomer;
 export type GetCustomerResponse = ICustomer;
 export type GetCustomerCBResponse = {
