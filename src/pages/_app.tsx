@@ -97,6 +97,8 @@ export default function App(props: ExtendedAppProps) {
 
   const aclAbilities = Component.acl ?? defaultACLObj;
 
+  console.log({ authGuard, guestGuard, aclAbilities });
+
   return (
     <Provider store={store}>
       <CacheProvider value={emotionCache}>

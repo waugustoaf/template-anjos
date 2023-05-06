@@ -1,121 +1,128 @@
-// ** MUI Imports
-import Card from '@mui/material/Card'
-import {useTheme} from '@mui/material/styles'
-import CardHeader from '@mui/material/CardHeader'
-import CardContent from '@mui/material/CardContent'
+import Box from '@mui/material/Box';
+import Card from '@mui/material/Card';
+import { useTheme } from '@mui/material/styles';
+import Typography from '@mui/material/Typography';
+import CardContent from '@mui/material/CardContent';
 
-// ** Third Party Imports
-import {ApexOptions} from 'apexcharts'
+// @ts-ignore
+import { ApexOptions } from 'apexcharts';
 
-// ** Component Import
-import ReactApexcharts from '@/@core/components/react-apexcharts'
+import ReactApexcharts from '@/@core/components/react-apexcharts';
 
-const donutColors = {
-  escola: '#e6e600',
-  blackPass: '#4d5166',
-  black: '#000000',
-  million: '#d2ae6d ',
-  TIVE: '#ffa1a1'
+import { hexToRGBA } from '@/@core/utils/hex-to-rgba';
+import { CardHeader } from '@mui/material';
+
+interface LeadCaptureProps {
+  quantity: number | undefined;
+  convert: number | undefined;
+  noConverted: number | undefined;
 }
 
-const ClinicsByCategory = () => {
-  // ** Hook
-  const theme = useTheme()
+const ClinicsByCategory = ({
+  quantity,
+  convert,
+  noConverted,
+}: LeadCaptureProps) => {
+  const theme = useTheme();
+
+  const series = [100, 20, 10, 25, 25];
 
   const options: ApexOptions = {
     stroke: { width: 1 },
-    labels: ['Escola Anjos Business', 'Black Pass', 'Mentoria Black', 'Millions', 'TIVE'],
-    colors: [donutColors.escola, donutColors.blackPass, donutColors.black, donutColors.million, donutColors.TIVE],
-    dataLabels: {
-      enabled: true,
-      formatter: (val: string) => `${parseInt(val, 10)}%`
+    labels: [
+      'Escola Anjos Business',
+      'Black Pass',
+      'Mentoria Black',
+      'Millions',
+      'TIVE',
+    ],
+    colors: ['#e7e700', '#4d5166', '#000000', '#d2ae6d', '#ffa1a1'],
+    legend: { show: false },
+    tooltip: { enabled: false },
+    dataLabels: { enabled: false },
+    states: {
+      hover: {
+        filter: { type: 'none' },
+      },
+      active: {
+        filter: { type: 'none' },
+      },
     },
-    legend: {
-      position: 'bottom',
-      markers: { offsetX: -3 },
-      labels: { colors: theme.palette.text.secondary },
-      itemMargin: {
-        vertical: 3,
-        horizontal: 10
-      }
+    grid: {
+      padding: {
+        top: -22,
+        bottom: -18,
+      },
     },
     plotOptions: {
       pie: {
+        customScale: 0.8,
+        expandOnClick: false,
         donut: {
+          size: '73%',
           labels: {
             show: true,
             name: {
-              fontSize: '1.2rem'
+              offsetY: 22,
+              color: theme.palette.text.secondary,
+              fontFamily: theme.typography.fontFamily,
             },
             value: {
-              fontSize: '1.2rem',
-              color: theme.palette.text.secondary,
-              formatter: (val: string) => `${parseInt(val, 10)}`
+              offsetY: -17,
+              fontWeight: 500,
+              fontSize: '1.75rem',
+              formatter: (val: any) => `${val}`,
+              color: theme.palette.text.primary,
+              fontFamily: theme.typography.fontFamily,
             },
             total: {
               show: true,
-              fontSize: '1.2rem',
-              label: 'Operational',
-              formatter: () => '31%',
-              color: theme.palette.text.primary
-            }
-          }
-        }
-      }
+              label: 'Leads',
+              fontSize: '1.1rem',
+              color: theme.palette.text.secondary,
+              fontFamily: theme.typography.fontFamily,
+            },
+          },
+        },
+      },
     },
     responsive: [
       {
-        breakpoint: 992,
+        breakpoint: 1650,
         options: {
-          chart: {
-            height: 380
-          },
-          legend: {
-            position: 'bottom'
-          }
-        }
+          chart: { width: 350, height: 350 },
+        },
       },
       {
-        breakpoint: 576,
+        breakpoint: 1460,
         options: {
-          chart: {
-            height: 320
-          },
-          plotOptions: {
-            pie: {
-              donut: {
-                labels: {
-                  show: true,
-                  name: {
-                    fontSize: '1rem'
-                  },
-                  value: {
-                    fontSize: '1rem'
-                  },
-                  total: {
-                    fontSize: '1rem'
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    ]
-  }
+          chart: { width: 300, height: 300 },
+        },
+      },
+    ],
+  };
 
   return (
     <Card>
       <CardHeader
         title='Clínicas'
         subheader='Clínicas por catgoria'
-        subheaderTypographyProps={{ sx: { color: theme => `${theme.palette.text.disabled} !important` } }}
+        subheaderTypographyProps={{
+          sx: { color: (theme) => `${theme.palette.text.disabled} !important` },
+        }}
       />
+
       <CardContent>
-        <ReactApexcharts type='donut' height={400} options={options} series={[100, 20, 10, 25, 25]} />
+        <ReactApexcharts
+          type='donut'
+          width={400}
+          height={400}
+          options={options}
+          series={series}
+        />
       </CardContent>
     </Card>
-  )
-}
+  );
+};
 
-export default ClinicsByCategory
+export default ClinicsByCategory;

@@ -1,15 +1,16 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import {useQuery} from '@tanstack/react-query';
-import {useState} from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { useState } from 'react';
 
 import Grid from '@mui/material/Grid';
 
-import {Breadcrumb} from '@/components/breadcrumb';
-import {Spinner} from '@/components/spinner';
-import {apiServices} from '@/services';
-import {useRouter} from 'next/router';
-import {CustomerEditCustomer} from '@/components/pages/customer/edit/customer';
-import {CustomerTimeline} from '@/components/pages/customer/edit/timeline';
+import { Breadcrumb } from '@/components/breadcrumb';
+import { Spinner } from '@/components/spinner';
+import { apiServices } from '@/services';
+import { useRouter } from 'next/router';
+import { CustomerEditCustomer } from '@/components/pages/customer/edit/customer';
+import { CustomerTimeline } from '@/components/pages/customer/edit/timeline';
+import { CustomerSales } from '@/components/pages/customer/edit/sales';
 
 export default function CustomerEditPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -42,6 +43,7 @@ export default function CustomerEditPage() {
         >
           <CustomerEditCustomer customer={data?.data} refetch={refetch} />
           <CustomerTimeline customerId={data?.data?.id} />
+          <CustomerSales sales={data?.data.sales || []} />
         </Grid>
       </Grid>
     </>
