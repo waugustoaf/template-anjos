@@ -1,32 +1,31 @@
 // ** MUI Imports
-import Box from '@mui/material/Box'
-import Card from '@mui/material/Card'
-import {useTheme} from '@mui/material/styles'
-import Typography from '@mui/material/Typography'
-import CardContent from '@mui/material/CardContent'
+import Box from '@mui/material/Box';
+import Card from '@mui/material/Card';
+import { useTheme } from '@mui/material/styles';
+import Typography from '@mui/material/Typography';
+import CardContent from '@mui/material/CardContent';
 
 // ** Icons Imports
 // ** Third Party Imports
 // @ts-ignore
-import {ApexOptions} from 'apexcharts'
+import { ApexOptions } from 'apexcharts';
 
 // ** Custom Components Imports
-import ReactApexcharts from '@/@core/components/react-apexcharts'
+import ReactApexcharts from '@/@core/components/react-apexcharts';
 
 // ** Util Import
-import {hexToRGBA} from '@/@core/utils/hex-to-rgba'
+import { hexToRGBA } from '@/@core/utils/hex-to-rgba';
 
 interface LeadCaptureProps {
-  quantity: number | undefined
+  quantity: number | undefined;
   convert: number | undefined;
   noConverted: number | undefined;
 }
 
 const LeadCapture = ({ quantity, convert, noConverted }: LeadCaptureProps) => {
-  // ** Hook
-  const theme = useTheme()
+  const theme = useTheme();
 
-  const series = [convert ? convert : 0, noConverted ? noConverted : 0]
+  const series = [convert ? convert : 0, noConverted ? noConverted : 0];
 
   const options: ApexOptions = {
     colors: [
@@ -40,17 +39,17 @@ const LeadCapture = ({ quantity, convert, noConverted }: LeadCaptureProps) => {
     labels: ['Convertidos', 'Leads'],
     states: {
       hover: {
-        filter: { type: 'none' }
+        filter: { type: 'none' },
       },
       active: {
-        filter: { type: 'none' }
-      }
+        filter: { type: 'none' },
+      },
     },
     grid: {
       padding: {
         top: -22,
-        bottom: -18
-      }
+        bottom: -18,
+      },
     },
     plotOptions: {
       pie: {
@@ -63,7 +62,7 @@ const LeadCapture = ({ quantity, convert, noConverted }: LeadCaptureProps) => {
             name: {
               offsetY: 22,
               color: theme.palette.text.secondary,
-              fontFamily: theme.typography.fontFamily
+              fontFamily: theme.typography.fontFamily,
             },
             value: {
               offsetY: -17,
@@ -71,40 +70,54 @@ const LeadCapture = ({ quantity, convert, noConverted }: LeadCaptureProps) => {
               fontSize: '1.75rem',
               formatter: (val: any) => `${val}`,
               color: theme.palette.text.primary,
-              fontFamily: theme.typography.fontFamily
+              fontFamily: theme.typography.fontFamily,
             },
             total: {
               show: true,
               label: 'Leads',
               fontSize: '1.1rem',
               color: theme.palette.text.secondary,
-              fontFamily: theme.typography.fontFamily
-            }
-          }
-        }
-      }
+              fontFamily: theme.typography.fontFamily,
+            },
+          },
+        },
+      },
     },
     responsive: [
       {
         breakpoint: theme.breakpoints.values.lg,
         options: {
-          chart: { width: 200, height: 256 }
-        }
+          chart: { width: 200, height: 256 },
+        },
       },
       {
         breakpoint: theme.breakpoints.values.md,
         options: {
-          chart: { width: 150, height: 200 }
-        }
-      }
-    ]
-  }
+          chart: { width: 150, height: 200 },
+        },
+      },
+    ],
+  };
 
   return (
     <Card>
       <CardContent>
-        <Box sx={{ gap: 2, display: 'flex', alignItems: 'stretch', justifyContent: 'space-between' }}>
-          <Box sx={{ gap: 3, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+        <Box
+          sx={{
+            gap: 2,
+            display: 'flex',
+            alignItems: 'stretch',
+            justifyContent: 'space-between',
+          }}
+        >
+          <Box
+            sx={{
+              gap: 3,
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'space-between',
+            }}
+          >
             <div>
               <Typography variant='h6' sx={{ mb: 0.5 }}>
                 Captação / Conversão
@@ -112,16 +125,22 @@ const LeadCapture = ({ quantity, convert, noConverted }: LeadCaptureProps) => {
             </div>
             <div>
               <Typography variant='h5' sx={{ mb: 0.5 }}>
-                {quantity ? quantity.toLocaleString('pt-BR') : "0"}
+                {quantity ? quantity.toLocaleString('pt-BR') : '0'}
                 <Typography variant='body2'>Leads cadastrados</Typography>
               </Typography>
             </div>
           </Box>
-          <ReactApexcharts type='donut' width={150} height={179} series={series} options={options} />
+          <ReactApexcharts
+            type='donut'
+            width={150}
+            height={179}
+            options={options}
+            series={series}
+          />
         </Box>
       </CardContent>
     </Card>
-  )
-}
+  );
+};
 
-export default LeadCapture
+export default LeadCapture;

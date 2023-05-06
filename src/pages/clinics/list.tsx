@@ -1,40 +1,56 @@
-import {useQuery} from '@tanstack/react-query';
-import {useMemo, useState} from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 import Card from '@mui/material/Card';
 import Grid from '@mui/material/Grid';
-import {DataGrid, ptBR} from '@mui/x-data-grid';
+import { DataGrid, ptBR } from '@mui/x-data-grid';
 
-import {Spinner} from '@/components/spinner';
-import {TableHeader} from '@/components/table-header';
-import {apiServices} from '@/services';
-import {DatePickerWrapper} from '@/styles/libs/react-datepicker';
-import {Pagination} from '@mui/material';
-import {toast} from 'react-hot-toast';
-import {useDebounce} from 'use-debounce';
-import {IClinic} from '@/types/entities/IClinic';
-import {Breadcrumb} from '@/components/breadcrumb';
-import {createClinicListTable} from '@/utils/tables/clinics/list';
-import {ClinicHeaderFilters, ClinicHeaderFiltersProps,} from '@/components/pages/clinics/header-filters';
+import { Spinner } from '@/components/spinner';
+import { TableHeader } from '@/components/table-header';
+import { apiServices } from '@/services';
+import { DatePickerWrapper } from '@/styles/libs/react-datepicker';
+import { IconButton, Pagination } from '@mui/material';
+import { toast } from 'react-hot-toast';
+import { useDebounce } from 'use-debounce';
+import { IClinic } from '@/types/entities/IClinic';
+import { Breadcrumb } from '@/components/breadcrumb';
+import { createClinicListTable } from '@/utils/tables/clinics/list';
+import {
+  ClinicFiltersModal,
+  ClinicFiltersProps,
+} from '@/components/pages/clinics/filters-modal';
+import { Icon } from '@/components/icon';
 
 export default function ClinicListPage() {
   const [search, setSearch] = useState<string>('');
   const [page, setPage] = useState(1);
   const [debouncedSearch] = useDebounce(search, 750);
   const [clinicToDelete, setClinicToDelete] = useState<IClinic | null>(null);
-  const [filters, setFilters] = useState<ClinicHeaderFiltersProps>({
-    category: '',
-    planStatus: '',
-    status: '',
+  const [isFilterModalOpened, setIsFilterModalOpened] = useState(false);
+  const [filters, setFilters] = useState<ClinicFiltersProps>(() => {
+    const savedData = localStorage.getItem(
+      '@anjosguia:dashboard:clinic-filters',
+    );
+
+    const defaultData = {
+      categoryId: [],
+      status: '',
+      campaignStatus: '',
+      contractStatus: '',
+    };
+
+    return savedData ? JSON.parse(savedData) : defaultData;
   });
 
+  const hasLoadedFirstTime = useRef(false);
+
   const { data, isLoading, isRefetching, refetch } = useQuery({
-    queryKey: ['clinics', debouncedSearch, page],
+    queryKey: ['clinics', debouncedSearch, page, filters],
     queryFn: () =>
       apiServices.clinics.list({
         search: debouncedSearch,
         page,
-      }),
+      }, filters),
   });
 
   async function handleDeleteClinic() {
@@ -60,7 +76,21 @@ export default function ClinicListPage() {
     });
   }, [clinicToDelete, setClinicToDelete, handleDeleteClinic]);
 
-  if (isLoading) return <Spinner />;
+  function handleSubmitFilters(filters: ClinicFiltersProps) {
+    setFilters(filters);
+    localStorage.setItem(
+      '@anjosguia:dashboard:clinic-filters',
+      JSON.stringify(filters),
+    );
+  }
+
+  useEffect(() => {
+    if (data?.data) {
+      hasLoadedFirstTime.current = true;
+    }
+  }, [data?.data]);
+
+  if (isLoading && !hasLoadedFirstTime.current) return <Spinner />;
 
   return (
     <DatePickerWrapper>
@@ -71,11 +101,25 @@ export default function ClinicListPage() {
       <Grid container spacing={6}>
         <Grid item xs={12} className='page-card-mui'>
           <Card>
-            <ClinicHeaderFilters filters={filters} setFilters={setFilters} />
             <TableHeader
               search={search}
               onSearch={setSearch}
               inputPlaceholder='Buscar clínica'
+              leftChildren={
+                <IconButton
+                  aria-haspopup='true'
+                  onClick={() => setIsFilterModalOpened(true)}
+                >
+                  <Icon
+                    fontSize='1.5rem'
+                    icon={
+                      filters.categoryId.length
+                        ? 'flat-color-icons:empty-filter'
+                        : 'tabler:filter'
+                    }
+                  />
+                </IconButton>
+              }
               addLink='/clinics/add'
             />
             <DataGrid
@@ -106,6 +150,13 @@ export default function ClinicListPage() {
           </Card>
         </Grid>
       </Grid>
+
+      <ClinicFiltersModal
+        defaultValues={filters}
+        isOpen={isFilterModalOpened}
+        onClose={() => setIsFilterModalOpened(false)}
+        onSubmit={handleSubmitFilters}
+      />
     </DatePickerWrapper>
   );
 }

@@ -1,19 +1,17 @@
-import {api} from '@/utils/api';
-import {formatNumberFromBase100} from '@/utils/currency';
-import {GetDashboard} from './types';
+import { api } from '@/utils/api';
+import { formatNumberFromBase100 } from '@/utils/currency';
+import { GetDashboard } from './types';
 
 const baseUrl = '/dashboard';
 
 export const DashboardServices = {
-  clinic: async (campaignId?: string | null) => {
+  clinic: async (campaignId?: string | null, ownersIds?: string[]) => {
+    const owners = ownersIds?.map((id) => `ownerId=${id}`).join('&');
+
     const { data } = await api.post<GetDashboard>(
-      `${baseUrl}/clinic`,
-      undefined,
-      {
-        params: {
-          campaignId,
-        },
-      },
+      `${baseUrl}/clinic?${campaignId ? `campaignId=${campaignId}` : ''}${
+        owners ? '&' + owners : ''
+      }`,
     );
 
     data.data.financial = {
@@ -54,8 +52,6 @@ export const DashboardServices = {
   },
   admin: async () => {
     const { data } = await api.post<GetDashboard>(`${baseUrl}/admin`);
-
-    console.log('admin',data);
 
     data.data.financial = {
       value: formatNumberFromBase100(data.data.financial.value),

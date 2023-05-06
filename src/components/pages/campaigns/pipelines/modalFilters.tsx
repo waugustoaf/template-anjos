@@ -1,5 +1,5 @@
-import {apiServices} from '@/services';
-import {IStrategy} from '@/types/entities/IStrategy';
+import { apiServices } from '@/services';
+import { IStrategy } from '@/types/entities/IStrategy';
 import {
   Autocomplete,
   Box,
@@ -11,9 +11,9 @@ import {
   FormControlLabel,
   TextField,
 } from '@mui/material';
-import {useQuery} from '@tanstack/react-query';
-import {useState} from 'react';
-import {IUser} from "@/types/entities/IUser";
+import { useQuery } from '@tanstack/react-query';
+import { useState } from 'react';
+import { IUser } from '@/types/entities/IUser';
 
 interface PipelineFilterModalProps {
   isOpen: boolean;
@@ -21,13 +21,14 @@ interface PipelineFilterModalProps {
   onSubmit: (props: {
     name: string;
     strategyId: IStrategy[];
+    ownerId: IUser[];
     onlyMy: boolean;
   }) => void;
   defaultValues: {
     name: string;
     strategyId: IStrategy[];
-    onlyMy: boolean;
     ownerId: IUser[];
+    onlyMy: boolean;
   };
 }
 
@@ -39,6 +40,7 @@ export function PipelineFilterModal({
 }: PipelineFilterModalProps) {
   const [name, setName] = useState(defaultValues.name);
   const [strategyId, setStrategyId] = useState(defaultValues.strategyId);
+  const [ownerId, setOwnerId] = useState(defaultValues.ownerId);
   const [onlyMy, setOnlyMy] = useState(defaultValues.onlyMy);
 
   const { data } = useQuery(['strategies'], () => apiServices.strategy.full());
@@ -48,6 +50,7 @@ export function PipelineFilterModal({
     onSubmit({
       name,
       strategyId,
+      ownerId,
       onlyMy,
     });
   }
@@ -58,7 +61,6 @@ export function PipelineFilterModal({
       onClose={onClose}
       aria-labelledby='alert-dialog-title'
       aria-describedby='alert-dialog-description'
-
     >
       <DialogTitle id='alert-dialog-title'>Filtros de pipeline</DialogTitle>
       <DialogContent>
@@ -97,9 +99,9 @@ export function PipelineFilterModal({
             onChange={(_, value) => setStrategyId(value)}
           />
 
-          {/*<Autocomplete
+          <Autocomplete
             fullWidth
-            options={owners?.data?.data || []}
+            options={owners?.data?.data || ([] as IUser[])}
             multiple
             renderInput={(props: any) => (
               <TextField
@@ -112,9 +114,9 @@ export function PipelineFilterModal({
             getOptionLabel={(option) => option.name}
             isOptionEqualToValue={(option, value) => option.id === value.id}
             sx={{ marginTop: '0.5rem' }}
-            value={strategyId}
-            onChange={(_, value) => setStrategyId(value)}
-          />*/}
+            value={ownerId}
+            onChange={(_, value) => setOwnerId(value)}
+          />
 
           <FormControlLabel
             control={

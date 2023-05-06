@@ -9,10 +9,11 @@ interface TableHeaderProps {
   search: string;
   onSearch: (value: string) => void;
   refetch?: (data?: any) => any;
-  inputPlaceholder: string;
+  inputPlaceholder?: string;
   addLink?: string;
   addOnClick?: () => void;
   rightChildren?: React.ReactNode;
+  leftChildren?: React.ReactNode;
 }
 
 export const TableHeader = (props: TableHeaderProps) => {
@@ -23,6 +24,7 @@ export const TableHeader = (props: TableHeaderProps) => {
     addLink,
     addOnClick,
     rightChildren,
+    leftChildren,
   } = props;
 
   const addProps = addLink ? { component: Link, href: addLink } : {};
@@ -39,13 +41,19 @@ export const TableHeader = (props: TableHeaderProps) => {
         justifyContent: 'space-between',
       }}
     >
-      <TextField
-        size='small'
-        value={search}
-        sx={{ mr: 4, mb: 2 }}
-        placeholder={inputPlaceholder}
-        onChange={(e) => onSearch(e.target.value)}
-      />
+      <Box display='flex' alignItems='center'>
+        {inputPlaceholder && (
+          <TextField
+            size='small'
+            value={search}
+            sx={{ mr: 4, mb: 2 }}
+            placeholder={inputPlaceholder}
+            onChange={(e) => onSearch(e.target.value)}
+          />
+        )}
+
+        {leftChildren && <>{leftChildren}</>}
+      </Box>
 
       <Box
         sx={{

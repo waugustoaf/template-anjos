@@ -1,23 +1,23 @@
-import {apiServices} from '@/services';
-import {GetCustomerCBResponse} from '@/services/customer/types';
-import {Button, Link, Typography} from '@mui/material';
-import {Box} from '@mui/system';
-import {useEffect, useState} from 'react';
-import {useForm} from 'react-hook-form';
-import {toast} from 'react-hot-toast';
-import {Icon} from '@/components/icon';
-import {SendActionMessage} from '@/components/pages/campaigns/pipelines/tabs/message';
-import {SendActionConversation} from '@/components/pages/campaigns/pipelines/tabs/conversation';
-import {SendActionSchedule} from '@/components/pages/campaigns/pipelines/tabs/schedule';
-import {SendActionSale} from '@/components/pages/campaigns/pipelines/tabs/sale';
-import {SendActionAppointment} from '@/components/pages/campaigns/pipelines/tabs/appointment';
-import {formatDateToISO} from "@/utils/date";
-import {formatNumberToBase100} from "@/utils/currency";
-import {ChangeOwner} from "@/components/pages/campaigns/pipelines/tabs/owner";
-import {SetCustomerTag} from "@/components/pages/campaigns/pipelines/tabs/tags";
-import {CustomerTimeline} from "@/components/pages/customer/edit/timeline";
-import {useQuery} from "@tanstack/react-query";
-import {Spinner} from "@/components/spinner";
+import { apiServices } from '@/services';
+import { GetCustomerCBResponse } from '@/services/customer/types';
+import { Button, CircularProgress, Link, Typography } from '@mui/material';
+import { Box } from '@mui/system';
+import { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { toast } from 'react-hot-toast';
+import { Icon } from '@/components/icon';
+import { SendActionMessage } from '@/components/pages/campaigns/pipelines/tabs/message';
+import { SendActionConversation } from '@/components/pages/campaigns/pipelines/tabs/conversation';
+import { SendActionSchedule } from '@/components/pages/campaigns/pipelines/tabs/schedule';
+import { SendActionSale } from '@/components/pages/campaigns/pipelines/tabs/sale';
+import { SendActionAppointment } from '@/components/pages/campaigns/pipelines/tabs/appointment';
+import { formatDateToISO } from '@/utils/date';
+import { formatNumberToBase100 } from '@/utils/currency';
+import { ChangeOwner } from '@/components/pages/campaigns/pipelines/tabs/owner';
+import { SetCustomerTag } from '@/components/pages/campaigns/pipelines/tabs/tags';
+import { CustomerTimeline } from '@/components/pages/customer/edit/timeline';
+import { useQuery } from '@tanstack/react-query';
+import { Spinner } from '@/components/spinner';
 
 interface PipelineCustomerMessageProps {
   customer: GetCustomerCBResponse['message'][0];
@@ -28,12 +28,36 @@ interface PipelineCustomerMessageProps {
 }
 
 interface TabButtonProps {
-  tab: 'owner' | 'tags' | 'message' | 'conversation' | 'schedule' | 'appointment' | 'sale' | 'timeline';
-  activeTab: 'owner' | 'tags' | 'message' | 'conversation' | 'schedule' | 'appointment' | 'sale'| 'timeline';
+  tab:
+    | 'owner'
+    | 'tags'
+    | 'message'
+    | 'conversation'
+    | 'schedule'
+    | 'appointment'
+    | 'sale'
+    | 'timeline';
+  activeTab:
+    | 'owner'
+    | 'tags'
+    | 'message'
+    | 'conversation'
+    | 'schedule'
+    | 'appointment'
+    | 'sale'
+    | 'timeline';
   icon: string;
   title: string;
   onChange: (
-    tab: 'owner' | 'tags' | 'message' | 'conversation' | 'schedule' | 'appointment' | 'sale' | 'timeline',
+    tab:
+      | 'owner'
+      | 'tags'
+      | 'message'
+      | 'conversation'
+      | 'schedule'
+      | 'appointment'
+      | 'sale'
+      | 'timeline',
   ) => void;
 }
 
@@ -65,7 +89,14 @@ export function PipelineCustomerActions({
   const [isLoading, setIsLoading] = useState(false);
   const defaultValues: any = { message: '' };
   const [currentTab, setCurrentTab] = useState<
-    'owner' | 'tags' | 'message' | 'conversation' | 'schedule' | 'appointment' | 'sale' | 'timeline'
+    | 'owner'
+    | 'tags'
+    | 'message'
+    | 'conversation'
+    | 'schedule'
+    | 'appointment'
+    | 'sale'
+    | 'timeline'
   >('message');
 
   useEffect(() => {
@@ -74,10 +105,8 @@ export function PipelineCustomerActions({
 
   const actions = useQuery({
     queryKey: ['action'],
-    queryFn: () => apiServices.action.getActionsList(boardId, customer.id)
+    queryFn: () => apiServices.action.getActionsList(boardId, customer.id),
   });
-
-  if (isLoading && !actions) return <Spinner />;
 
   const {
     register,
@@ -88,6 +117,8 @@ export function PipelineCustomerActions({
   } = useForm({
     defaultValues,
   });
+
+  if (actions.isLoading && !actions.data) return <CircularProgress size={24} />;
 
   async function handleSaveMessage(data: any) {
     try {
@@ -138,7 +169,6 @@ export function PipelineCustomerActions({
         boardId,
       });
 
-
       refetch();
       onClose();
     } catch {
@@ -151,8 +181,7 @@ export function PipelineCustomerActions({
   async function handleSaveSchedule(data: any) {
     try {
       setIsLoading(true);
-
-      console.log( 'data', data);
+      
       await apiServices.action.schedule({
         customerId: customer.id,
         boardId,
@@ -183,7 +212,7 @@ export function PipelineCustomerActions({
         resume: data.resume,
         customerId: customer.id,
         boardId,
-        date: formatDateToISO(data.date)
+        date: formatDateToISO(data.date),
       });
 
       await actions.refetch();
@@ -220,13 +249,13 @@ export function PipelineCustomerActions({
     }
   }
 
-  async function handleDeleteSale(data: any){
+  async function handleDeleteSale(data: any) {
     try {
       setIsLoading(true);
 
       await apiServices.action.deleteSale({
-        saleId: data.id,
-        customerId: customer.id,
+        saleId: data.id || '',
+        customerId: customer.id || '',
       });
 
       await actions.refetch();
@@ -267,10 +296,7 @@ export function PipelineCustomerActions({
 
       <Typography>
         <Box gap={'0.9rem'} alignContent={'center'} alignItems={'center'}>
-          <Link
-            href={'../customers/edit/' + customer.id}
-            target='_blank'
-          >
+          <Link href={'../customers/edit/' + customer.id} target='_blank'>
             {customer.name}
           </Link>
 
@@ -297,7 +323,7 @@ export function PipelineCustomerActions({
 
       <Box
         display='flex'
-        flexDirection={{ xs: 'column', md: 'row'}}
+        flexDirection={{ xs: 'column', md: 'row' }}
         alignItems='center'
         gap='0.5rem'
         mb='1rem'
@@ -359,9 +385,7 @@ export function PipelineCustomerActions({
           tab='sale'
           title='Venda'
         />
-
       </Box>
-
 
       {currentTab === 'owner' && (
         <ChangeOwner
@@ -429,7 +453,6 @@ export function PipelineCustomerActions({
       {currentTab === 'timeline' && (
         <CustomerTimeline customerId={customer.id} />
       )}
-
     </Box>
   );
 }

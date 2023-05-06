@@ -1,10 +1,10 @@
-import {SubmitButton} from '@/components/form/submit-button';
-import {DatePickerWrapper} from '@/styles/libs/react-datepicker';
-import {mountForm} from '@/utils/form/mount-form';
-import {yupResolver} from '@hookform/resolvers/yup';
-import {Box, Button, Card, CardContent, Grid} from '@mui/material';
-import {useState} from 'react';
-import {useForm} from 'react-hook-form';
+import { SubmitButton } from '@/components/form/submit-button';
+import { DatePickerWrapper } from '@/styles/libs/react-datepicker';
+import { mountForm } from '@/utils/form/mount-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { Box, Button, Card, CardContent, Grid } from '@mui/material';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
 interface SendActionScheduleProps {
@@ -16,9 +16,10 @@ interface SendActionScheduleProps {
 
 export function SendActionSchedule({
   handleSaveSchedule,
-  isLoading, onClose, schedule
+  isLoading,
+  onClose,
+  schedule,
 }: SendActionScheduleProps) {
-  const [date, setDate] = useState(new Date());
   const {
     register,
     setValue,
