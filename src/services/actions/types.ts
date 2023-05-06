@@ -11,9 +11,14 @@ export type ActionConversationRequest = {
 }
 
 export type ActionScheduleRequest = {
+  id: string;
   customerId: string;
   boardId: string;
   date: string;
+  resume: string;
+  confirm1: boolean;
+  confirm2: boolean;
+  confirmed: boolean;
 }
 
 export type ActionAppointmentRequest = {
@@ -36,4 +41,9 @@ export type ActionSetTagRequest = {
   customerId: string;
   boardId: string;
   tagIds: string[];
+}
+
+export type ActionDeleteSaleRequest = {
+  customerId: string;
+  saleId: string;
 }

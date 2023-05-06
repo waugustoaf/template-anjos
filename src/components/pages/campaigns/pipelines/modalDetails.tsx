@@ -16,6 +16,8 @@ import {formatNumberToBase100} from "@/utils/currency";
 import {ChangeOwner} from "@/components/pages/campaigns/pipelines/tabs/owner";
 import {SetCustomerTag} from "@/components/pages/campaigns/pipelines/tabs/tags";
 import {CustomerTimeline} from "@/components/pages/customer/edit/timeline";
+import {useQuery} from "@tanstack/react-query";
+import {Spinner} from "@/components/spinner";
 
 interface PipelineCustomerMessageProps {
   customer: GetCustomerCBResponse['message'][0];
@@ -70,6 +72,13 @@ export function PipelineCustomerActions({
     setCurrentTab(type as any);
   }, [type]);
 
+  const actions = useQuery({
+    queryKey: ['action'],
+    queryFn: () => apiServices.action.getActionsList(boardId, customer.id)
+  });
+
+  if (isLoading && !actions) return <Spinner />;
+
   const {
     register,
     setValue,
@@ -108,6 +117,8 @@ export function PipelineCustomerActions({
         boardId,
       });
 
+      await actions.refetch();
+
       refetch();
       onClose();
     } catch {
@@ -127,6 +138,7 @@ export function PipelineCustomerActions({
         boardId,
       });
 
+
       refetch();
       onClose();
     } catch {
@@ -140,11 +152,19 @@ export function PipelineCustomerActions({
     try {
       setIsLoading(true);
 
+      console.log( 'data', data);
       await apiServices.action.schedule({
         customerId: customer.id,
         boardId,
+        id: data.id,
         date: formatDateToISO(data.date),
+        resume: data.resume,
+        confirm1: data.confirm1,
+        confirm2: data.confirm2,
+        confirmed: data.confirmed,
       });
+
+      await actions.refetch();
 
       refetch();
       onClose();
@@ -166,6 +186,8 @@ export function PipelineCustomerActions({
         date: formatDateToISO(data.date)
       });
 
+      await actions.refetch();
+
       refetch();
       onClose();
     } catch {
@@ -186,6 +208,28 @@ export function PipelineCustomerActions({
         customerId: customer.id,
         boardId,
       });
+
+      await actions.refetch();
+
+      refetch();
+      onClose();
+    } catch {
+      toast.error('Erro ao prosseguir essa etapa');
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  async function handleDeleteSale(data: any){
+    try {
+      setIsLoading(true);
+
+      await apiServices.action.deleteSale({
+        saleId: data.id,
+        customerId: customer.id,
+      });
+
+      await actions.refetch();
 
       refetch();
       onClose();
@@ -324,6 +368,7 @@ export function PipelineCustomerActions({
           handleChangeOwner={handleChangeOwner}
           isLoading={isLoading}
           onClose={onClose}
+          ownerId={customer.owner.id}
         />
       )}
 
@@ -349,6 +394,7 @@ export function PipelineCustomerActions({
           handleSaveConversation={handleSaveConversation}
           isLoading={isLoading}
           onClose={onClose}
+          conversation={actions?.data?.conversation}
         />
       )}
 
@@ -357,6 +403,7 @@ export function PipelineCustomerActions({
           handleSaveSchedule={handleSaveSchedule}
           isLoading={isLoading}
           onClose={onClose}
+          schedule={actions?.data?.schedule}
         />
       )}
 
@@ -365,6 +412,7 @@ export function PipelineCustomerActions({
           handleSaveAppointment={handleSaveAppointment}
           isLoading={isLoading}
           onClose={onClose}
+          appointment={actions?.data?.appointment}
         />
       )}
 
@@ -373,6 +421,8 @@ export function PipelineCustomerActions({
           handleSaveSale={handleSaveSale}
           isLoading={isLoading}
           onClose={onClose}
+          sale={actions?.data?.sale}
+          handleDeleteSale={handleDeleteSale}
         />
       )}
 

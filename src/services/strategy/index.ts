@@ -1,12 +1,7 @@
-import { PaginationProps } from '@/types/app/pagination';
-import { api } from '@/utils/api';
-import { mergePagination } from '@/utils/api/pagination';
-import {
-  CreateStrategyResponse,
-  GetStrategyResponse,
-  ListStrategyResponse,
-  UpdateStrategyResponse,
-} from './types';
+import {PaginationProps} from '@/types/app/pagination';
+import {api} from '@/utils/api';
+import {mergePagination} from '@/utils/api/pagination';
+import {CreateStrategyResponse, GetStrategyResponse, ListStrategyResponse, UpdateStrategyResponse,} from './types';
 
 const baseUrl = '/strategy';
 
@@ -18,9 +13,8 @@ export const strategyServices = {
 
     return response.data;
   },
-  full: async (props?: PaginationProps) => {
+  full: async () => {
     const response = await api.get<ListStrategyResponse>(`${baseUrl}/full`);
-
     return response.data;
   },
   get: async (id: string) => {

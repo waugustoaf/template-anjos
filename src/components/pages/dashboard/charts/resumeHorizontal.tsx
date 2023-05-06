@@ -5,14 +5,13 @@ import CardHeader from '@mui/material/CardHeader';
 import Typography from '@mui/material/Typography';
 import CardContent from '@mui/material/CardContent';
 
-import { Icon } from '@/components/icon';
+import {Icon} from '@/components/icon';
 
-import { ThemeColor } from '@/types/app/layout';
+import {ThemeColor} from '@/types/app/layout';
 
 import CustomAvatar from '@/@core/components/mui/avatar';
-import { useQuery } from '@tanstack/react-query';
-import { apiServices } from '@/services';
-import { Autocomplete } from '@/components/form/autocomplete';
+import {apiServices} from '@/services';
+import {Autocomplete} from '@/components/form/autocomplete';
 
 interface DataType {
   icon: string;
@@ -88,7 +87,7 @@ const ResumeHorizontal = ({
         title='Estatísticas'
         sx={{ '& .MuiCardHeader-action': { m: 0, alignSelf: 'center' } }}
         action={
-          <Box sx={{ minWidth: '160px' }}>
+          <Box sx={{ minWidth: '160px',  maxHeight: '15px' }}>
             <Autocomplete
               field={{
                 name: 'campaign',

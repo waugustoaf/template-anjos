@@ -9,7 +9,7 @@ import LeadConvert from '@/components/pages/dashboard/charts/leadConvertion';
 import CampaignGoal from '@/components/pages/dashboard/charts/campaignGoal';
 import CampaignTime from '@/components/pages/dashboard/charts/campaignTime';
 import AccomplishedExpected from '@/components/pages/dashboard/charts/accomplishedExpected';
-import SalesByStrategy from '@/components/pages/dashboard/charts/salesByStrategy';
+import SalesByFunnel from '@/components/pages/dashboard/charts/salesByFunnel';
 import StrategyConversionValue from '@/components/pages/dashboard/charts/strategyByConversionValue';
 import StrategyConversionQuantity from '@/components/pages/dashboard/charts/strategyByConversionQuantity';
 import ProductsByInvoicing from '@/components/pages/dashboard/charts/productsByInvoicing';
@@ -25,8 +25,6 @@ const DefaultDashboard = () => {
   });
 
   if (isLoading && !data) return <Spinner />;
-
-  console.log(data);
 
   return (
     <ApexChartWrapper>
@@ -57,7 +55,7 @@ const DefaultDashboard = () => {
           <AccomplishedExpected data={data?.goalPoints} />
         </Grid>
         <Grid item xs={12} md={12} lg={12}>
-          <SalesByStrategy data={data?.salesByStrategies} />
+          <SalesByFunnel data={data?.salesByStrategies} />
         </Grid>
         <Grid item xs={6} md={6} lg={6}>
           <ProductsByInvoicing data={data?.productByFinancial} />

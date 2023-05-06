@@ -3,7 +3,6 @@ import {DatePickerWrapper} from '@/styles/libs/react-datepicker';
 import {mountForm} from '@/utils/form/mount-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {Box, Button, Card, CardContent, Grid} from '@mui/material';
-import {useRouter} from 'next/router';
 import {useState} from 'react';
 import {useForm} from 'react-hook-form';
 import * as yup from 'yup';
@@ -12,15 +11,14 @@ interface SendActionScheduleProps {
   handleSaveSchedule: (data: any) => void;
   isLoading: boolean;
   onClose: () => void;
+  schedule: any;
 }
 
 export function SendActionSchedule({
   handleSaveSchedule,
-  isLoading,
+  isLoading, onClose, schedule
 }: SendActionScheduleProps) {
   const [date, setDate] = useState(new Date());
-  const router = useRouter();
-
   const {
     register,
     setValue,
@@ -30,23 +28,28 @@ export function SendActionSchedule({
   } = useForm({
     resolver: yupResolver(
       yup.object().shape({
+        resume: yup
+          .string()
+          .min(5)
+          .required('Resumo do agentamento é obrigatório'),
         date: yup.date().required('Data do agendamento é obrigatória'),
       }),
     ),
-    defaultValues: {},
+    defaultValues: {
+      id: schedule?.id ?? '',
+      date: schedule?.date,
+      resume: schedule?.resume,
+      confirm1: schedule?.confirm1 ?? false,
+      confirm2: schedule?.confirm2 ?? false,
+      confirmed: schedule?.confirmed ?? false,
+    } as any,
   });
-
-  function onSubmit() {
-    handleSaveSchedule({
-      date,
-    });
-  }
 
   return (
     <Grid container spacing={6}>
       <Grid item xs={12} className='page-card-mui'>
         <Card>
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form onSubmit={handleSubmit(handleSaveSchedule)}>
             <CardContent style={{ marginTop: '-1rem', minHeight: '450px' }}>
               <DatePickerWrapper>
                 {mountForm({
@@ -55,12 +58,46 @@ export function SendActionSchedule({
                     {
                       type: 'input-datetime',
                       name: 'date',
-                      title: 'Início do Contrato',
-                      placeholder: 'Informe a data de início do contrato',
+                      title: 'Data do agendamento',
+                      placeholder: 'Informe a data do agendamento',
                       dateFormat: 'dd/MM/yyyy HH:mm',
                       rowSize: 12,
                     },
+                    {
+                      name: 'resume',
+                      rowSize: 12,
+                      title: 'Resumo do agendamento',
+                      type: 'textarea',
+                      rowsTextArea: 7,
+                      placeholder: 'Descreva o resumo do agendamento',
+                    },
+                    {
+                      name: 'confirm1',
+                      rowSize: 4,
+                      title: 'Confirmação 1',
+                      type: 'checkbox',
+                    },
+                    {
+                      name: 'confirm2',
+                      rowSize: 4,
+                      title: 'Confirmação 2',
+                      type: 'checkbox',
+                    },
+                    {
+                      name: 'confirmed',
+                      rowSize: 4,
+                      title: 'Confirmado',
+                      type: 'checkbox',
+                    },
                   ],
+                  defaultValues: {
+                    id: schedule?.id ?? '',
+                    date: schedule?.date,
+                    resume: schedule?.resume,
+                    confirm1: schedule?.confirm1 ?? false,
+                    confirm2: schedule?.confirm2 ?? false,
+                    confirmed: schedule?.confirmed ?? false,
+                  },
                   register,
                   setValue,
                   trigger,
@@ -74,7 +111,7 @@ export function SendActionSchedule({
                 marginTop='2rem'
                 gap='0.5rem'
               >
-                <Button onClick={router.back}>Cancelar</Button>
+                <Button onClick={onClose}>Cancelar</Button>
                 <SubmitButton
                   hideCustomSpace
                   isLoading={isLoading}

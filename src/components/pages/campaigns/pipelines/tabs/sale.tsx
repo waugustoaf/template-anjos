@@ -2,20 +2,19 @@ import {SubmitButton} from '@/components/form/submit-button';
 import {mountForm} from '@/utils/form/mount-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {Box, Button, Card, CardContent, Grid,} from '@mui/material';
-import {useRouter} from 'next/router';
 import {useForm} from 'react-hook-form';
 import * as yup from "yup";
 import {apiServices} from "@/services";
 
 interface SendActionSaleProps {
   handleSaveSale: (data: any) => void;
+  handleDeleteSale: (data: any) => void;
   onClose: () => void;
   isLoading: boolean;
+  sale: any;
 }
 
-export function SendActionSale({handleSaveSale,isLoading, onClose}: SendActionSaleProps) {
-  const router = useRouter();
-
+export function SendActionSale({handleSaveSale, handleDeleteSale, isLoading, onClose, sale}: SendActionSaleProps) {
   const {
     register,
     setValue,
@@ -57,7 +56,7 @@ export function SendActionSale({handleSaveSale,isLoading, onClose}: SendActionSa
                     title: 'Estratégia de venda',
                     placeholder: 'Selecione a estratégia utilizada',
                     rowSize: 12,
-                    autocompleteFn: apiServices.strategy.list,
+                    autocompleteFn: apiServices.strategy.full,
                     autocompleteLabel: 'name',
                   },
                   {
