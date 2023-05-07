@@ -8,9 +8,13 @@ import { StaticDateTimePicker } from '@mui/lab';
 export function InputDateTime(props: ResolveFieldProps) {
   const { field, setValue, errorMessage, defaultValue, trigger } = props;
 
-  const [date, setDate] = useState(
-    defaultValue ? new Date(defaultValue) : new Date(),
-  );
+  const [date, setDate] = useState(() => {
+    if (defaultValue) {
+      return new Date(defaultValue);
+    }
+
+    return new Date();
+  });
 
   useEffect(() => {
     const startReset = () => {

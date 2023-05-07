@@ -57,7 +57,7 @@ interface SalesByStrategiesProps {
   value: number;
 }
 
-const SalesByStrategy = ({data}: DataSalesByStrategiesProps) => {
+const SalesByFunnel = ({data}: DataSalesByStrategiesProps) => {
 
 
   const [value, setValue] = useState<TabCategory>('TrafegoPago')
@@ -188,8 +188,8 @@ const SalesByStrategy = ({data}: DataSalesByStrategiesProps) => {
   return (
     <Card>
       <CardHeader
-        title='Vendas por estratégia'
-        subheader='Acompanhamento das vendas por estratégia'
+        title='Vendas por funil'
+        subheader='Acompanhamento das vendas por funil'
         subheaderTypographyProps={{ sx: { mt: '0 !important' } }}
       />
       <CardContent sx={{ '& .MuiTabPanel-root': { p: 0 } }}>
@@ -201,4 +201,4 @@ const SalesByStrategy = ({data}: DataSalesByStrategiesProps) => {
   )
 }
 
-export default SalesByStrategy
+export default SalesByFunnel

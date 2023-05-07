@@ -1,3 +1,4 @@
+import { ClinicFiltersProps } from '@/components/pages/clinics/filters-modal';
 import { PaginationProps } from '@/types/app/pagination';
 import { api } from '@/utils/api';
 import { mergePagination } from '@/utils/api/pagination';
@@ -12,9 +13,22 @@ import {
 } from './types';
 
 export const clinicServices = {
-  list: async (props?: PaginationProps) => {
+  list: async (props?: PaginationProps, filters?: ClinicFiltersProps) => {
+    const { campaignStatus, contractStatus, status } = filters || {};
+
+    const categoryId = filters?.categoryId
+      .map((item) => `categoryId=${item.id}`)
+      .join('&')
+      .replace('categoryId=', '');
+
     const response = await api.get<ListClinicsResponse>('/clinic', {
-      params: mergePagination(props),
+      params: {
+        ...mergePagination(props),
+        categoryId,
+        status,
+        contractStatus,
+        campaignStatus,
+      },
     });
 
     return response.data;

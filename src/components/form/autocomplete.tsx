@@ -1,4 +1,4 @@
-import { ResolveFieldProps } from '@/utils/form/mount-form';
+import {ResolveFieldProps} from '@/utils/form/mount-form';
 import {
   Autocomplete as MuiAutocomplete,
   CircularProgress,
@@ -7,9 +7,9 @@ import {
   Grid,
   TextField,
 } from '@mui/material';
-import { useQuery } from '@tanstack/react-query';
-import { useEffect, useState } from 'react';
-import { useDebounce } from 'use-debounce';
+import {useQuery} from '@tanstack/react-query';
+import {useEffect, useState} from 'react';
+import {useDebounce} from 'use-debounce';
 
 export function Autocomplete(props: ResolveFieldProps) {
   const [search, setSearch] = useState('');

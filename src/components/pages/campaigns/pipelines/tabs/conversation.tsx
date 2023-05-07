@@ -2,7 +2,6 @@ import {SubmitButton} from '@/components/form/submit-button';
 import {mountForm} from '@/utils/form/mount-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {Box, Button, Card, CardContent, Grid,} from '@mui/material';
-import {useRouter} from 'next/router';
 import {useForm} from 'react-hook-form';
 import * as yup from "yup";
 
@@ -10,11 +9,10 @@ interface SendActionConversationProps {
   handleSaveConversation: (data: any) => void;
   onClose: () => void;
   isLoading: boolean;
+  conversation: any;
 }
 
-export function SendActionConversation({handleSaveConversation,isLoading, onClose}: SendActionConversationProps) {
-  const router = useRouter();
-
+export function SendActionConversation({handleSaveConversation,isLoading, onClose, conversation}: SendActionConversationProps) {
   const {
     register,
     setValue,
@@ -26,7 +24,10 @@ export function SendActionConversation({handleSaveConversation,isLoading, onClos
         message: yup.string().required('Resumo da conversa'),
       })
     ),
-    defaultValues: {},
+    defaultValues: {
+      id: conversation?.id,
+      message: conversation?.resume,
+    } as any,
   });
 
   return (
@@ -47,6 +48,10 @@ export function SendActionConversation({handleSaveConversation,isLoading, onClos
                     placeholder: 'Resumo da conversa',
                   },
                 ],
+                defaultValues: {
+                  id: conversation?.id,
+                  message: conversation?.resume,
+                },
                 register,
                 setValue,
                 trigger,
