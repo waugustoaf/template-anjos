@@ -24,10 +24,7 @@ export const customerTagServices = {
     return response.data;
   },
   create: async (data: any) => {
-    const response = await api.post<CreateCustomerTagResponse>(
-      baseUrl,
-      data,
-    );
+    const response = await api.post<CreateCustomerTagResponse>(baseUrl, data);
 
     return response.data;
   },
@@ -41,6 +38,13 @@ export const customerTagServices = {
   },
   delete: async (id: string) => {
     const response = await api.delete(`${baseUrl}/${id}`);
+
+    return response.data;
+  },
+  full: async () => {
+    const response = await api.get<ListCustomerTagResponse>(baseUrl, {
+      params: mergePagination(),
+    });
 
     return response.data;
   },

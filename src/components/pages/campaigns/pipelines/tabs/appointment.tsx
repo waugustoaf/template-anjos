@@ -3,7 +3,6 @@ import {DatePickerWrapper} from '@/styles/libs/react-datepicker';
 import {mountForm} from '@/utils/form/mount-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {Box, Button, Card, CardContent, Grid} from '@mui/material';
-import {useRouter} from 'next/router';
 import {useForm} from 'react-hook-form';
 import * as yup from 'yup';
 
@@ -11,15 +10,15 @@ interface SendActionAppointmentProps {
   handleSaveAppointment: (data: any) => void;
   isLoading: boolean;
   onClose: () => void;
+  appointment: any;
 }
 
 export function SendActionAppointment({
   handleSaveAppointment,
   isLoading,
   onClose,
+  appointment,
 }: SendActionAppointmentProps) {
-  const router = useRouter();
-
   const {
     register,
     setValue,
@@ -36,6 +35,11 @@ export function SendActionAppointment({
         date: yup.date().required('Data da consulta é obrigatória'),
       }),
     ),
+    defaultValues: {
+      id: appointment?.id ?? '',
+      date: appointment?.date,
+      resume: appointment?.resume,
+    } as any,
   });
 
   return (
@@ -65,6 +69,11 @@ export function SendActionAppointment({
                       placeholder: 'Descreva o resumo da consulta',
                     },
                   ],
+                  defaultValues: {
+                    id: appointment?.id ?? '',
+                    date: appointment?.date ? new Date(appointment?.date) : '',
+                    resume: appointment?.resume,
+                  },
                   register,
                   setValue,
                   trigger,

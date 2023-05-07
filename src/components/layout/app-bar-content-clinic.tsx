@@ -46,7 +46,7 @@ export const AppBarContentClinic = ({ onClose }: Props) => {
         user: response.data.user,
         clinic: response.data.clinic,
       });
-      await router.push('/dashboard');
+      window.location.reload();
       onClose();
     } catch {
       toast.error('Não foi possível selecionar a clínica');

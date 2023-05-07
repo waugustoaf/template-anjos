@@ -11,9 +11,10 @@ interface SendActionChangeOwnerProps {
   handleChangeOwner: (data: any) => void;
   onClose: () => void;
   isLoading: boolean;
+  ownerId: string;
 }
 
-export function ChangeOwner({handleChangeOwner, isLoading, onClose}: SendActionChangeOwnerProps) {
+export function ChangeOwner({handleChangeOwner, isLoading, onClose, ownerId}: SendActionChangeOwnerProps) {
   const router = useRouter();
 
   const {
@@ -28,8 +29,11 @@ export function ChangeOwner({handleChangeOwner, isLoading, onClose}: SendActionC
         ownerId: yup.string().required('Selecione o usuário para transferir o lead'),
       }),
     ),
-    defaultValues: {},
+    defaultValues: {
+      ownerId,
+    } as any,
   });
+  
 
   return (
     <Grid container spacing={6}>
@@ -50,6 +54,9 @@ export function ChangeOwner({handleChangeOwner, isLoading, onClose}: SendActionC
                     autocompleteLabel: 'name',
                   },
                 ],
+                defaultValues: {
+                  ownerId: ownerId || [],
+                },
                 register,
                 setValue,
                 trigger,

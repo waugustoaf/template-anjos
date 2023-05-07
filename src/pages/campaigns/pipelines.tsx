@@ -9,6 +9,7 @@ import { apiServices } from '@/services';
 import { GetCustomerCBResponse } from '@/services/customer/types';
 import { IBoardCampaign } from '@/types/entities/IBoardCampaign';
 import { IStrategy } from '@/types/entities/IStrategy';
+import { IUser } from '@/types/entities/IUser';
 import { beautifullyPhone } from '@/utils/text';
 import {
   Autocomplete,
@@ -48,6 +49,7 @@ export default function Boards() {
   const [filters, setFilters] = useState({
     name: '',
     strategyId: [] as IStrategy[],
+    ownerId: [] as IUser[],
     onlyMy: false,
   });
   const [selectedCustomer, setSelectedCustomer] = useState<{
@@ -84,6 +86,7 @@ export default function Boards() {
         selectedBoard?.id || '',
         filters.name,
         filters.strategyId.map((s) => s.id),
+        filters.ownerId.map((o) => o.id),
         filters.onlyMy,
       ),
     { enabled: !!selectedBoard },

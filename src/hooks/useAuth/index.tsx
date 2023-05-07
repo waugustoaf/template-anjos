@@ -48,6 +48,8 @@ const AuthProvider = ({ children }: Props) => {
 
   const router = useRouter();
 
+  let timeout: NodeJS.Timeout;
+
   const initAuth = async (withoutLoading?: boolean): Promise<void> => {
     const storedToken = window.localStorage.getItem(
       authConfig.storageTokenKeyName,
@@ -57,6 +59,26 @@ const AuthProvider = ({ children }: Props) => {
       if (!withoutLoading) {
         setLoading(true);
       }
+
+      let hasResponse = false;
+
+      timeout = setTimeout(() => {
+        if (hasResponse) return;
+
+        localStorage.removeItem('@anjos-guia:userData');
+        localStorage.removeItem('refreshToken');
+        localStorage.removeItem('accessToken');
+        setUser(null);
+        if (!withoutLoading) {
+          setLoading(false);
+        }
+        if (
+          authConfig.onTokenExpiration === 'logout' &&
+          !router.pathname.includes('login')
+        ) {
+          router.replace('/login');
+        }
+      }, 15 * 1000);
 
       await api
         .get<MeResponseProps>(authConfig.meEndpoint, {
@@ -70,6 +92,9 @@ const AuthProvider = ({ children }: Props) => {
           if (!withoutLoading) {
             setLoading(false);
           }
+
+          hasResponse = true;
+
           setUser({ user, clinic: clinic });
         })
         .catch(() => {
@@ -96,6 +121,12 @@ const AuthProvider = ({ children }: Props) => {
 
   useEffect(() => {
     initAuth();
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      clearTimeout(timeout);
+    };
   }, []);
 
   function handleUpdateToken(token: string) {
