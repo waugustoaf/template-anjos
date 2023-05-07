@@ -1,20 +1,12 @@
-import { Icon } from '@/components/icon';
-import { apiServices } from '@/services';
-import { ICustomerTag } from '@/types/entities/ICustomerTag';
-import { IStrategy } from '@/types/entities/IStrategy';
-import { IUser } from '@/types/entities/IUser';
-import {
-  Autocomplete,
-  Button,
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  IconButton,
-  TextField,
-} from '@mui/material';
-import { Box } from '@mui/system';
-import { useQuery } from '@tanstack/react-query';
-import { useState } from 'react';
+import {Icon} from '@/components/icon';
+import {apiServices} from '@/services';
+import {ICustomerTag} from '@/types/entities/ICustomerTag';
+import {IStrategy} from '@/types/entities/IStrategy';
+import {IUser} from '@/types/entities/IUser';
+import {Autocomplete, Button, Dialog, DialogContent, DialogTitle, IconButton, TextField,} from '@mui/material';
+import {Box} from '@mui/system';
+import {useQuery} from '@tanstack/react-query';
+import {useState} from 'react';
 
 export interface CustomerFiltersProps {
   entryStrategyIds: IStrategy[];
@@ -37,30 +29,46 @@ interface CustomerFiltersModalProps {
 const originOptions = [
   { value: 'INSTRAGRAM', label: 'Instagram' },
   { value: 'FACEBOOK', label: 'Facebook' },
+  { value: 'TRAFEGOPAGO', label: 'Tráfego pago' },
+  { value: 'TRAFEGOPAGOIMP', label: 'Tráfego pago [IMP]' },
   { value: 'TIKTOK', label: 'Tik-Tok' },
-  { value: 'OUTRAREDE', label: 'Outra Rede Social' },
-  { value: 'CAMPANHAEXTERNA', label: 'Campanha Externa' },
-  { value: 'MEDIAIMPRESSA', label: 'Mídia Impressa' },
-  { value: 'OUTROS', label: 'Outra Origem' },
+  { value: 'OUTDOOR', label: 'Outdoor' },
+  { value: 'URNA', label: 'Urna' },
+  { value: 'URNA', label: 'Urna' },
+  { value: 'INDICACAO', label: 'Indicação' },
+  { value: 'PARCERIA', label: 'Parceria' },
+  { value: 'INFLUENCER', label: 'Influencer' },
+  { value: 'EVENTO', label: 'Evento' },
+  { value: 'OUTRO', label: 'Outro' },
 ];
+
+
 
 const actionsOptions = [
-  { value: 'MENSAGEM', label: 'Mensagem' },
-  { value: 'CONVERSA', label: 'Conversa' },
-  { value: 'VENDA', label: 'Venda' },
+  { value: 'MESSAGE', label: 'Mensagem' },
+  { value: 'CONVERSATION', label: 'Conversa' },
+  { value: 'SCHEDULE', label: 'Agendamento' },
+  { value: 'APPOINTMENT', label: 'Consulta' },
+  { value: 'SALE', label: 'Venda' },
+  { value: 'CHANGE_OWNER', label: 'Alterou Responsável' },
+  { value: 'REMOVE_TAG', label: 'Removeu Tag' },
+  { value: 'ADD_TAG', label: 'Adicionou Tag' },
+  { value: 'DELETE_SALE', label: 'Exclui venda' },
+  { value: 'CHANGE_BOARD', label: 'Alterou campanha' },
 ];
 
+
 const currentStepOptions = [
-  { value: 'MENSAGEM', label: 'Mensagem' },
-  { value: 'CONVERSA', label: 'Conversa' },
-  { value: 'AGENDAMENTO', label: 'Agendamento' },
-  { value: 'CONSULTA', label: 'Consulta' },
-  { value: 'VENDA', label: 'Venda' },
+  { value: 'MESSAGE', label: 'Mensagem' },
+  { value: 'CONVERSATION', label: 'Conversa' },
+  { value: 'SCHEDULE', label: 'Agendamento' },
+  { value: 'APPOINTMENT', label: 'Consulta' },
+  { value: 'SALE', label: 'Venda' },
 ];
 
 const statusOptions = [
-  { value: 'ABERTO', label: 'Aberto' },
-  { value: 'FECHADO', label: 'Fechado' },
+  { value: 'OPEN', label: 'Aberto' },
+  { value: 'CLOSED', label: 'Fechado' },
 ];
 
 export function CustomerFiltersModal({

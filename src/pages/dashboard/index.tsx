@@ -8,14 +8,14 @@ import LeadCapture from '@/components/pages/dashboard/charts/leadCapture';
 import LeadConvert from '@/components/pages/dashboard/charts/leadConvertion';
 import CampaignGoal from '@/components/pages/dashboard/charts/campaignGoal';
 import SalesByFunnel from '@/components/pages/dashboard/charts/salesByFunnel';
-import { Spinner } from '@/components/spinner';
-import { useQuery } from '@tanstack/react-query';
-import { apiServices } from '@/services';
-import { useState } from 'react';
+import {Spinner} from '@/components/spinner';
+import {useQuery} from '@tanstack/react-query';
+import {apiServices} from '@/services';
+import {useState} from 'react';
 import ClinicWithPlan from '@/components/pages/dashboard/charts/clinicWithPlan';
 import TopBilling from '@/components/pages/dashboard/charts/topBilling';
-import { ICampaign } from '@/types/entities/ICampaign';
-import { IUser } from '@/types/entities/IUser';
+import {ICampaign} from '@/types/entities/ICampaign';
+import {IUser} from '@/types/entities/IUser';
 import ClinicsByCategory from '@/components/pages/dashboard/charts/clinicsByCategory';
 
 interface FilterProps {
@@ -99,7 +99,7 @@ const DefaultDashboard = () => {
         </Grid>
 
         <Grid item xs={12} lg={4}>
-          <ClinicsByCategory />
+          <ClinicsByCategory noConverted={10} convert={10} quantity={100} />
         </Grid>
       </Grid>
     </ApexChartWrapper>
