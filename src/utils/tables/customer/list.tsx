@@ -143,8 +143,16 @@ function getIconAction(lastAction?: string) {
       return 'clipboard-check'
     case 'SALE':
       return 'currency-dollar';
+    case 'CHANGE_OWNER':
+      return 'user-share';
+    case 'CHANGE_BOARD':
+      return 'arrows-exchange-2';
+    case 'REMOVE_TAG':
+      return 'tags-off';
+    case 'ADD_TAG':
+      return 'tags';
     case 'LOST':
-      return 'Perdido';
+      return 'user-x';
     default:
       return lastAction;
   }
@@ -272,7 +280,7 @@ export function createCustomerListTable({
                 <Icon icon={'tabler:' + getIconAction(row.lastAction)} />
               </CustomAvatar>
             </Tooltip>
-            {getCurrentStep(row.lastAction)}
+            {getLastAction(row.lastAction)}
           </Box>
         ),
       },
