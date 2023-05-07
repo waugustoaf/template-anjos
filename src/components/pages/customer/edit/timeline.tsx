@@ -1,29 +1,33 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import {Timeline, TimelineConnector, TimelineContent, TimelineDot, TimelineItem, TimelineSeparator,} from '@mui/lab';
-import {Box, Typography} from '@mui/material';
-import {timelineItemClasses} from '@mui/lab/TimelineItem';
-import {formatDateToBRExtension} from "@/utils/date";
-import {apiServices} from "@/services";
-import {useQuery} from "@tanstack/react-query";
-import {Spinner} from "@/components/spinner";
+import {
+  Timeline,
+  TimelineConnector,
+  TimelineContent,
+  TimelineDot,
+  TimelineItem,
+  TimelineSeparator,
+} from '@mui/lab';
+import { Box, Typography } from '@mui/material';
+import { timelineItemClasses } from '@mui/lab/TimelineItem';
+import { formatDateToBRExtension } from '@/utils/date';
+import { apiServices } from '@/services';
+import { useQuery } from '@tanstack/react-query';
+import { Spinner } from '@/components/spinner';
+import moment from 'moment';
 
 interface CustomerTimelineProps {
   customerId?: string;
 }
 
-
-
-export function CustomerTimeline({customerId}: CustomerTimelineProps) {
-
+export function CustomerTimeline({ customerId }: CustomerTimelineProps) {
   const { data, isLoading } = useQuery({
-      queryKey: ['dashboard'],
+    queryKey: ['dashboard'],
     queryFn: () => apiServices.customer.timeline(customerId),
   });
 
   if (isLoading && !data) return <Spinner />;
 
-
- /* const timeline = useRef([
+  /* const timeline = useRef([
     {
       id: '1',
       title: 'Venda',
@@ -50,7 +54,7 @@ export function CustomerTimeline({customerId}: CustomerTimelineProps) {
     },
   ]).current;*/
 
-  function getStepName(step: string): string{
+  function getStepName(step: string): string {
     switch (step) {
       case 'CHANGE_STEP':
         return 'Alteração de etapa';
@@ -119,12 +123,19 @@ export function CustomerTimeline({customerId}: CustomerTimelineProps) {
               {index !== data?.data.length - 1 && <TimelineConnector />}
             </TimelineSeparator>
             <TimelineContent>
-              <Box>
-                <Typography>
-                  <strong>{item.title}</strong>
+              <Box display='flex' justifyContent='space-between' width='100%'>
+                <Box>
+                  <Typography>
+                    <strong>{item.title}</strong>
+                  </Typography>
+                  <Typography fontSize='14px'>{item.description}</Typography>
+                  <Typography fontSize='10px'>
+                    {formatDateToBRExtension(item.date)}
+                  </Typography>
+                </Box>
+                <Typography fontSize='12px' textTransform='capitalize'>
+                  {moment(new Date(item.date)).fromNow()}
                 </Typography>
-                <Typography fontSize='14px'>{item.description}</Typography>
-                <Typography fontSize='10px'>{formatDateToBRExtension(item.date)}</Typography>
               </Box>
             </TimelineContent>
           </TimelineItem>

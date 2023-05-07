@@ -39,4 +39,11 @@ export const categoryServices = {
 
     return response.data;
   },
+  full: async () => {
+    const response = await api.get<ListCategoriesResponse>('/category', {
+      params: mergePagination(),
+    });
+
+    return response.data;
+  },
 };

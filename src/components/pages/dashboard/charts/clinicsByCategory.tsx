@@ -1,20 +1,16 @@
-// ** MUI Imports
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import { useTheme } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import CardContent from '@mui/material/CardContent';
 
-// ** Icons Imports
-// ** Third Party Imports
 // @ts-ignore
 import { ApexOptions } from 'apexcharts';
 
-// ** Custom Components Imports
 import ReactApexcharts from '@/@core/components/react-apexcharts';
 
-// ** Util Import
 import { hexToRGBA } from '@/@core/utils/hex-to-rgba';
+import { CardHeader } from '@mui/material';
 
 interface LeadCaptureProps {
   quantity: number | undefined;
@@ -22,21 +18,28 @@ interface LeadCaptureProps {
   noConverted: number | undefined;
 }
 
-const LeadCapture = ({ quantity, convert, noConverted }: LeadCaptureProps) => {
+const ClinicsByCategory = ({
+  quantity,
+  convert,
+  noConverted,
+}: LeadCaptureProps) => {
   const theme = useTheme();
 
-  const series = [convert ? convert : 0, noConverted ? noConverted : 0];
+  const series = [100, 20, 10, 25, 25];
 
   const options: ApexOptions = {
-    colors: [
-      theme.palette.primary.main,
-      hexToRGBA(theme.palette.primary.main, 0.7),
+    stroke: { width: 1 },
+    labels: [
+      'Escola Anjos Business',
+      'Black Pass',
+      'Mentoria Black',
+      'Millions',
+      'TIVE',
     ],
-    stroke: { width: 0 },
+    colors: ['#e7e700', '#4d5166', '#000000', '#d2ae6d', '#ffa1a1'],
     legend: { show: false },
     tooltip: { enabled: false },
     dataLabels: { enabled: false },
-    labels: ['Convertidos', 'Leads'],
     states: {
       hover: {
         filter: { type: 'none' },
@@ -85,15 +88,15 @@ const LeadCapture = ({ quantity, convert, noConverted }: LeadCaptureProps) => {
     },
     responsive: [
       {
-        breakpoint: theme.breakpoints.values.lg,
+        breakpoint: 1650,
         options: {
-          chart: { width: 200, height: 256 },
+          chart: { width: 350, height: 350 },
         },
       },
       {
-        breakpoint: theme.breakpoints.values.md,
+        breakpoint: 1460,
         options: {
-          chart: { width: 150, height: 200 },
+          chart: { width: 300, height: 300 },
         },
       },
     ],
@@ -101,46 +104,25 @@ const LeadCapture = ({ quantity, convert, noConverted }: LeadCaptureProps) => {
 
   return (
     <Card>
+      <CardHeader
+        title='Clínicas'
+        subheader='Clínicas por catgoria'
+        subheaderTypographyProps={{
+          sx: { color: (theme) => `${theme.palette.text.disabled} !important` },
+        }}
+      />
+
       <CardContent>
-        <Box
-          sx={{
-            gap: 2,
-            display: 'flex',
-            alignItems: 'stretch',
-            justifyContent: 'space-between',
-          }}
-        >
-          <Box
-            sx={{
-              gap: 3,
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'space-between',
-            }}
-          >
-            <div>
-              <Typography variant='h6' sx={{ mb: 0.5 }}>
-                Captação / Conversão
-              </Typography>
-            </div>
-            <div>
-              <Typography variant='h5' sx={{ mb: 0.5 }}>
-                {quantity ? quantity.toLocaleString('pt-BR') : '0'}
-                <Typography variant='body2'>Leads cadastrados</Typography>
-              </Typography>
-            </div>
-          </Box>
-          <ReactApexcharts
-            type='donut'
-            width={150}
-            height={179}
-            options={options}
-            series={series}
-          />
-        </Box>
+        <ReactApexcharts
+          type='donut'
+          width={400}
+          height={400}
+          options={options}
+          series={series}
+        />
       </CardContent>
     </Card>
   );
 };
 
-export default LeadCapture;
+export default ClinicsByCategory;

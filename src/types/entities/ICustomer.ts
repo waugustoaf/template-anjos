@@ -23,4 +23,12 @@ export interface ICustomer {
   status: string;
   sumSales: number;
   countSales: number;
+  sales: {
+    id: string;
+    product: {
+      name: string;
+    }
+    value: number;
+    createdAt: string;
+  }[];
 }

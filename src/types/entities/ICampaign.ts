@@ -3,6 +3,7 @@ import {IBoardCampaign} from "@/types/entities/IBoardCampaign";
 import {IStrategyCampaigns} from "@/types/entities/IStrategyCampaigns";
 
 export interface ICampaign {
+  id: string;
   month: string;
   year: number;
   financialGoal: number;

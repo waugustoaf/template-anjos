@@ -1,7 +1,13 @@
-import {PaginationProps} from '@/types/app/pagination';
-import {api} from '@/utils/api';
-import {mergePagination} from '@/utils/api/pagination';
-import {CreateUserResponse, GetUserResponse, ListUsersResponse, MeResponse, UpdateUserResponse,} from './types';
+import { PaginationProps } from '@/types/app/pagination';
+import { api } from '@/utils/api';
+import { mergePagination } from '@/utils/api/pagination';
+import {
+  CreateUserResponse,
+  GetUserResponse,
+  ListUsersResponse,
+  MeResponse,
+  UpdateUserResponse,
+} from './types';
 
 export const userServices = {
   list: async (props?: PaginationProps) => {
@@ -17,25 +23,17 @@ export const userServices = {
     return response.data;
   },
   me: async () => {
-    const response = await api.get<MeResponse>(
-      '/auth/me',
-    );
+    const response = await api.get<MeResponse>('/auth/me');
 
     return response.data.user;
   },
   create: async (data: any) => {
-    const response = await api.post<CreateUserResponse>(
-      '/user',
-      data,
-    );
+    const response = await api.post<CreateUserResponse>('/user', data);
 
     return response.data;
   },
   update: async (id: string, body: any) => {
-    const response = await api.put<UpdateUserResponse>(
-      `/user/${id}`,
-      body,
-    );
+    const response = await api.put<UpdateUserResponse>(`/user/${id}`, body);
 
     return response.data;
   },
@@ -44,7 +42,12 @@ export const userServices = {
 
     return response.data;
   },
-  changePassword: async (email: string | undefined, password: string | undefined, confirmPassword: string | undefined, currentPassword: string | undefined) => {
+  changePassword: async (
+    email: string | undefined,
+    password: string | undefined,
+    confirmPassword: string | undefined,
+    currentPassword: string | undefined,
+  ) => {
     const response = await api.post(`/auth/changePassword`, {
       email,
       password,
@@ -54,17 +57,19 @@ export const userServices = {
     return response.data;
   },
   changeMe: async (body: any) => {
-    const response = await api.put<UpdateUserResponse>(
-      `/user/me`,
-      body,
-    );
+    const response = await api.put<UpdateUserResponse>(`/user/me`, body);
 
     return response.data;
   },
-  getOwners: async() => {
-    const response = await api.get<UpdateUserResponse>(
-      `/user/owner`,
-    );
+  getOwners: async () => {
+    const response = await api.get<ListUsersResponse>(`/user/owner`);
+
+    return response.data;
+  },
+  full: async () => {
+    const response = await api.get<ListUsersResponse>('/user', {
+      params: mergePagination(),
+    });
 
     return response.data;
   },
