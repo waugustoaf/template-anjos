@@ -37,6 +37,9 @@ export const AuthGuard = (props: AuthGuardProps) => {
     [router.route],
   );
 
+
+  console.log({ local: 'auth', auth, router });
+
   if (auth.loading || !auth.user?.user) {
     return fallback;
   }

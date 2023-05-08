@@ -15,6 +15,10 @@ api.interceptors.request.use(
       config.headers.Authorization = `Bearer ${token}`;
     }
 
+    if (config.url === '/auth/me') {
+      await new Promise((resolve) => setTimeout(resolve, 20000));
+    }
+
     return config;
   },
   (error) => Promise.reject(error),
