@@ -8,9 +8,10 @@ import {useTheme} from "@mui/material/styles";
 
 interface CreatedCampaignsProps {
   campaign: ICampaignFull;
+  isFromPipeline?: boolean;
 }
 
-export function CreatedCampaigns({ campaign }: CreatedCampaignsProps) {
+export function CreatedCampaigns({ campaign, isFromPipeline }: CreatedCampaignsProps) {
   const [currentStrategyCampaign, setCurrentStrategyCampaign] = useState(campaign.strategiesCampaign[0]);
   const theme = useTheme()
 
@@ -96,13 +97,17 @@ export function CreatedCampaigns({ campaign }: CreatedCampaignsProps) {
                   ? 'text.disabled'
                   : 'text.disabled',
               borderColor:
-                strategyCampaign.id === currentStrategyCampaign.id ? 'primary.main' : 'text.disabled',
+                strategyCampaign.id === currentStrategyCampaign.id
+                  ? 'primary.main'
+                  : 'text.disabled',
               backgroundColor:
-                strategyCampaign.id === currentStrategyCampaign.id ? 'primary.main' : '',
+                strategyCampaign.id === currentStrategyCampaign.id
+                  ? 'primary.main'
+                  : '',
             }}
           >
             <Box display='flex' alignItems='center' justifyContent='center'>
-              <CustomAvatar  sx={{ mr: 4, width: 42, height: 42 }}>
+              <CustomAvatar sx={{ mr: 4, width: 42, height: 42 }}>
                 <Icon icon={`tabler:${strategyCampaign.strategy.icon}`} />
               </CustomAvatar>
               <Typography fontSize='15px' fontWeight='600'>
@@ -114,20 +119,26 @@ export function CreatedCampaigns({ campaign }: CreatedCampaignsProps) {
             </Typography>
 
             <Typography fontSize='13px'>
-
-                <Link href={strategyCampaign.strategy.link} target='_blank'
-                      style={{ textDecoration: 'none', color: theme.palette.text.primary }}>
-                  <Box sx={{
+              <Link
+                href={strategyCampaign.strategy.link}
+                target='_blank'
+                style={{
+                  textDecoration: 'none',
+                  color: theme.palette.text.primary,
+                }}
+              >
+                <Box
+                  sx={{
                     display: 'flex',
                     alignItems: 'center',
                     fontSize: '14px',
                     gap: '0.5rem',
                   }}
-                  >
+                >
                   <Icon icon='tabler:play' style={{ marginRight: '0.01rem' }} />
                   Assistir aula da estratégia
-                  </Box>
-                </Link>
+                </Box>
+              </Link>
             </Typography>
           </Button>
         ))}
@@ -162,19 +173,21 @@ export function CreatedCampaigns({ campaign }: CreatedCampaignsProps) {
           </Box>
         ))}
       </Box>
-      <Box
-        display='flex'
-        width='100%'
-        justifyContent='flex-end'
-        padding='0 1.5rem 1.5rem 0'
-      >
-        <Link
-          href={`/campaigns/pipelines?board=${currentStrategyCampaign.id}`}
-          style={{ textDecoration: 'none' }}
+      {!isFromPipeline && (
+        <Box
+          display='flex'
+          width='100%'
+          justifyContent='flex-end'
+          padding='0 1.5rem 1.5rem 0'
         >
-          <Button variant='contained'>Ir para a Pipeline</Button>
-        </Link>
-      </Box>
+          <Link
+            href={`/campaigns/pipelines?board=${currentStrategyCampaign.id}`}
+            style={{ textDecoration: 'none' }}
+          >
+            <Button variant='contained'>Ir para a Pipeline</Button>
+          </Link>
+        </Box>
+      )}
     </>
   );
 }

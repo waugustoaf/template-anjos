@@ -1,9 +1,15 @@
-import {createContext, ReactNode, useContext, useEffect, useState,} from 'react';
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 
-import {useRouter} from 'next/router';
+import { useRouter } from 'next/router';
 
-import {authConfig} from '@/config/auth';
-import {api} from '@/utils/api';
+import { authConfig } from '@/config/auth';
+import { api } from '@/utils/api';
 import {
   AuthValuesType,
   ErrCallbackType,
@@ -93,9 +99,11 @@ const AuthProvider = ({ children }: Props) => {
           localStorage.removeItem('refreshToken');
           localStorage.removeItem('accessToken');
           setUser(null);
+
           if (!withoutLoading) {
             setLoading(false);
           }
+
           if (
             authConfig.onTokenExpiration === 'logout' &&
             !router.pathname.includes('login')

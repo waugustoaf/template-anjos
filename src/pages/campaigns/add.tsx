@@ -54,7 +54,7 @@ export default function CategoryAddPage() {
     }
   }, [data]);
 
-  async function onSubmit(_data: Partial<ICampaign>) {
+  async function onSubmit(_data: Partial<ICampaign>) {    
     let newData: any = {
       ...currentData,
       ..._data,
@@ -70,6 +70,10 @@ export default function CategoryAddPage() {
     }
 
     try {
+      if (!selectedStrategies.length) {
+        return toast.error('Selecione pelo menos uma estratégia.');
+      }
+
       setIsLoading(true);
       const response = await apiServices.campaign.create({
         ...newData,
@@ -87,7 +91,11 @@ export default function CategoryAddPage() {
 
       toast.success('Campanha criado com sucesso.');
       setCreatedData(response.data);
-    } catch {
+    } catch (error: any) {
+      if (error.response?.data?.error?.includes('STRATEGIES_REQUIRED')) {
+        return toast.error('Piloto automático não configurado.');
+      }
+
       toast.error('Erro ao criar a campanha.');
     } finally {
       setIsLoading(false);
