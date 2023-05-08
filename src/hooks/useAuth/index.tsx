@@ -1,15 +1,9 @@
-import {
-  createContext,
-  ReactNode,
-  useContext,
-  useEffect,
-  useState,
-} from 'react';
+import {createContext, ReactNode, useContext, useEffect, useState,} from 'react';
 
-import { useRouter } from 'next/router';
+import {useRouter} from 'next/router';
 
-import { authConfig } from '@/config/auth';
-import { api } from '@/utils/api';
+import {authConfig} from '@/config/auth';
+import {api} from '@/utils/api';
 import {
   AuthValuesType,
   ErrCallbackType,
@@ -60,9 +54,9 @@ const AuthProvider = ({ children }: Props) => {
         setLoading(true);
       }
 
-      let hasResponse = false;
+      //let hasResponse = false;
 
-      timeout = setTimeout(() => {
+      /*timeout = setTimeout(() => {
         if (hasResponse) return;
 
         localStorage.removeItem('@anjos-guia:userData');
@@ -78,7 +72,7 @@ const AuthProvider = ({ children }: Props) => {
         ) {
           router.replace('/login');
         }
-      }, 15 * 1000);
+      }, 15 * 1000);*/
 
       await api
         .get<MeResponseProps>(authConfig.meEndpoint, {
@@ -92,9 +86,6 @@ const AuthProvider = ({ children }: Props) => {
           if (!withoutLoading) {
             setLoading(false);
           }
-
-          hasResponse = true;
-
           setUser({ user, clinic: clinic });
         })
         .catch(() => {

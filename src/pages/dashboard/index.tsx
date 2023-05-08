@@ -1,7 +1,6 @@
 import Grid from '@mui/material/Grid';
 
 import CongratulationsPerson from '@/components/pages/dashboard/charts/congratulationsPerson';
-import ResumeHorizontal from '@/components/pages/dashboard/charts/resumeHorizontal';
 
 import ApexChartWrapper from '@/@core/styles/react-apexcharts';
 import LeadCapture from '@/components/pages/dashboard/charts/leadCapture';
@@ -14,26 +13,25 @@ import {apiServices} from '@/services';
 import {useState} from 'react';
 import ClinicWithPlan from '@/components/pages/dashboard/charts/clinicWithPlan';
 import TopBilling from '@/components/pages/dashboard/charts/topBilling';
-import {ICampaign} from '@/types/entities/ICampaign';
-import {IUser} from '@/types/entities/IUser';
 import ClinicsByCategory from '@/components/pages/dashboard/charts/clinicsByCategory';
+import ResumeHorizontalAdmin from '@/components/pages/dashboard/charts/resumeHorizontalAdmin';
+import {ICategory} from "@/types/entities/ICategory";
 
 interface FilterProps {
-  campaignId: ICampaign | null;
-  ownersIds: IUser[];
+  categoryIds: ICategory[];
+  states: string[]
 }
 
 const DefaultDashboard = () => {
   const [filters, setFilters] = useState<FilterProps>({
-    campaignId: null,
-    ownersIds: [],
+    categoryIds: [],
+    states: []
   });
   const [campaignId, setCampaignId] = useState<string | null>(() => {
     const defaultItem = localStorage.getItem('@anjosguia:dashboard:campaignId');
     if (defaultItem) return defaultItem;
     return null;
   });
-
   const { data, isLoading } = useQuery({
     queryKey: ['dashboardAdmin'],
     queryFn: () => apiServices.dashboard.admin(),
@@ -58,12 +56,10 @@ const DefaultDashboard = () => {
           />
         </Grid>
         <Grid item xs={12} md={8}>
-          <ResumeHorizontal
+          <ResumeHorizontalAdmin
             leads={data?.statistics?.leads}
             sales={data?.statistics?.sales}
             ticket={data?.statistics?.middleticket}
-            currentCampaign={campaignId}
-            setCurrentCampaign={setCampaignId}
             filters={filters}
             handleFilter={handleFilter}
           />
@@ -77,7 +73,7 @@ const DefaultDashboard = () => {
               />
             </Grid>
             <Grid item xs={6} md={3} lg={6}>
-              <ClinicWithPlan percent={20} totalClinics={100} withPlan={20} />
+              <ClinicWithPlan percent={data?.clinicsWithPlan?.percent} totalClinics={data?.clinicsWithPlan?.total} withPlan={data?.clinicsWithPlan?.withPlan} />
             </Grid>
             <Grid item xs={12} md={6} lg={12}>
               <LeadCapture
@@ -92,14 +88,13 @@ const DefaultDashboard = () => {
           <LeadConvert data={data?.leadsConversion} />
         </Grid>
         <Grid item xs={12} md={12} lg={12}>
-          <TopBilling />
+          <TopBilling data={data?.topBilling} />
         </Grid>
         <Grid item xs={12} md={12} lg={12}>
-          <SalesByFunnel data={data?.salesByStrategies} />
+          <SalesByFunnel data={data?.salesByFunnel} />
         </Grid>
-
         <Grid item xs={12} lg={4}>
-          <ClinicsByCategory noConverted={10} convert={10} quantity={100} />
+          <ClinicsByCategory data={data?.clinicsWithCategory} />
         </Grid>
       </Grid>
     </ApexChartWrapper>

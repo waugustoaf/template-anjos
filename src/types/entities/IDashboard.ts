@@ -4,12 +4,16 @@ export interface IDashboard {
   campaign: IDashCampaign;
   leads: IDashLeads;
   leadsConversion: IDashLeadsConversion[];
+  topBilling: IDashTopBilling[];
   goalPoints: IDashGoalPoint[];
   productByFinancial: IDashProduct[];
   productBySales: IDashProduct[];
   salesByStrategies: IDashSalesStrategies[];
+  salesByFunnel: IDashSalesFunnel[];
   strategyConversionValue:IDashStrategyConversion[];
   strategyConversionQuantity:IDashStrategyConversion[];
+  clinicsWithPlan:IDashClinicWithPlan;
+  clinicsWithCategory: IDashClinicWithCategory[];
 }
 
 
@@ -45,6 +49,13 @@ export interface IDashLeadsConversion {
   lost?: number;
 }
 
+export interface IDashTopBilling {
+  clinicId?: string;
+  clinicName?: string;
+  financialResult: number;
+  clinicAvatar?: string;
+}
+
 export interface IDashGoalPoint{
   name: string;
   goal: number;
@@ -66,10 +77,30 @@ export interface IDashSalesStrategies {
   value: number;
 }
 
+export interface IDashSalesFunnel {
+  funnelId: string;
+  name: string;
+  quantity: number;
+  value: number;
+}
+
 export interface IDashStrategyConversion {
   strategyId: string;
   icon: string;
   name: string;
   value: number;
   quantity: number;
+}
+
+export interface IDashClinicWithPlan {
+  withPlan: number;
+  withoutPlan: number;
+  percent: number;
+  total: number;
+}
+
+export interface IDashClinicWithCategory {
+  id: string;
+  name: string;
+  clinics: number;
 }

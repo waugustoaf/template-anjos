@@ -51,9 +51,9 @@ interface DataSalesByStrategiesProps {
 }
 
 interface SalesByStrategiesProps {
-  strategyId: string
-  icon: string
-  name: string
+  funnelId: string;
+  name: string;
+  quantity: number;
   value: number;
 }
 

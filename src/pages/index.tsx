@@ -14,13 +14,13 @@ import StrategyConversionValue from '@/components/pages/dashboard/charts/strateg
 import StrategyConversionQuantity from '@/components/pages/dashboard/charts/strategyByConversionQuantity';
 import ProductsByInvoicing from '@/components/pages/dashboard/charts/productsByInvoicing';
 import ProductsBySalesQuantity from '@/components/pages/dashboard/charts/productsByQuantity';
-import { useQuery } from '@tanstack/react-query';
-import { Spinner } from '@/components/spinner';
-import { apiServices } from '@/services';
-import { useState } from 'react';
-import { IUser } from '@/types/entities/IUser';
-import { ICampaign } from '@/types/entities/ICampaign';
-import { useAuth } from '@/hooks/useAuth';
+import {useQuery} from '@tanstack/react-query';
+import {Spinner} from '@/components/spinner';
+import {apiServices} from '@/services';
+import {useState} from 'react';
+import {IUser} from '@/types/entities/IUser';
+import {ICampaign} from '@/types/entities/ICampaign';
+import {useAuth} from '@/hooks/useAuth';
 
 const DefaultDashboard = () => {
   const [filters, setFilters] = useState<{
@@ -104,7 +104,7 @@ const DefaultDashboard = () => {
         </Grid>
         {(user?.user?.grantType || 0) >= 100 && (
           <Grid item xs={12} md={12} lg={12}>
-            <SalesByFunnel data={data?.salesByStrategies} />
+            <SalesByFunnel data={data?.salesByFunnel} />
           </Grid>
         )}
         <Grid item xs={6} md={6} lg={6}>

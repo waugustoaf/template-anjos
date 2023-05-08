@@ -1,11 +1,11 @@
-import { Skin } from '@/types/app/layout';
-import { PaletteMode } from '@mui/material';
+import {Skin} from '@/types/app/layout';
+import {PaletteMode} from '@mui/material';
 
 export const DefaultPalette = (mode: PaletteMode, skin: Skin) => {
   const whiteColor = '#FFF';
   const lightColor = '51, 48, 60';
   const darkColor = '228, 230, 244';
-  const darkPaperBgColor = '#2F3349';
+  const darkPaperBgColor = '#000000';
   const mainColor = mode === 'light' ? lightColor : darkColor;
 
   const defaultBgColor = () => {
@@ -25,7 +25,7 @@ export const DefaultPalette = (mode: PaletteMode, skin: Skin) => {
       light: lightColor,
       lightPaperBg: whiteColor,
       darkPaperBg: darkPaperBgColor,
-      bodyBg: mode === 'light' ? '#F8F7FA' : '#25293C', // Same as palette.background.default but doesn't consider bordered skin
+      bodyBg: mode === 'light' ? '#F8F7FA' : '#000000', // Same as palette.background.default but doesn't consider bordered skin
       trackBg: mode === 'light' ? '#F1F0F2' : '#3B405B',
       avatarBg: mode === 'light' ? '#F6F6F7' : '#4A5072',
       tableHeaderBg: mode === 'light' ? '#F6F6F7' : '#4A5072'
