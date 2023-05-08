@@ -54,6 +54,8 @@ export const DashboardServices = {
       return b.value - a.value;
     });
 
+    console.log('services', data.data);
+
     return data.data;
   },
   admin: async () => {

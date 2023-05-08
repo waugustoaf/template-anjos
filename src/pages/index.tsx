@@ -21,6 +21,7 @@ import {useState} from 'react';
 import {IUser} from '@/types/entities/IUser';
 import {ICampaign} from '@/types/entities/ICampaign';
 import {useAuth} from '@/hooks/useAuth';
+import LeadOrigin from "@/components/pages/dashboard/charts/leadOrigin";
 
 const DefaultDashboard = () => {
   const [filters, setFilters] = useState<{
@@ -103,11 +104,6 @@ const DefaultDashboard = () => {
         <Grid item xs={12} md={12} lg={12}>
           <AccomplishedExpected data={data?.goalPoints} />
         </Grid>
-        {/*(user?.user?.grantType || 0) >= 100 && (
-          <Grid item xs={12} md={12} lg={12}>
-            <SalesByFunnel data={data?.salesByFunnel} />
-          </Grid>
-        )*/}
         <Grid item xs={12} md={12} lg={12}>
           <SalesByFunnel data={data?.salesByFunnel} />
         </Grid>
@@ -122,6 +118,9 @@ const DefaultDashboard = () => {
         </Grid>
         <Grid item xs={6} lg={6}>
           <StrategyConversionQuantity data={data?.strategyConversionQuantity} />
+        </Grid>
+        <Grid item xs={12} lg={12}>
+          <LeadOrigin data={data?.summarizeByOrigin} />
         </Grid>
       </Grid>
     </ApexChartWrapper>
