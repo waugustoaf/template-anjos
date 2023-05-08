@@ -1,21 +1,13 @@
 // ** React Imports
-import { forwardRef, useState } from 'react'
-
 // ** MUI Imports
 import Card from '@mui/material/Card'
-import TextField from '@mui/material/TextField'
-import { useTheme } from '@mui/material/styles'
-import CardHeader from '@mui/material/CardHeader'
+import {useTheme} from '@mui/material/styles'
 import CardContent from '@mui/material/CardContent'
-import InputAdornment from '@mui/material/InputAdornment'
 
 // ** Third Party Imports
-import format from 'date-fns/format'
-import { ApexOptions } from 'apexcharts'
-import DatePicker from 'react-datepicker'
+import {ApexOptions} from 'apexcharts'
 
 // ** Icon Imports
-import { Icon } from '@/components/icon';
 
 // ** Component Import
 import ReactApexcharts from '@/@core/components/react-apexcharts'
@@ -73,7 +65,7 @@ const AccomplishedExpected = ({data}: DataGoalAccomplishedProps) => {
       toolbar: { show: false }
     },
     fill: { opacity: 1 },
-    dataLabels: { enabled: false },
+    dataLabels: { enabled: true },
     colors: [columnColors.series1, columnColors.series2],
     legend: {
       position: 'top',

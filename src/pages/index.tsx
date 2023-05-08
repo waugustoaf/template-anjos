@@ -107,6 +107,12 @@ const DefaultDashboard = () => {
         <Grid item xs={12} md={12} lg={12}>
           <SalesByFunnel data={data?.salesByFunnel} />
         </Grid>
+        <Grid item xs={12} lg={6}>
+          <LeadOrigin data={data?.summarizeByOriginAdquisicion} title={'Leads Capturados'} description={'Leads'} />
+        </Grid>
+        <Grid item xs={12} lg={6}>
+          <LeadOrigin data={data?.summarizeByOriginConversion} title={'Leads Convertidos'} description={'Vendas'} />
+        </Grid>
         <Grid item xs={6} md={6} lg={6}>
           <ProductsByInvoicing data={data?.productByFinancial} />
         </Grid>
@@ -118,12 +124,6 @@ const DefaultDashboard = () => {
         </Grid>
         <Grid item xs={6} lg={6}>
           <StrategyConversionQuantity data={data?.strategyConversionQuantity} />
-        </Grid>
-        <Grid item xs={12} lg={6}>
-          <LeadOrigin data={data?.summarizeByOriginAdquisicion} title={'Leads Capturados'} description={'Leads'} />
-        </Grid>
-        <Grid item xs={12} lg={6}>
-          <LeadOrigin data={data?.summarizeByOriginConversion} title={'Leads Convertidos'} description={'Vendas'} />
         </Grid>
       </Grid>
     </ApexChartWrapper>

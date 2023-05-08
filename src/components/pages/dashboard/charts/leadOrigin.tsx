@@ -160,8 +160,8 @@ const LeadOrigin = ({ data, title, description }: DataLeadCaptureProps) => {
           <ReactApexcharts
             key={'all'}
             type='donut'
-            width={300}
-            height={300}
+            width={250}
+            height={250}
             options={{
               ...options,
               labels: labels,
