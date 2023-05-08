@@ -10,6 +10,7 @@ import {
   ListStrategiesCompact,
 } from './types';
 import {ICreateCampaign} from '@/types/entities/ICampaign';
+import {states} from "@/utils/mocks/states";
 
 export const campaignsServices = {
   list: async (props?: PaginationProps) => {
@@ -56,5 +57,9 @@ export const campaignsServices = {
     );
 
     return response.data;
+  },
+
+  states: async () => {
+    return states;
   },
 };

@@ -1,5 +1,5 @@
 // ** React Imports
-import {SyntheticEvent, useState} from 'react'
+import {useState} from 'react'
 
 // ** MUI Imports
 import Card from '@mui/material/Card'
@@ -46,56 +46,39 @@ const renderTabPanels = (tabData:TabType[],  value: TabCategory, theme: Theme, o
   })
 }
 
-interface DataSalesByStrategiesProps {
-  data: SalesByStrategiesProps[] | undefined
+interface DataTopBillingProps {
+  data: TopBillingProps[] | undefined
 }
 
-interface SalesByStrategiesProps {
-  strategyId: string
-  icon: string
-  name: string
-  value: number;
+interface TopBillingProps {
+  clinicId?: string;
+  clinicName?: string;
+  financialResult?: number;
+  clinicAvatar?: string;
 }
 
-const TopBilling = () => {
+const TopBilling = ({data}: DataTopBillingProps) => {
 
 
   const [value, setValue] = useState<TabCategory>('Financial')
 
   const theme = useTheme()
 
-  //if (!data) return (<></>);
-
-  const namesList: string[] = [
-    'Maria',
-    'Joana',
-    'Joaquina',
-    'Gabriela',
-    'Marta',
-    'Mariana',
-    'Ana',
-  ]
+  const namesList: string[] = []
 
   const tabData: TabType[] = [
     {
       type: 'Financial',
-      series: [{ data: [700, 600, 500, 400, 300, 200, 100] }]
+      series: [{ data: [] }]
     },
   ]
 
-  /*for (let i = 0; i < data.length; i++) {
-    strategies.push(data[i].name as string)
-    // @ts-ignore
-    if (!(tabData[0].series[0] && tabData[0].series[0].data)) {
-      continue;
-    }
-    // @ts-ignore
-    tabData[0].series[0].data?.push(data[i].value / 100000)
-  }*/
+  data?.forEach((item) => {
+    namesList.push(item.clinicName as string);
 
-  const handleChange = (event: SyntheticEvent, newValue: TabCategory) => {
-    setValue(newValue)
-  }
+    // @ts-ignore
+    tabData[0].series[0].data?.push(item.financialResult as number);
+  });
 
   const colors = Array(9).fill(hexToRGBA(theme.palette.primary.main, 0.16))
 

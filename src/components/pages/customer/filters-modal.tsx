@@ -45,6 +45,7 @@ const originOptions = [
 
 
 const actionsOptions = [
+  { value: 'CREATE', label: 'Criação' },
   { value: 'MESSAGE', label: 'Mensagem' },
   { value: 'CONVERSATION', label: 'Conversa' },
   { value: 'SCHEDULE', label: 'Agendamento' },

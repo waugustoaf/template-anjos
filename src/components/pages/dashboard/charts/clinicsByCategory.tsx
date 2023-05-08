@@ -1,42 +1,52 @@
-import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
-import { useTheme } from '@mui/material/styles';
-import Typography from '@mui/material/Typography';
+import {useTheme} from '@mui/material/styles';
 import CardContent from '@mui/material/CardContent';
 
 // @ts-ignore
-import { ApexOptions } from 'apexcharts';
+import {ApexOptions} from 'apexcharts';
 
 import ReactApexcharts from '@/@core/components/react-apexcharts';
+import {CardHeader} from '@mui/material';
 
-import { hexToRGBA } from '@/@core/utils/hex-to-rgba';
-import { CardHeader } from '@mui/material';
-
-interface LeadCaptureProps {
-  quantity: number | undefined;
-  convert: number | undefined;
-  noConverted: number | undefined;
+interface DataClinicsCategoryProps {
+  data: ClinicsCategoryProps[] | undefined;
 }
 
-const ClinicsByCategory = ({
-  quantity,
-  convert,
-  noConverted,
-}: LeadCaptureProps) => {
+interface ClinicsCategoryProps {
+  id: string;
+  name: string;
+  clinics: number;
+}
+
+const colorsArr = [
+  '#D2AE6D',
+  '#FFB326',
+  '#E89B0C',
+  '#E89B0C',
+  '#00449C',
+  '#0C6DE8',
+  '#0C6DE8',];
+
+const ClinicsByCategory = ({data}: DataClinicsCategoryProps) => {
   const theme = useTheme();
 
-  const series = [100, 20, 10, 25, 25];
+  const series: number[] = [];
+
+  const labels: string[] = [];
+
+  const colors: string[] = [];
+
+  data?.map((item: ClinicsCategoryProps, index) => {
+    labels.push(item.name)
+    series.push(item.clinics)
+    colors.push(colorsArr[index])
+  });
+
 
   const options: ApexOptions = {
     stroke: { width: 1 },
-    labels: [
-      'Escola Anjos Business',
-      'Black Pass',
-      'Mentoria Black',
-      'Millions',
-      'TIVE',
-    ],
-    colors: ['#e7e700', '#4d5166', '#000000', '#d2ae6d', '#ffa1a1'],
+    labels: labels,
+    colors: colors,
     legend: { show: false },
     tooltip: { enabled: false },
     dataLabels: { enabled: false },
@@ -77,7 +87,7 @@ const ClinicsByCategory = ({
             },
             total: {
               show: true,
-              label: 'Leads',
+              label: 'Clínicas',
               fontSize: '1.1rem',
               color: theme.palette.text.secondary,
               fontFamily: theme.typography.fontFamily,
