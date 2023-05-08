@@ -133,6 +133,7 @@ const LeadOrigin = ({ data }: DataLeadCaptureProps) => {
           {data.map((item) => (
 
             <ReactApexcharts
+              key={item.origin}
               type='donut'
               width={150}
               height={179}
