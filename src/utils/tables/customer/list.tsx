@@ -203,6 +203,9 @@ export function createCustomerListTable({
           </Box>
         ),
       },
+
+    ],
+    [
       {
         flex: 0.05,
         field: 'owner.id',
@@ -235,8 +238,6 @@ export function createCustomerListTable({
           </Box>
         ),
       },
-    ],
-    [
       {
         flex: 0.1,
         field: 'strategy.id',

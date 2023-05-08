@@ -54,7 +54,13 @@ export const DashboardServices = {
       return b.value - a.value;
     });
 
-    console.log('services', data.data);
+    data.data.productByFinancial = data.data.productByFinancial.sort((a, b) => {
+      return b.value - a.value;
+    }).slice(0, 3)
+
+    data.data.productBySales = data.data.productBySales.sort((a, b) => {
+      return b.quantity - a.quantity;
+    }).slice(0, 3);
 
     return data.data;
   },
@@ -105,6 +111,7 @@ export const DashboardServices = {
     data.data.topBilling = top10Billing.sort((a, b) => {
       return b.financialResult - a.financialResult;
     }).slice(0, 10);
+
 
     return data.data;
   },

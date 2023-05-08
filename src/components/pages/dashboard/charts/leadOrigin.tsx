@@ -33,15 +33,39 @@ const LeadOrigin = ({ data }: DataLeadCaptureProps) => {
 
   const sum  = data.reduce((acc, item) => acc + (item.quantity ? item.quantity : 0), 0);
 
+
+  let allData: number[] = [];
+  let labels: string[] = [];
+  data.map((item) => {
+    labels.push(TextEllipsis(item.origin, 8));
+    allData.push(item.quantity);
+  });
+
+  const colorsArr = [
+    hexToRGBA(theme.palette.primary.main, 0.7),
+    '#D2AE6D',
+    '#FFB326',
+    '#E89B0C',
+    '#E89B0C',
+    '#00449C',
+    '#0C6DE8',
+    '#0C6DE8',];
+
   const options: ApexOptions = {
-    colors: [
-      theme.palette.primary.main,
-      hexToRGBA(theme.palette.primary.main, 0.7),
-    ],
+    colors: colorsArr,
     stroke: { width: 0 },
-    legend: { show: false },
-    tooltip: { enabled: false },
-    dataLabels: { enabled: false },
+    legend: { show: false},
+    tooltip: { enabled: true },
+    dataLabels: {
+      enabled: true,
+      style: {
+        colors: colorsArr,
+      },
+      background: {
+        enabled: true,
+        foreColor: '#fff',
+      }
+    },
     labels: [],
     states: {
       hover: {
@@ -62,7 +86,7 @@ const LeadOrigin = ({ data }: DataLeadCaptureProps) => {
         customScale: 0.8,
         expandOnClick: false,
         donut: {
-          size: '73%',
+          size: '80%',
           labels: {
             show: true,
             name: {
@@ -131,12 +155,11 @@ const LeadOrigin = ({ data }: DataLeadCaptureProps) => {
             </div>
           </Box>
           {data.map((item) => (
-
             <ReactApexcharts
               key={item.origin}
               type='donut'
-              width={150}
-              height={179}
+              width={250}
+              height={209}
               options={{
                 ...options,
                 labels: [item.origin, item.origin],
@@ -160,6 +183,17 @@ const LeadOrigin = ({ data }: DataLeadCaptureProps) => {
               series={[item.quantity, sum - item.quantity]}
             />
           ))}
+          <ReactApexcharts
+            key={'all'}
+            type='donut'
+            width={250}
+            height={209}
+            options={{
+              ...options,
+              labels: labels,
+            }}
+            series={allData}
+          />
         </Box>
       </CardContent>
     </Card>
