@@ -9,7 +9,7 @@ import LeadConvert from '@/components/pages/dashboard/charts/leadConvertion';
 import CampaignGoal from '@/components/pages/dashboard/charts/campaignGoal';
 import CampaignTime from '@/components/pages/dashboard/charts/campaignTime';
 import AccomplishedExpected from '@/components/pages/dashboard/charts/accomplishedExpected';
-import SalesByFunnel from '@/components/pages/dashboard/charts/salesByFunnel';
+import SalesByStrategy from '@/components/pages/dashboard/charts/salesByFunnel';
 import StrategyConversionValue from '@/components/pages/dashboard/charts/strategyByConversionValue';
 import StrategyConversionQuantity from '@/components/pages/dashboard/charts/strategyByConversionQuantity';
 import ProductsByInvoicing from '@/components/pages/dashboard/charts/productsByInvoicing';
@@ -105,7 +105,7 @@ const DefaultDashboard = () => {
           <AccomplishedExpected data={data?.goalPoints} />
         </Grid>
         <Grid item xs={12} md={12} lg={12}>
-          <SalesByFunnel data={data?.salesByFunnel} />
+          <SalesByStrategy data={data?.salesByFunnel} />
         </Grid>
         <Grid item xs={12} lg={6}>
           <LeadOrigin data={data?.summarizeByOriginAdquisicion} title={'Leads Capturados'} description={'Leads'} />
