@@ -119,8 +119,11 @@ const DefaultDashboard = () => {
         <Grid item xs={6} lg={6}>
           <StrategyConversionQuantity data={data?.strategyConversionQuantity} />
         </Grid>
-        <Grid item xs={12} lg={12}>
-          <LeadOrigin data={data?.summarizeByOrigin} />
+        <Grid item xs={12} lg={6}>
+          <LeadOrigin data={data?.summarizeByOriginAdquisicion} title={'Leads Capturados'} description={'Leads'} />
+        </Grid>
+        <Grid item xs={12} lg={6}>
+          <LeadOrigin data={data?.summarizeByOriginConversion} title={'Leads Convertidos'} description={'Vendas'} />
         </Grid>
       </Grid>
     </ApexChartWrapper>

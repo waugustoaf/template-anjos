@@ -14,7 +14,8 @@ export interface IDashboard {
   strategyConversionQuantity:IDashStrategyConversion[];
   clinicsWithPlan:IDashClinicWithPlan;
   clinicsWithCategory: IDashClinicWithCategory[];
-  summarizeByOrigin: IDashSummarizeByOrigin[];
+  summarizeByOriginAdquisicion: IDashSummarizeByOrigin[];
+  summarizeByOriginConversion: IDashSummarizeByOrigin[];
 }
 
 

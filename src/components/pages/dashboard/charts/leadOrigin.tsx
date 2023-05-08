@@ -19,6 +19,8 @@ import {TextEllipsis} from "@/utils/text";
 
 interface DataLeadCaptureProps {
   data: LeadCaptureProps[] | undefined;
+  title: string;
+  description: string;
 }
 
 interface LeadCaptureProps {
@@ -26,13 +28,10 @@ interface LeadCaptureProps {
   quantity: number;
 }
 
-const LeadOrigin = ({ data }: DataLeadCaptureProps) => {
+const LeadOrigin = ({ data, title, description }: DataLeadCaptureProps) => {
   const theme = useTheme();
 
   if (!data) return (<></>);
-
-  const sum  = data.reduce((acc, item) => acc + (item.quantity ? item.quantity : 0), 0);
-
 
   let allData: number[] = [];
   let labels: string[] = [];
@@ -49,7 +48,11 @@ const LeadOrigin = ({ data }: DataLeadCaptureProps) => {
     '#E89B0C',
     '#00449C',
     '#0C6DE8',
-    '#0C6DE8',];
+    hexToRGBA('#00449C', 0.6),
+    hexToRGBA('#0C6DE8', 0.6),
+    hexToRGBA('#E89B0C', 0.6),
+    hexToRGBA('#FFB326', 0.6),
+    hexToRGBA('#D2AE6D', 0.6),];
 
   const options: ApexOptions = {
     colors: colorsArr,
@@ -104,7 +107,7 @@ const LeadOrigin = ({ data }: DataLeadCaptureProps) => {
             },
             total: {
               show: true,
-              label: 'Leads',
+              label: description,
               fontSize: '1.1rem',
               color: theme.palette.text.secondary,
               fontFamily: theme.typography.fontFamily,
@@ -149,45 +152,16 @@ const LeadOrigin = ({ data }: DataLeadCaptureProps) => {
             }}
           >
             <div>
-              <Typography variant='h6' sx={{ mb: 0.5 }}>
-                Leads por origem
+              <Typography variant='h6' >
+                {title}
               </Typography>
             </div>
           </Box>
-          {data.map((item) => (
-            <ReactApexcharts
-              key={item.origin}
-              type='donut'
-              width={250}
-              height={209}
-              options={{
-                ...options,
-                labels: [item.origin, item.origin],
-                plotOptions: {
-                  ...options.plotOptions,
-                  pie: {
-                    ...options.plotOptions?.pie,
-                    donut: {
-                      ...options.plotOptions?.pie?.donut,
-                      labels: {
-                        ...options.plotOptions?.pie?.donut?.labels,
-                        total: {
-                          ...options.plotOptions?.pie?.donut?.labels?.total,
-                          label: TextEllipsis(item.origin, 8),
-                        }
-                      }
-                    }
-                  }
-                },
-              }}
-              series={[item.quantity, sum - item.quantity]}
-            />
-          ))}
           <ReactApexcharts
             key={'all'}
             type='donut'
-            width={250}
-            height={209}
+            width={300}
+            height={300}
             options={{
               ...options,
               labels: labels,
