@@ -74,81 +74,86 @@ export function createClinicListTable({
   };
 
   return [
-    {
-      flex: 0.3,
-      field: 'clinic',
-      minWidth: 100,
-      headerName: 'Clínica',
-      renderCell: ({ row }: CellType) => (
-        <Box display='flex' gap='0.8rem'  width='100%'>
-          <Avatar
-            alt={row.fantasyName}
-            src={row.avatar || undefined}
-          >
-            <Typography fontSize={12}>
-              {row.fantasyName.split(' ').map((word) => word[0])}
-            </Typography>
-          </Avatar>
-          <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-            <Typography noWrap sx={{ color: 'text.secondary', fontWeight: 500 }}>
+    [
+      {
+        flex: 0.3,
+        field: 'clinic',
+        minWidth: 100,
+        headerName: 'Clínica',
+        renderCell: ({ row }: CellType) => (
+          <Box display='flex' gap='0.8rem'  width='100%'>
+            <Avatar
+              alt={row.fantasyName}
+              src={row.avatar || undefined}
+            >
+              <Typography fontSize={12}>
+                {row.fantasyName.split(' ').map((word) => word[0])}
+              </Typography>
+            </Avatar>
+            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+              <Typography noWrap sx={{ color: 'text.secondary', fontWeight: 500 }}>
                 {TextEllipsis(`${row.name} - ${row.fantasyName}`, 50)}
-            </Typography>
-            {
-              row.phone ?
-                <Link href={'https://whatsa.me/55'+row.phone} target='_blank' style={{ textDecoration: 'none', color:'#D2AE6D' }} >
-                  { beautifullyPhone(row.phone || '') }
-                </Link> :
-                'Não informado'
-            }
+              </Typography>
+              {
+                row.phone ?
+                  <Link href={'https://whatsa.me/55'+row.phone} target='_blank' style={{ textDecoration: 'none', color:'#D2AE6D' }} >
+                    { beautifullyPhone(row.phone || '') }
+                  </Link> :
+                  'Não informado'
+              }
+            </Box>
           </Box>
-        </Box>
-      ),
-    },
-    {
-      flex: 0.1,
-      field: 'category',
-      headerName: 'Categoria',
-      renderCell: ({ row }: CellType) => (
-        <Typography noWrap sx={{ color: 'text.secondary' }}>
-          {row.category?.name || 'Sem categoria'}
-        </Typography>
-      ),
-    },
-    {
-      flex: 0.1,
-      field: 'plan',
-      headerName: 'Campanha Ativa',
-      renderCell: ({ row }: CellType) => (
-        <Typography noWrap sx={{ color: '#fff' }}>
-          <CustomChip
-            rounded
-            skin='light'
-            size='small'
-            label={getPlanStatus(row.planStatus)}
-            color={planStatusObj[row.planStatus]}
-            sx={{ textTransform: 'capitalize' }}
-          />
-        </Typography>
-      ),
-    },
-    {
-      flex: 0.1,
-      field: 'status',
-      headerName: 'Status',
-      renderCell: ({ row }: CellType) => {
-        return (
-          <CustomChip
-            rounded
-            skin='light'
-            size='small'
-            label={getContractStatus(row.contractStatus)}
-            color={contractStatusObj[row.contractStatus]}
-            sx={{ textTransform: 'capitalize' }}
-          />
-        )
-      }
-    },
-    {
+        ),
+      },
+    ],
+    [
+      {
+        flex: 0.1,
+        field: 'category',
+        headerName: 'Categoria',
+        renderCell: ({ row }: CellType) => (
+          <Typography noWrap sx={{ color: 'text.secondary' }}>
+            {row.category?.name || 'Sem categoria'}
+          </Typography>
+        ),
+      },
+      {
+        flex: 0.1,
+        field: 'plan',
+        headerName: 'Campanha Ativa',
+        renderCell: ({ row }: CellType) => (
+          <Typography noWrap sx={{ color: '#fff' }}>
+            <CustomChip
+              rounded
+              skin='light'
+              size='small'
+              label={getPlanStatus(row.planStatus)}
+              color={planStatusObj[row.planStatus]}
+              sx={{ textTransform: 'capitalize' }}
+            />
+          </Typography>
+        ),
+      },
+      {
+        flex: 0.1,
+        field: 'status',
+        headerName: 'Status',
+        renderCell: ({ row }: CellType) => {
+          return (
+            <CustomChip
+              rounded
+              skin='light'
+              size='small'
+              label={getContractStatus(row.contractStatus)}
+              color={contractStatusObj[row.contractStatus]}
+              sx={{ textTransform: 'capitalize' }}
+            />
+          )
+        }
+      },
+    ],
+    [
+      {
       flex: 0.1,
       minWidth: 140,
       sortable: false,
@@ -189,5 +194,6 @@ export function createClinicListTable({
         </>
       ),
     },
+    ]
   ];
 }

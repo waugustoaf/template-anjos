@@ -111,15 +111,17 @@ const SalesByFunnel = ({data}: DataSalesByStrategiesProps) => {
     },
     plotOptions: {
       bar: {
-        borderRadius: 6,
+        borderRadius: 10,
         distributed: true,
-        columnWidth: '35%',
+        columnWidth: '20%',
         borderRadiusWhenStacked: 'all',
-        dataLabels: { position: 'top' }
+        dataLabels: {
+          position: 'top'
+        }
       }
     },
     legend: { show: false },
-    tooltip: { enabled: false },
+    tooltip: { enabled: true },
     dataLabels: {
       offsetY: -15,
       formatter: val => `${val}k`,
