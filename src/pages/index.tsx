@@ -62,6 +62,7 @@ const DefaultDashboard = () => {
             percentage={data?.financial?.percent}
             value={data?.financial.value}
             campaignStatus={data?.campaign?.campaignStatus}
+            grantType={user?.user?.grantType}
           />
         </Grid>
         <Grid item xs={12} md={8}>
@@ -102,11 +103,14 @@ const DefaultDashboard = () => {
         <Grid item xs={12} md={12} lg={12}>
           <AccomplishedExpected data={data?.goalPoints} />
         </Grid>
-        {(user?.user?.grantType || 0) >= 100 && (
+        {/*(user?.user?.grantType || 0) >= 100 && (
           <Grid item xs={12} md={12} lg={12}>
             <SalesByFunnel data={data?.salesByFunnel} />
           </Grid>
-        )}
+        )*/}
+        <Grid item xs={12} md={12} lg={12}>
+          <SalesByFunnel data={data?.salesByFunnel} />
+        </Grid>
         <Grid item xs={6} md={6} lg={6}>
           <ProductsByInvoicing data={data?.productByFinancial} />
         </Grid>

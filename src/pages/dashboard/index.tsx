@@ -16,6 +16,7 @@ import TopBilling from '@/components/pages/dashboard/charts/topBilling';
 import ClinicsByCategory from '@/components/pages/dashboard/charts/clinicsByCategory';
 import ResumeHorizontalAdmin from '@/components/pages/dashboard/charts/resumeHorizontalAdmin';
 import {ICategory} from "@/types/entities/ICategory";
+import {useAuth} from "@/hooks/useAuth";
 
 interface FilterProps {
   categoryIds: ICategory[];
@@ -37,6 +38,8 @@ const DefaultDashboard = () => {
     queryFn: () => apiServices.dashboard.admin(),
   });
 
+  const { user } = useAuth();
+
   if (isLoading && !data) return <Spinner />;
 
   function handleFilter(data: FilterProps) {
@@ -53,6 +56,7 @@ const DefaultDashboard = () => {
             percentage={data?.financial?.percent}
             value={data?.financial.value}
             campaignStatus={data?.campaign.campaignStatus}
+            grantType={user?.user?.grantType}
           />
         </Grid>
         <Grid item xs={12} md={8}>
