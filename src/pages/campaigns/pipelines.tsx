@@ -1,28 +1,20 @@
 import CustomChip from '@/@core/components/mui/chip';
-import { Breadcrumb } from '@/components/breadcrumb';
-import { Icon } from '@/components/icon';
-import { CampaignsPipelinesModal } from '@/components/pages/campaigns/pipelines/modal';
-import { PipelineFilterModal } from '@/components/pages/campaigns/pipelines/modalFilters';
-import { CustomerModal } from '@/components/pages/customer/customer-modal';
-import { Spinner } from '@/components/spinner';
-import { apiServices } from '@/services';
-import { GetCustomerCBResponse } from '@/services/customer/types';
-import { IBoardCampaign } from '@/types/entities/IBoardCampaign';
-import { IStrategy } from '@/types/entities/IStrategy';
-import { IUser } from '@/types/entities/IUser';
-import { beautifullyPhone } from '@/utils/text';
-import {
-  Autocomplete,
-  Avatar,
-  Box,
-  Button,
-  TextField,
-  Typography,
-  useTheme,
-} from '@mui/material';
-import { useQuery } from '@tanstack/react-query';
-import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import {Breadcrumb} from '@/components/breadcrumb';
+import {Icon} from '@/components/icon';
+import {CampaignsPipelinesModal} from '@/components/pages/campaigns/pipelines/modal';
+import {PipelineFilterModal} from '@/components/pages/campaigns/pipelines/modalFilters';
+import {CustomerModal} from '@/components/pages/customer/customer-modal';
+import {Spinner} from '@/components/spinner';
+import {apiServices} from '@/services';
+import {GetCustomerCBResponse} from '@/services/customer/types';
+import {IBoardCampaign} from '@/types/entities/IBoardCampaign';
+import {IStrategy} from '@/types/entities/IStrategy';
+import {IUser} from '@/types/entities/IUser';
+import {beautifullyPhone, TextEllipsis} from '@/utils/text';
+import {Autocomplete, Avatar, Box, Button, TextField, Typography, useTheme,} from '@mui/material';
+import {useQuery} from '@tanstack/react-query';
+import {useRouter} from 'next/router';
+import {useEffect, useState} from 'react';
 
 function translate(key: string) {
   const translations: Record<string, string> = {
@@ -147,8 +139,8 @@ export default function Boards() {
           <Button
             variant='contained'
             sx={{
-              bgcolor: 'success.main',
-              ':hover': { bgcolor: 'success.dark' },
+              bgcolor: 'principal.main',
+              ':hover': { bgcolor: 'principal.dark' },
             }}
             onClick={() => setIsModalOpen(true)}
           >
@@ -174,8 +166,8 @@ export default function Boards() {
           <Button
             variant='contained'
             sx={{
-              bgcolor: 'success.main',
-              ':hover': { bgcolor: 'success.dark' },
+              bgcolor: 'principal.main',
+              ':hover': { bgcolor: 'principal.dark' },
             }}
             onClick={() => setIsCreatingUser(true)}
           >
@@ -184,7 +176,7 @@ export default function Boards() {
               fontSize={14}
               style={{ marginRight: '0.5rem' }}
             />
-            Novo cliente
+            Novo negócio
           </Button>
         </Box>
       </Box>
@@ -228,7 +220,7 @@ export default function Boards() {
                         color: 'black',
                         width: '100%',
                         backgroundColor: 'white',
-                        border: '1px solid',
+                        border: '2px solid',
                         borderColor: 'primary.main',
                         padding: '0.75rem',
                         display: 'flex',
@@ -238,6 +230,7 @@ export default function Boards() {
                         marginTop: '0.15rem',
                         textTransform: 'none',
                         alignItems: 'flex-start',
+                        boxShadow: 3,
 
                         ':hover': {
                           backgroundColor: 'primary.main',
@@ -266,6 +259,18 @@ export default function Boards() {
                           >
                             <Icon fontSize='20px' icon='tabler:user' />
                             {item.name}
+                          </Box>
+                          <Box
+                            color='inherit'
+                            display='flex'
+                            alignItems='center'
+                            gap='0.25rem'
+                          >
+                            <Icon
+                              fontSize='20px'
+                              icon={'tabler:'+ item.strategy.icon}
+                            />{' '}
+                            {TextEllipsis(item.strategy.name, 16)}
                           </Box>
                           <Box
                             color='inherit'
