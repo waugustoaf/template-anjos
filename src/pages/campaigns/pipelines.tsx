@@ -243,7 +243,7 @@ export default function Boards() {
                         marginTop: '0.15rem',
                         textTransform: 'none',
                         alignItems: 'flex-start',
-                        boxShadow: '0px 1px 3px #00000024',
+                        boxShadow: '1px 3px 8px #000000',
 
                         ':hover': {
                           backgroundColor: 'primary.main',
