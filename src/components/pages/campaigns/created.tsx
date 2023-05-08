@@ -4,6 +4,7 @@ import {Box, Button, Typography} from '@mui/material';
 import Link from 'next/link';
 import {useMemo, useState} from 'react';
 import CustomAvatar from '@/@core/components/mui/avatar'
+import {useTheme} from "@mui/material/styles";
 
 interface CreatedCampaignsProps {
   campaign: ICampaignFull;
@@ -11,6 +12,7 @@ interface CreatedCampaignsProps {
 
 export function CreatedCampaigns({ campaign }: CreatedCampaignsProps) {
   const [currentStrategyCampaign, setCurrentStrategyCampaign] = useState(campaign.strategiesCampaign[0]);
+  const theme = useTheme()
 
   const fields = useMemo(() => {
     return [
@@ -109,6 +111,23 @@ export function CreatedCampaigns({ campaign }: CreatedCampaignsProps) {
             </Box>
             <Typography fontSize='13px'>
               {strategyCampaign.strategy.description}
+            </Typography>
+
+            <Typography fontSize='13px'>
+
+                <Link href={strategyCampaign.strategy.link} target='_blank'
+                      style={{ textDecoration: 'none', color: theme.palette.text.primary }}>
+                  <Box sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    fontSize: '14px',
+                    gap: '0.5rem',
+                  }}
+                  >
+                  <Icon icon='tabler:play' style={{ marginRight: '0.01rem' }} />
+                  Assistir aula da estratégia
+                  </Box>
+                </Link>
             </Typography>
           </Button>
         ))}
