@@ -17,6 +17,11 @@ type CBArray = {
     name: string;
     avatar: string;
   }
+  strategy: {
+    id: string;
+    name: string;
+    icon: string;
+  }
 };
 
 export type ListCustomerResponse = ICustomer[];
