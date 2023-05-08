@@ -14,6 +14,7 @@ export interface IDashboard {
   strategyConversionQuantity:IDashStrategyConversion[];
   clinicsWithPlan:IDashClinicWithPlan;
   clinicsWithCategory: IDashClinicWithCategory[];
+  summarizeByOrigin: IDashSummarizeByOrigin[];
 }
 
 
@@ -103,4 +104,9 @@ export interface IDashClinicWithCategory {
   id: string;
   name: string;
   clinics: number;
+}
+
+export interface IDashSummarizeByOrigin {
+  origin: string;
+  quantity: number;
 }
