@@ -17,12 +17,14 @@ interface CongratulationsPersonProps {
   value: number | undefined;
   percentage: number | undefined;
   campaignStatus: string | undefined;
+  grantType: number | undefined;
 }
 
 const CongratulationsPerson = ({
   percentage,
   value,
-  campaignStatus
+  campaignStatus,
+  grantType,
 }: CongratulationsPersonProps) => {
   // @ts-ignore
   return (
@@ -54,7 +56,10 @@ const CongratulationsPerson = ({
           variant='h5'
           sx={{ mb: 0.5, fontWeight: 500, color: 'primary.main' }}
         >
-          {value?.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} -
+          {(grantType || 0) >= 100 && (
+              value?.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) + ' - '
+            )
+          }
           {percentage}%
         </Typography>
 
