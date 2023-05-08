@@ -221,7 +221,8 @@ export default function Boards() {
                         width: '100%',
                         backgroundColor: 'white',
                         border: '2px solid',
-                        borderColor: 'primary.main',
+                        borderColor:
+                          key === 'sale' ? 'success.main' : 'primary.main',
                         padding: '0.75rem',
                         display: 'flex',
                         flexDirection: 'column',
@@ -230,7 +231,7 @@ export default function Boards() {
                         marginTop: '0.15rem',
                         textTransform: 'none',
                         alignItems: 'flex-start',
-                        boxShadow: 3,
+                        boxShadow: '0px 1px 3px #00000024',
 
                         ':hover': {
                           backgroundColor: 'primary.main',
@@ -268,7 +269,7 @@ export default function Boards() {
                           >
                             <Icon
                               fontSize='20px'
-                              icon={'tabler:'+ item.strategy.icon}
+                              icon={'tabler:' + item.strategy.icon}
                             />{' '}
                             {TextEllipsis(item.strategy.name, 16)}
                           </Box>
@@ -293,31 +294,33 @@ export default function Boards() {
                             <Icon fontSize='20px' icon='tabler:mail' />{' '}
                             {item.email}
                           </Box>
-                          <Box
-                            color='inherit'
-                            display='flex'
-                            alignItems='flex-start'
-                            gap='0.25rem'
-                          >
-                            <Icon
-                              fontSize='20px'
-                              icon='tabler:tags'
-                              style={{ minWidth: '20px' }}
-                            />
-                            <Box display='flex' gap='0.15rem' flexWrap='wrap'>
-                              {item.tags.map((tag) => (
-                                <CustomChip
-                                  key={tag.id}
-                                  rounded
-                                  skin='light'
-                                  size='small'
-                                  label={tag.tag}
-                                  color={'warning'}
-                                  sx={{ textTransform: 'capitalize' }}
-                                />
-                              ))}
+                          {!!item.tags.length && (
+                            <Box
+                              color='inherit'
+                              display='flex'
+                              alignItems='flex-start'
+                              gap='0.25rem'
+                            >
+                              <Icon
+                                fontSize='20px'
+                                icon='tabler:tags'
+                                style={{ minWidth: '20px' }}
+                              />
+                              <Box display='flex' gap='0.15rem' flexWrap='wrap'>
+                                {item.tags.map((tag) => (
+                                  <CustomChip
+                                    key={tag.id}
+                                    rounded
+                                    skin='light'
+                                    size='small'
+                                    label={tag.tag}
+                                    color={'warning'}
+                                    sx={{ textTransform: 'capitalize' }}
+                                  />
+                                ))}
+                              </Box>
                             </Box>
-                          </Box>
+                          )}
                           <Box
                             color='inherit'
                             display='flex'
