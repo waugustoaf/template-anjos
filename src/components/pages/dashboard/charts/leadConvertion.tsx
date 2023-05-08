@@ -1,32 +1,21 @@
 // ** React Imports
-import { MouseEvent, useState } from 'react'
-
 // ** MUI Imports
-import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
-import Menu from '@mui/material/Menu'
-import Button from '@mui/material/Button'
-import MenuItem from '@mui/material/MenuItem'
 import CardHeader from '@mui/material/CardHeader'
-import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
-import Grid, { GridProps } from '@mui/material/Grid'
-import { styled, useTheme } from '@mui/material/styles'
+import Grid, {GridProps} from '@mui/material/Grid'
+import {styled, useTheme} from '@mui/material/styles'
 
 // ** Icons Imports
-import { Icon } from '@/components/icon';
-
 // ** Third Party Imports
-import { ApexOptions } from 'apexcharts'
+import {ApexOptions} from 'apexcharts'
 
 // ** Custom Components Imports
 import ReactApexcharts from '@/@core/components/react-apexcharts'
 
 // ** Hook Import
-import { useSettings } from '@/@core/hooks/useSettings'
-
 // ** Util Import
-import { hexToRGBA } from '@/@core/utils/hex-to-rgba'
+import {hexToRGBA} from '@/@core/utils/hex-to-rgba'
 
 const StyledGrid = styled(Grid)<GridProps>(({ theme }) => ({
   [theme.breakpoints.down('sm')]: {
@@ -65,7 +54,7 @@ const LeadConvert = ( { data }: DataLeadStrategyProps ) => {
       // @ts-ignore
       barSeries[1].data.push(item.lost ? item.lost  * -1 : 0);
       // @ts-ignore
-      barSeries[0].data.push(item.gain ? item.gain : 0);
+      barSeries[0].data.push(item.sales ?? 0);
     });
   }
 
@@ -270,7 +259,7 @@ const LeadConvert = ( { data }: DataLeadStrategyProps ) => {
             '& .apexcharts-series[rel="2"]': { transform: 'translateY(-9px)' }
           }}
         >
-          <CardHeader title='Conversões' />
+          <CardHeader title='Conversão por funil de vendas' />
           <CardContent>
             <ReactApexcharts type='bar' height={330} width="100%" series={barSeries} options={barOptions} />
           </CardContent>
