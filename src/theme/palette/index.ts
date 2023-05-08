@@ -4,7 +4,7 @@ import {PaletteMode} from '@mui/material';
 export const DefaultPalette = (mode: PaletteMode, skin: Skin) => {
   const whiteColor = '#FFF';
   const lightColor = '51, 48, 60';
-  const darkColor = '228, 230, 244';
+  const darkColor = '255, 255, 255';
   const darkPaperBgColor = '#000000';
   const mainColor = mode === 'light' ? lightColor : darkColor;
 
@@ -88,9 +88,9 @@ export const DefaultPalette = (mode: PaletteMode, skin: Skin) => {
       A700: '#616161'
     },
     text: {
-      primary: `rgba(${mainColor}, 0.87)`,
-      secondary: `rgba(${mainColor}, 0.6)`,
-      disabled: `rgba(${mainColor}, 0.38)`
+      primary: `rgba(${mainColor}, 0.85)`,
+      secondary: mode === 'light' ? `rgba(${mainColor}, 0.6)` : `rgba(${mainColor}, 0.99)`,
+      disabled: mode === 'light' ? `rgba(${mainColor}, 0.38)` : `rgba(${mainColor}, 0.60)`
     },
     divider: `rgba(${mainColor}, 0.12)`,
     background: {
