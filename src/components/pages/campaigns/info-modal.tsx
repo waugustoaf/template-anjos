@@ -45,7 +45,15 @@ export function ModalInfoCampaign({
 
       <DialogContent>
         {isLoading ? (
-          <CircularProgress size={24} />
+          <Box
+            minHeight='400px'
+            alignItems='center'
+            justifyContent='center'
+            width='100%'
+            display='flex'
+          >
+            <CircularProgress size={24} />
+          </Box>
         ) : (
           <CreatedCampaigns
             campaign={campaign as ICampaignFull}

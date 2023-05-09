@@ -19,6 +19,7 @@ import {
   RegisterParams,
   UserDataType,
 } from './types';
+import { toast } from 'react-hot-toast';
 
 const defaultProvider: AuthValuesType = {
   user: {
@@ -92,24 +93,23 @@ const AuthProvider = ({ children }: Props) => {
           if (!withoutLoading) {
             setLoading(false);
           }
-          setUser({ user, clinic: clinic });
+          setUser({ user, clinic });
         })
         .catch(() => {
           localStorage.removeItem('@anjos-guia:userData');
-          localStorage.removeItem('refreshToken');
-          localStorage.removeItem('accessToken');
+          localStorage.removeItem('@anjos-guia:refreshToken');
+          localStorage.removeItem('@anjos-guia:accessToken');
           setUser(null);
 
           if (!withoutLoading) {
             setLoading(false);
           }
 
-          if (
-            authConfig.onTokenExpiration === 'logout' &&
-            !router.pathname.includes('login')
-          ) {
-            router.replace('/login');
-          }
+          toast.error(
+            'Não foi possível recuperar o usuário logado. Por favor, relogue-se.',
+          );
+
+          router.replace('/login');
         });
     } else {
       if (!withoutLoading) {

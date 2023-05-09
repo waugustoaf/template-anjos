@@ -1,6 +1,7 @@
 import CustomChip from '@/@core/components/mui/chip';
 import { Breadcrumb } from '@/components/breadcrumb';
 import { Icon } from '@/components/icon';
+import { ModalInfoCampaign } from '@/components/pages/campaigns/info-modal';
 import { CampaignsPipelinesModal } from '@/components/pages/campaigns/pipelines/modal';
 import { PipelineFilterModal } from '@/components/pages/campaigns/pipelines/modalFilters';
 import { CustomerModal } from '@/components/pages/customer/customer-modal';
@@ -23,7 +24,6 @@ import {
 import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { ModalInfoCampaign } from './info-modal';
 
 type KeyTypes =
   | 'message'
@@ -220,13 +220,10 @@ export default function Boards() {
       </Box>
 
       <Box width='100%' sx={{ overflowX: 'auto' }} display='flex' gap='0.5rem'>
-        {['message', 'conversation', 'schedule', 'appointment', 'sale'].map(
-          (key: KeyTypes) => {
-            // @ts-ignore
+        {(['message', 'conversation', 'schedule', 'appointment', 'sale'] as KeyTypes[]).map(
+          (key) => {
             if (!selectedBoard || !selectedBoard[key].isEnable) return null;
 
-            // @ts-ignore
-            // @ts-ignore
             return (
               <Box key={key} width='80%' maxWidth='280px'>
                 <Box
