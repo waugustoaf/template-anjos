@@ -21,7 +21,7 @@ export const AuthGuard = (props: AuthGuardProps) => {
       }
 
       if (
-        auth.user?.user === null &&
+        !auth.user?.user &&
         !window.localStorage.getItem('@anjos-guia:userData')
       ) {
         if (router.asPath !== '/') {
@@ -40,10 +40,6 @@ export const AuthGuard = (props: AuthGuardProps) => {
 
   if (auth.loading) {
     return fallback;
-  }
-
-  if (!auth.user?.user) {
-    return router.replace('/login');
   }
 
   return <>{children}</>;

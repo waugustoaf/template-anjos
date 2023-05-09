@@ -20,12 +20,11 @@ import { useAuth } from '@/hooks/useAuth';
 import {
   LinkStyled,
   LoginIllustration,
-  RightWrapper,
+  RightWrapper
 } from '@/styles/pages/login/styles';
 import { mountForm } from '@/utils/form/mount-form';
 import { CircularProgress, FormControlLabel } from '@mui/material';
 import { toast } from 'react-hot-toast';
-import { InputCurrency } from '@/components/form/input-currency';
 
 const schema = yup.object().shape({
   email: yup.string().email('Email inválido').required('Email obrigatório'),

@@ -34,7 +34,7 @@ export function ClinicTabCampaign({ clinicId }: { clinicId: string }) {
             getRowId={row => `${row.month}/${row.year}`}
             localeText={{
               ...ptBR.components.MuiDataGrid.defaultProps.localeText,
-              noRowsLabel: 'Nenhuma clínica encontrado',
+              noRowsLabel: 'Nenhuma campanha encontrada',
             }}
           />
           <Pagination
