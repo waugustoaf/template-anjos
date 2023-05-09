@@ -65,19 +65,6 @@ export default function CategoryAddPage() {
       ..._data,
     };
 
-    setCurrentData((prevState: any) => ({
-      ...prevState,
-      ..._data,
-    }));
-
-    if (!isAutoPilot && currentRoute === 'main') {
-      return setCurrentRoute('strategy');
-    }
-
-    if (!selectedStrategies.length && !isAutoPilot) {
-      return toast.error('Selecione pelo menos uma estratégia.');
-    }
-
     const requestBody = {
       ...newData,
       financialGoal: newData.financialGoal
@@ -102,6 +89,19 @@ export default function CategoryAddPage() {
       }
     } finally {
       setIsLoading(false);
+    }
+
+    setCurrentData((prevState: any) => ({
+      ...prevState,
+      ..._data,
+    }));
+
+    if (!isAutoPilot && currentRoute === 'main') {
+      return setCurrentRoute('strategy');
+    }
+
+    if (!selectedStrategies.length && !isAutoPilot) {
+      return toast.error('Selecione pelo menos uma estratégia.');
     }
 
     try {
