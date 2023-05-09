@@ -34,7 +34,6 @@ const originOptions = [
   { value: 'TIKTOK', label: 'Tik-Tok' },
   { value: 'OUTDOOR', label: 'Outdoor' },
   { value: 'URNA', label: 'Urna' },
-  { value: 'URNA', label: 'Urna' },
   { value: 'INDICACAO', label: 'Indicação' },
   { value: 'PARCERIA', label: 'Parceria' },
   { value: 'INFLUENCER', label: 'Influencer' },
