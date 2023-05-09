@@ -9,9 +9,7 @@ export const themeConfig: ThemeConfig = {
   skin: 'default',
   contentWidth: 'boxed',
   footer: 'static',
-
   routingLoader: true,
-
   navHidden: false,
   menuTextTruncate: true,
   navSubItemIcon: 'tabler:circle',
@@ -24,7 +22,7 @@ export const themeConfig: ThemeConfig = {
   horizontalMenuToggle: 'hover',
   horizontalMenuAnimation: true,
 
-  appBar: 'fixed',
+  appBar: 'static',
   appBarBlur: true,
 
   responsiveFontSizes: true,

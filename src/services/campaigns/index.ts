@@ -24,6 +24,11 @@ export const campaignsServices = {
     const response = await api.get<GetCampaignResponse>(`/campaign/${id}`);
     return response.data;
   },
+  isOK: async (data: ICreateCampaign) => {
+    const response = await api.post<CreateCampaignResponse>('/campaign/isOk', data);
+
+    return response.data;
+  },
   create: async (data: ICreateCampaign) => {
     const response = await api.post<CreateCampaignResponse>('/campaign', data);
 

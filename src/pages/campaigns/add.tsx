@@ -22,10 +22,15 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { Button, Typography } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
 import { toast } from 'react-hot-toast';
+import { useAuth } from '@/hooks/useAuth';
 
 export default function CategoryAddPage() {
+  const { user } = useAuth();
+
   const [currentRoute, setCurrentRoute] = useState('main');
-  const [isAutoPilot, setIsAuthPilot] = useState(true);
+  const [isAutoPilot, setIsAuthPilot] = useState(
+    user?.clinic?.category.autoPilot,
+  );
   const [isLoading, setIsLoading] = useState(false);
   const [currentData, setCurrentData] = useState({} as any);
   const [selectedStrategies, setSelectedStrategies] = useState<string[]>([]);
@@ -69,25 +74,48 @@ export default function CategoryAddPage() {
       return setCurrentRoute('strategy');
     }
 
+    if (!selectedStrategies.length && !isAutoPilot) {
+      return toast.error('Selecione pelo menos uma estratégia.');
+    }
+
+    const requestBody = {
+      ...newData,
+      financialGoal: newData.financialGoal
+        ? formatNumberToBase100(newData.financialGoal)
+        : undefined,
+      averageTicket: newData.averageTicket
+        ? formatNumberToBase100(newData.averageTicket)
+        : undefined,
+      year: parseInt(newData.year) || new Date().getFullYear(),
+      month: parseInt(newData.month) || new Date().getMonth(),
+      strategies: isAutoPilot ? [] : selectedStrategies,
+      autoPilot: isAutoPilot,
+    };
+
     try {
       setIsLoading(true);
-      const response = await apiServices.campaign.create({
-        ...newData,
-        financialGoal: newData.financialGoal
-          ? formatNumberToBase100(newData.financialGoal)
-          : undefined,
-        averageTicket: newData.averageTicket
-          ? formatNumberToBase100(newData.averageTicket)
-          : undefined,
-        year: parseInt(newData.year) || new Date().getFullYear(),
-        month: parseInt(newData.month) || new Date().getMonth(),
-        strategies: isAutoPilot ? [] : selectedStrategies,
-        autoPilot: isAutoPilot,
-      });
+
+      await apiServices.campaign.isOK(requestBody);
+    } catch (error: any) {
+      if (error.response?.data?.error?.includes('CAMPAIGN_ALREADY_EXISTS')) {
+        return toast.error('Já existe uma campanha para esse mês e ano');
+      }
+    } finally {
+      setIsLoading(false);
+    }
+
+    try {
+      setIsLoading(true);
+
+      const response = await apiServices.campaign.create(requestBody);
 
       toast.success('Campanha criado com sucesso.');
       setCreatedData(response.data);
-    } catch {
+    } catch (error: any) {
+      if (error.response?.data?.error?.includes('STRATEGIES_REQUIRED')) {
+        return toast.error('Piloto automático não configurado.');
+      }
+
       toast.error('Erro ao criar a campanha.');
     } finally {
       setIsLoading(false);
@@ -129,7 +157,7 @@ export default function CategoryAddPage() {
                       {mountForm({
                         errors,
                         fields: campaignFormFields({
-                          autoPilot: (
+                          autoPilot: user?.clinic?.category.autoPilot ? (
                             <Button
                               variant='outlined'
                               onClick={() => setIsAuthPilot(true)}
@@ -161,8 +189,10 @@ export default function CategoryAddPage() {
                                 Deixe que o sistema crie as estratégias
                               </Typography>
                             </Button>
+                          ) : (
+                            <></>
                           ),
-                          manual: (
+                          manual: user?.clinic?.category.autoPilot ? (
                             <Button
                               variant='outlined'
                               onClick={() => setIsAuthPilot(false)}
@@ -195,6 +225,8 @@ export default function CategoryAddPage() {
                                 estratégias
                               </Typography>
                             </Button>
+                          ) : (
+                            <></>
                           ),
                         }),
                         register,

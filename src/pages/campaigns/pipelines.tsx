@@ -1,20 +1,36 @@
 import CustomChip from '@/@core/components/mui/chip';
-import {Breadcrumb} from '@/components/breadcrumb';
-import {Icon} from '@/components/icon';
-import {CampaignsPipelinesModal} from '@/components/pages/campaigns/pipelines/modal';
-import {PipelineFilterModal} from '@/components/pages/campaigns/pipelines/modalFilters';
-import {CustomerModal} from '@/components/pages/customer/customer-modal';
-import {Spinner} from '@/components/spinner';
-import {apiServices} from '@/services';
-import {GetCustomerCBResponse} from '@/services/customer/types';
-import {IBoardCampaign} from '@/types/entities/IBoardCampaign';
-import {IStrategy} from '@/types/entities/IStrategy';
-import {IUser} from '@/types/entities/IUser';
-import {beautifullyPhone, TextEllipsis} from '@/utils/text';
-import {Autocomplete, Avatar, Box, Button, TextField, Typography, useTheme,} from '@mui/material';
-import {useQuery} from '@tanstack/react-query';
-import {useRouter} from 'next/router';
-import {useEffect, useState} from 'react';
+import { Breadcrumb } from '@/components/breadcrumb';
+import { Icon } from '@/components/icon';
+import { ModalInfoCampaign } from '@/components/pages/campaigns/info-modal';
+import { CampaignsPipelinesModal } from '@/components/pages/campaigns/pipelines/modal';
+import { PipelineFilterModal } from '@/components/pages/campaigns/pipelines/modalFilters';
+import { CustomerModal } from '@/components/pages/customer/customer-modal';
+import { Spinner } from '@/components/spinner';
+import { apiServices } from '@/services';
+import { GetCustomerCBResponse } from '@/services/customer/types';
+import { IBoardCampaign } from '@/types/entities/IBoardCampaign';
+import { IStrategy } from '@/types/entities/IStrategy';
+import { IUser } from '@/types/entities/IUser';
+import { beautifullyPhone, TextEllipsis } from '@/utils/text';
+import {
+  Autocomplete,
+  Avatar,
+  Box,
+  Button,
+  TextField,
+  Typography,
+  useTheme,
+} from '@mui/material';
+import { useQuery } from '@tanstack/react-query';
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
+
+type KeyTypes =
+  | 'message'
+  | 'conversation'
+  | 'schedule'
+  | 'appointment'
+  | 'sale';
 
 function translate(key: string) {
   const translations: Record<string, string> = {
@@ -38,6 +54,7 @@ interface IIcons {
 
 export default function Boards() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isCampaignModalOpen, setIsCampaignModalOpen] = useState(false);
   const [filters, setFilters] = useState({
     name: '',
     strategyId: [] as IStrategy[],
@@ -61,6 +78,15 @@ export default function Boards() {
     isLoading,
     isError: isBoardError,
   } = useQuery(['boards'], apiServices.campaign.boards);
+
+  const { data: currentCampaign, isLoading: isCurrentCampaignLoading } =
+    useQuery(
+      ['campaign', selectedBoard?.campaignId],
+      () => apiServices.campaign.get(selectedBoard?.campaignId || ''),
+      {
+        enabled: !!selectedBoard?.campaignId,
+      },
+    );
 
   const icons: IIcons = {
     message: 'message',
@@ -128,12 +154,14 @@ export default function Boards() {
         justifyContent='space-between'
         marginBottom='1rem'
       >
-        <Breadcrumb
-          items={[
-            { label: 'Pipelines', link: '/campaigns/pipelines' },
-            { label: 'Listagem' },
-          ]}
-        />
+        <Box display={{ xs: 'none', md: 'block' }}>
+          <Breadcrumb
+            items={[
+              { label: 'Pipelines', link: '/campaigns/pipelines' },
+              { label: 'Listagem' },
+            ]}
+          />
+        </Box>
 
         <Box display='flex' alignItems='stretch' gap='0.5rem'>
           <Button
@@ -144,7 +172,17 @@ export default function Boards() {
             }}
             onClick={() => setIsModalOpen(true)}
           >
-            <Icon icon='tabler:filter' fontSize={14} />
+            <Icon icon='tabler:filter' fontSize={18} />
+          </Button>
+          <Button
+            variant='contained'
+            sx={{
+              bgcolor: 'principal.main',
+              ':hover': { bgcolor: 'principal.dark' },
+            }}
+            onClick={() => setIsCampaignModalOpen(true)}
+          >
+            <Icon icon='tabler:question-mark' fontSize={18} />
           </Button>
           <Autocomplete
             options={boards?.data || []}
@@ -154,7 +192,7 @@ export default function Boards() {
               <TextField
                 {...params}
                 label='Quadro'
-                sx={{ width: { sx: 'auto', lg: '500px' } }}
+                sx={{ width: { sx: 'auto', lg: '350px' } }}
               />
             )}
             onChange={(_, value) => {
@@ -182,32 +220,41 @@ export default function Boards() {
       </Box>
 
       <Box width='100%' sx={{ overflowX: 'auto' }} display='flex' gap='0.5rem'>
-        {['message', 'conversation', 'schedule', 'appointment', 'sale'].map(
+        {(['message', 'conversation', 'schedule', 'appointment', 'sale'] as KeyTypes[]).map(
           (key) => {
-            // @ts-ignore
             if (!selectedBoard || !selectedBoard[key].isEnable) return null;
 
-            // @ts-ignore
-            // @ts-ignore
             return (
               <Box key={key} width='80%' maxWidth='280px'>
-                <Typography
+                <Box
+                  display='flex'
+                  alignItems='center'
+                  justifyContent='space-between'
                   width='100%'
                   borderRadius='6px'
                   border='1px solid'
-                  borderColor='primary.main'
+                  borderColor={key === 'sale' ? 'success.main' : 'primary.main'}
                   padding='0.75rem'
                   marginBottom='1rem'
-                  display='flex'
-                  alignItems='center'
-                  gap='0.25rem'
                 >
-                  <Icon
-                    icon={`tabler:${icons[key as keyof IIcons]}`}
-                    color={theme.palette.primary.main}
-                  />
-                  {translate(key)}
-                </Typography>
+                  <Typography display='flex' alignItems='center' gap='0.25rem'>
+                    <Icon
+                      icon={`tabler:${icons[key as keyof IIcons]}`}
+                      color={
+                        key === 'sale'
+                          ? theme.palette.success.main
+                          : theme.palette.primary.main
+                      }
+                    />
+                    {translate(key)}
+                  </Typography>
+
+                  {selectedBoard[key].isEnable && (
+                    <Typography color='text.main' fontSize='12px'>
+                      {selectedBoard[key].count}/{selectedBoard[key].goal}
+                    </Typography>
+                  )}
+                </Box>
 
                 {/* @ts-ignore */}
                 {data?.data[key].map(
@@ -379,6 +426,13 @@ export default function Boards() {
           setIsModalOpen(false);
         }}
         defaultValues={filters}
+      />
+
+      <ModalInfoCampaign
+        isLoading={isCurrentCampaignLoading}
+        isOpen={isCampaignModalOpen}
+        onClose={() => setIsCampaignModalOpen(false)}
+        campaign={currentCampaign?.data}
       />
     </>
   );

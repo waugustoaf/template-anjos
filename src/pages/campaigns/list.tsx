@@ -14,11 +14,13 @@ import { DatePickerWrapper } from '@/styles/libs/react-datepicker';
 import { createCampaignListTable } from '@/utils/tables/campaigns/list';
 import { Button, Pagination } from '@mui/material';
 import { useDebounce } from 'use-debounce';
+import { ModalInfoCampaign } from '@/components/pages/campaigns/info-modal';
 
 export default function SalesListPage() {
   const [search, setSearch] = useState<string>('');
   const [page, setPage] = useState(1);
   const [debouncedSearch] = useDebounce(search, 750);
+  const [openedModalId, setOpenedModalId] = useState<string | null>(null);
 
   const { data, isLoading, isRefetching, refetch } = useQuery({
     queryKey: ['campaigns', debouncedSearch, page],
@@ -29,8 +31,14 @@ export default function SalesListPage() {
       }),
   });
 
+  const { data: campaignToView, isLoading: isCampaignToViewLoading } = useQuery(
+    ['campaigns', openedModalId],
+    () => apiServices.campaign.get(openedModalId || ''),
+    { enabled: !!openedModalId },
+  );
+
   const columns = useMemo(() => {
-    return createCampaignListTable();
+    return createCampaignListTable(setOpenedModalId);
   }, []);
 
   if (isLoading && !data) return <Spinner />;
@@ -81,6 +89,13 @@ export default function SalesListPage() {
           </Grid>
         </Grid>
       </DatePickerWrapper>
+
+      <ModalInfoCampaign
+        isLoading={isCampaignToViewLoading}
+        isOpen={!!openedModalId}
+        onClose={() => setOpenedModalId(null)}
+        campaign={campaignToView?.data}
+      />
     </>
   );
 }

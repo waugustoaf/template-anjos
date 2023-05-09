@@ -19,7 +19,7 @@ interface CellType {
   row: ICampaign;
 }
 
-export function createCampaignListTable() {
+export function createCampaignListTable(setOpenedModalId: (id: string) => void) {
   return [
     {
       flex: 0.3,
@@ -82,34 +82,16 @@ export function createCampaignListTable() {
       renderCell: ({ row }: CellType) => (
         <>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <Tooltip title='Apagar'>
+            <Tooltip title='Mais informações'>
               <IconButton
                 size='small'
                 sx={{ color: 'text.secondary' }}
-                //onClick={() => setCampaignToDelete(row)}
+                onClick={() => setOpenedModalId(row.id)}
               >
-                <Icon icon='tabler:trash' />
+                <Icon icon='tabler:question-mark' />
               </IconButton>
             </Tooltip>
           </Box>
-          {/*<Dialog
-            open={!!campaignToDelete}
-            onClose={() => setUserToDelete(null)}
-            aria-labelledby='alert-dialog-title'
-            aria-describedby='alert-dialog-description'
-          >
-            <DialogTitle id='alert-dialog-title'>Apagar o anjo</DialogTitle>
-            <DialogContent>
-              <DialogContentText id='alert-dialog-description'>
-                Tem certeza que deseja apagar permanentemente o usuário{' '}
-                {userToDelete?.name}?
-              </DialogContentText>
-            </DialogContent>
-            <DialogActions className='dialog-actions-dense'>
-              <Button onClick={() => setUserToDelete(null)}>Cancelar</Button>
-              <Button onClick={handleDeleteUser}>Apagar</Button>
-            </DialogActions>
-          </Dialog>*/}
         </>
       ),
     },
