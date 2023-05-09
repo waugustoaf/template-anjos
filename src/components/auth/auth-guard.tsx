@@ -43,7 +43,8 @@ export const AuthGuard = (props: AuthGuardProps) => {
   }
 
   if (!auth.user?.user) {
-    return redirect('/login');
+    router.replace('/login');
+    return <></>;
   }
 
   return <>{children}</>;
