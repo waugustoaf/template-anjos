@@ -259,7 +259,7 @@ const LeadConvert = ( { data }: DataLeadStrategyProps ) => {
             '& .apexcharts-series[rel="2"]': { transform: 'translateY(-9px)' }
           }}
         >
-          <CardHeader title='Conversão por funil de vendas' />
+          <CardHeader title='Conversões - 4FA' />
           <CardContent>
             <ReactApexcharts type='bar' height={330} width="100%" series={barSeries} options={barOptions} />
           </CardContent>
