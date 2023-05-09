@@ -2,6 +2,7 @@ import { ReactNode, ReactElement, useEffect } from 'react';
 
 import { useRouter } from 'next/router';
 import { useAuth } from '@/hooks/useAuth';
+import { redirect } from 'next/navigation';
 
 interface AuthGuardProps {
   children: ReactNode;
@@ -37,8 +38,12 @@ export const AuthGuard = (props: AuthGuardProps) => {
     [router.route],
   );
 
-  if (auth.loading || !auth.user?.user) {
+  if (auth.loading) {
     return fallback;
+  }
+
+  if (!auth.user?.user) {
+    return redirect('/login');
   }
 
   return <>{children}</>;
