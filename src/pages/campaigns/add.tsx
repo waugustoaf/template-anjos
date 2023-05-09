@@ -1,28 +1,28 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useState } from 'react';
+import {useEffect, useState} from 'react';
 
-import { mountForm } from '@/utils/form/mount-form';
+import {mountForm} from '@/utils/form/mount-form';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardHeader from '@mui/material/CardHeader';
 import Grid from '@mui/material/Grid';
 
-import { useForm } from 'react-hook-form';
+import {useForm} from 'react-hook-form';
 
-import { Breadcrumb } from '@/components/breadcrumb';
-import { SubmitButton } from '@/components/form/submit-button';
-import { Icon } from '@/components/icon';
-import { CreatedCampaigns } from '@/components/pages/campaigns/created';
-import { campaignFormFields } from '@/forms/campaigns';
-import { campaignFormSchema } from '@/forms/campaigns/schema';
-import { apiServices } from '@/services';
-import { ICampaign, ICampaignFull } from '@/types/entities/ICampaign';
-import { formatNumberToBase100 } from '@/utils/currency';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { Button, Typography } from '@mui/material';
-import { useQuery } from '@tanstack/react-query';
-import { toast } from 'react-hot-toast';
-import { useAuth } from '@/hooks/useAuth';
+import {Breadcrumb} from '@/components/breadcrumb';
+import {SubmitButton} from '@/components/form/submit-button';
+import {Icon} from '@/components/icon';
+import {CreatedCampaigns} from '@/components/pages/campaigns/created';
+import {campaignFormFields} from '@/forms/campaigns';
+import {campaignFormSchema} from '@/forms/campaigns/schema';
+import {apiServices} from '@/services';
+import {ICampaign, ICampaignFull} from '@/types/entities/ICampaign';
+import {formatNumberToBase100} from '@/utils/currency';
+import {yupResolver} from '@hookform/resolvers/yup';
+import {Button, Typography} from '@mui/material';
+import {useQuery} from '@tanstack/react-query';
+import {toast} from 'react-hot-toast';
+import {useAuth} from '@/hooks/useAuth';
 
 export default function CategoryAddPage() {
   const { user } = useAuth();
@@ -85,7 +85,7 @@ export default function CategoryAddPage() {
       await apiServices.campaign.isOK(requestBody);
     } catch (error: any) {
       if (error.response?.data?.error?.includes('CAMPAIGN_ALREADY_EXISTS')) {
-        return toast.error('Já existe uma campanha para esse mês e ano');
+        return toast.error('Já existe uma campanha para esse mês e ano selecionados!');
       }
     } finally {
       setIsLoading(false);
