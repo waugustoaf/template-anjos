@@ -154,7 +154,7 @@ export default function ClinicListPage() {
               rowHeight={62}
               rows={data?.data ?? []}
               columns={columns}
-              loading={isRefetching && isLoading}
+              loading={isRefetching || isLoading}
               localeText={{
                 ...ptBR.components.MuiDataGrid.defaultProps.localeText,
                 noRowsLabel: 'Nenhuma clínica encontrado',
