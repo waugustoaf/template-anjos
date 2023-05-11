@@ -1,22 +1,31 @@
-import {useQuery} from '@tanstack/react-query';
-import {useEffect, useMemo, useRef, useState} from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 import Card from '@mui/material/Card';
 import Grid from '@mui/material/Grid';
-import {DataGrid, ptBR} from '@mui/x-data-grid';
+import { DataGrid, ptBR } from '@mui/x-data-grid';
 
-import {Spinner} from '@/components/spinner';
-import {TableHeader} from '@/components/table-header';
-import {apiServices} from '@/services';
-import {DatePickerWrapper} from '@/styles/libs/react-datepicker';
-import {IconButton, Pagination, useMediaQuery} from '@mui/material';
-import {toast} from 'react-hot-toast';
-import {useDebounce} from 'use-debounce';
-import {IClinic} from '@/types/entities/IClinic';
-import {Breadcrumb} from '@/components/breadcrumb';
-import {createClinicListTable} from '@/utils/tables/clinics/list';
-import {ClinicFiltersModal, ClinicFiltersProps,} from '@/components/pages/clinics/filters-modal';
-import {Icon} from '@/components/icon';
+import { Spinner } from '@/components/spinner';
+import { TableHeader } from '@/components/table-header';
+import { apiServices } from '@/services';
+import { DatePickerWrapper } from '@/styles/libs/react-datepicker';
+import {
+  IconButton,
+  Pagination,
+  Typography,
+  useMediaQuery,
+} from '@mui/material';
+import { toast } from 'react-hot-toast';
+import { useDebounce } from 'use-debounce';
+import { IClinic } from '@/types/entities/IClinic';
+import { Breadcrumb } from '@/components/breadcrumb';
+import { createClinicListTable } from '@/utils/tables/clinics/list';
+import {
+  ClinicFiltersModal,
+  ClinicFiltersProps,
+} from '@/components/pages/clinics/filters-modal';
+import { Icon } from '@/components/icon';
+import { Box } from '@mui/system';
 
 export default function ClinicListPage() {
   const [search, setSearch] = useState<string>('');
@@ -44,10 +53,13 @@ export default function ClinicListPage() {
   const { data, isLoading, isRefetching, refetch } = useQuery({
     queryKey: ['clinics', debouncedSearch, page, filters],
     queryFn: () =>
-      apiServices.clinics.list({
-        search: debouncedSearch,
-        page,
-      }, filters),
+      apiServices.clinics.list(
+        {
+          search: debouncedSearch,
+          page,
+        },
+        filters,
+      ),
   });
 
   async function handleDeleteClinic() {
@@ -65,15 +77,15 @@ export default function ClinicListPage() {
     }
   }
 
-
   const [mobileColumns, desktopColumns, actionColumn] = useMemo(() => {
     const [mc, dc, ac] = createClinicListTable({
-      clinicToDelete, setClinicToDelete, handleDeleteClinic
+      clinicToDelete,
+      setClinicToDelete,
+      handleDeleteClinic,
     });
 
     return [mc, [...mc, ...dc], ac];
   }, [clinicToDelete, setClinicToDelete, handleDeleteClinic]);
-  
 
   const matches = useMediaQuery((theme: any) => theme.breakpoints.down('md'));
 
@@ -112,19 +124,25 @@ export default function ClinicListPage() {
               onSearch={setSearch}
               inputPlaceholder='Buscar clínica'
               leftChildren={
-                <IconButton
-                  aria-haspopup='true'
-                  onClick={() => setIsFilterModalOpened(true)}
-                >
-                  <Icon
-                    fontSize='1.5rem'
-                    icon={
-                      filters.categoryId.length
-                        ? 'flat-color-icons:empty-filter'
-                        : 'tabler:filter'
-                    }
-                  />
-                </IconButton>
+                <Box display='flex' alignItems='center' gap='0.5rem'>
+                  <IconButton
+                    aria-haspopup='true'
+                    onClick={() => setIsFilterModalOpened(true)}
+                  >
+                    <Icon
+                      fontSize='1.5rem'
+                      icon={
+                        filters.categoryId.length
+                          ? 'flat-color-icons:empty-filter'
+                          : 'tabler:filter'
+                      }
+                    />
+                  </IconButton>
+
+                  <Typography fontWeight='600' fontSize='14px'>
+                    {data?.data.length || 0} de {data?.info?.records || 0} clínicas
+                  </Typography>
+                </Box>
               }
               addLink='/clinics/add'
             />
@@ -136,7 +154,7 @@ export default function ClinicListPage() {
               rowHeight={62}
               rows={data?.data ?? []}
               columns={columns}
-              loading={isRefetching}
+              loading={isRefetching && isLoading}
               localeText={{
                 ...ptBR.components.MuiDataGrid.defaultProps.localeText,
                 noRowsLabel: 'Nenhuma clínica encontrado',

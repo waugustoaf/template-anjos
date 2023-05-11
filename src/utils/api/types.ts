@@ -11,6 +11,7 @@ type DefaultApiResponseType = {
     pageSize?: number;
     totalPages?: number;
     totalRecords?: number;
+    records?: number;
   };
   [key: string]: any;
 };
