@@ -61,16 +61,4 @@ export const userServices = {
 
     return response.data;
   },
-  getOwners: async () => {
-    const response = await api.get<ListUsersResponse>(`/user/owner`);
-
-    return response.data;
-  },
-  full: async () => {
-    const response = await api.get<ListUsersResponse>('/user', {
-      params: mergePagination(),
-    });
-
-    return response.data;
-  },
 };

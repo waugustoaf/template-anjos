@@ -1,4 +1,4 @@
-export function TextEllipsis(text?: string, size = 30) {
+function TextEllipsis(text?: string, size = 30) {
   if (!text) return '';
 
   if (text.length > size) {
@@ -8,8 +8,8 @@ export function TextEllipsis(text?: string, size = 30) {
   return text;
 }
 
-export function beautifullyPhone(brutePhoneWithCountryCode: string) {
-  if(!brutePhoneWithCountryCode) return '';
+function beautifullyPhone(brutePhoneWithCountryCode: string) {
+  if (!brutePhoneWithCountryCode) return '';
 
   const phone = brutePhoneWithCountryCode.replace(/\D/g, '');
   const areaCode = phone.substring(0, 2);
@@ -19,7 +19,7 @@ export function beautifullyPhone(brutePhoneWithCountryCode: string) {
   return `(${areaCode}) ${firstPart}-${secondPart}`;
 }
 
-export function beautifullySimplePhone(brutePhoneWithCountryCode: string) {
+function beautifullySimplePhone(brutePhoneWithCountryCode: string) {
   const phone = brutePhoneWithCountryCode.replace(/\D/g, '');
   const areaCode = phone.substring(0, 2);
   const firstPart = phone.substring(2, 7);
@@ -28,13 +28,13 @@ export function beautifullySimplePhone(brutePhoneWithCountryCode: string) {
   return `(${areaCode}) ${firstPart}-${secondPart}`;
 }
 
-export function removeCountryCode(brutePhoneWithCountryCode: string) {
+function removeCountryCode(brutePhoneWithCountryCode: string) {
   const phone = brutePhoneWithCountryCode.replace(/\D/g, '');
 
   return phone.substring(2, phone.length);
 }
 
-export function mountUrlQuery(object: any) {
+function mountUrlQuery(object: any) {
   const query = Object.entries(object)
     .map(([key, value]) => `${key}=${value}`)
     .join('&');
@@ -42,3 +42,10 @@ export function mountUrlQuery(object: any) {
   return query;
 }
 
+export const text = {
+  TextEllipsis,
+  beautifullyPhone,
+  beautifullySimplePhone,
+  removeCountryCode,
+  mountUrlQuery,
+};

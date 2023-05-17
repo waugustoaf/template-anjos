@@ -1,7 +1,7 @@
 import moment from 'moment';
-import 'moment/locale/pt-br'
+import 'moment/locale/pt-br';
 
-export function formatDateToBR(date: string | Date) {
+function formatDateToBR(date: string | Date) {
   const dateFormatted = new Date(date);
 
   const momentDate = moment(dateFormatted);
@@ -9,7 +9,7 @@ export function formatDateToBR(date: string | Date) {
   return momentDate.format('DD/MM/YYYY');
 }
 
-export function formatDateToBRExtension(date: string | Date) {
+function formatDateToBRExtension(date: string | Date) {
   const dateFormatted = new Date(date);
 
   const momentDate = moment(dateFormatted);
@@ -18,7 +18,7 @@ export function formatDateToBRExtension(date: string | Date) {
   return momentDate.format('LL');
 }
 
-export function formatDateToMonthAndYear(date: string | Date) {
+function formatDateToMonthAndYear(date: string | Date) {
   const dateFormatted = new Date(date);
 
   const momentDate = moment(dateFormatted);
@@ -26,7 +26,7 @@ export function formatDateToMonthAndYear(date: string | Date) {
   return momentDate.format('MMMM[ de ]YYYY');
 }
 
-export function formatDateToISO(date: string | Date) {
+function formatDateToISO(date: string | Date) {
   const dateFormatted = new Date(date);
 
   const momentDate = moment(dateFormatted);
@@ -34,14 +34,23 @@ export function formatDateToISO(date: string | Date) {
   return momentDate.toISOString();
 }
 
-export function utcDateToLocal(stringDate: string | Date) {
+function utcDateToLocal(stringDate: string | Date) {
   const date = moment(new Date(stringDate)).local().toDate();
 
   return date;
 }
 
-export function localDateToUTC(stringDate: Date | string) {
+function localDateToUTC(stringDate: Date | string) {
   const date = new Date(moment(new Date(stringDate)).valueOf());
 
   return date;
 }
+
+export const date = {
+  formatDateToBR,
+  formatDateToBRExtension,
+  formatDateToMonthAndYear,
+  formatDateToISO,
+  utcDateToLocal,
+  localDateToUTC,
+};

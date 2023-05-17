@@ -41,7 +41,7 @@ export const AppBarContent = (props: Props) => {
     setIsModalOpen(true);
   }
 
-  const clinicShowName = useMemo(() => {  
+  const clinicShowName = useMemo(() => {
     if (!user?.clinic?.fantasyName) {
       return '';
     }
@@ -76,26 +76,6 @@ export const AppBarContent = (props: Props) => {
             <Icon fontSize='1.5rem' icon='tabler:menu-2' />
           </IconButton>
         ) : null}
-
-        <Button
-          variant='text'
-          onClick={onOpen}
-          sx={{ padding: 0, minWidth: 0 }}
-        >
-          <Box display='flex' alignItems='center' gap='0.25rem'>
-            <Avatar
-              title='Alterar clínica'
-              alt={user?.clinic?.fantasyName}
-              src={user?.clinic?.avatar || undefined}
-            >
-              {clinicShowName}
-            </Avatar>
-
-            <Typography sx={{ display: { xs: 'none', md: 'block' } }}>
-              {user?.clinic?.fantasyName}
-            </Typography>
-          </Box>
-        </Button>
       </Box>
       <Box
         className='actions-right'

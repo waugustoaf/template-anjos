@@ -9,29 +9,28 @@ import { themeConfig } from '@/config/app';
 import { AuthProvider } from '@/hooks/useAuth';
 import { SettingsConsumer, SettingsProvider } from '@/hooks/useSettings';
 import { store } from '@/store';
+import '@/styles/global.css';
+import { DatePickerWrapper } from '@/styles/libs/react-datepicker';
 import ReactHotToast from '@/styles/libs/react-hot-toast';
 import { ThemeComponent } from '@/theme/theme-component';
-import { createEmotionCache } from '@/utils/cache/emotion';
+import { utils } from '@/utils';
 import { EmotionCache } from '@emotion/cache';
 import { CacheProvider } from '@emotion/react';
+import { Box } from '@mui/material';
+import {
+  Hydrate,
+  QueryClient,
+  QueryClientProvider,
+} from '@tanstack/react-query';
 import moment from 'moment';
 import type { NextPage } from 'next';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
-import { Router, useRouter } from 'next/router';
+import { Router } from 'next/router';
 import NProgress from 'nprogress';
-import { ReactNode, useEffect } from 'react';
+import { ReactNode } from 'react';
 import { Toaster } from 'react-hot-toast';
-import {
-  QueryClient,
-  QueryClientProvider,
-  Hydrate,
-} from '@tanstack/react-query';
 import { Provider } from 'react-redux';
-import '@/styles/global.css';
-import { DatePickerWrapper } from '@/styles/libs/react-datepicker';
-import { Box } from '@mui/material';
-import { VerticalNavItems } from '@/navigation';
 
 interface ExtendedAppProps extends AppProps {
   Component: NextPage;
@@ -46,7 +45,7 @@ interface GuardProps {
 
 moment.locale('pt-br');
 
-const clientSideEmotionCache = createEmotionCache();
+const clientSideEmotionCache = utils.cache.emotion.createEmotionCache();
 
 if (themeConfig.routingLoader) {
   Router.events.on('routeChangeStart', () => {
